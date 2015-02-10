@@ -1,0 +1,12 @@
+comment on groupe les objets / vao? 
+Si on met plusieur objet dans un meme vao comment on fait pour les manipuler indépendamment les uns des autres
+Est ce que ca pose problème de générer des vao à la volée? (cf glGenVertexArrays(nb_objects_to_create, m_pVao);)
+
+
+
+Manque : 
+
+video du TP1 avec modifications selon le temps de la texture et déplacement des vertex indépendamment les uns des autres
+geometrie shader
+spot light
+deferred shading => plusieur lumiere

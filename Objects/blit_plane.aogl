@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Object name="plane">
+	<triangles count="2"> 0, 1, 2, 2, 1, 3
+		</triangles>
+	<uvs>0.f, 0.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f
+	</uvs>
+	<vertices dimension="2">-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0 
+	</vertices>
+</Object>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lib">
+      <UniqueIdentifier>{74984C01-5AF2-E344-9E55-26DCF89C6CA9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\glfw">
+      <UniqueIdentifier>{FEA70F2F-4D00-CC49-87B1-FF2023D2FF1D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\glfw\include">
+      <UniqueIdentifier>{9D3ED3CA-6401-FB41-9CA1-7AEE713765C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\glfw\include\GL">
+      <UniqueIdentifier>{4703B525-B7E2-3447-86A6-C9318D7D0B6F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\glfw\lib">
+      <UniqueIdentifier>{6786F93B-F84B-854F-A6C9-454F0B3244B8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib\glfw\lib\clipboard.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\context.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\gamma.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\init.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\input.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\joystick.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\monitor.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\time.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\wgl_context.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_clipboard.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_gamma.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_init.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_joystick.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_monitor.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_time.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\win32_window.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\glfw\lib\window.c">
+      <Filter>lib\glfw\lib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\glfw\include\GL\glfw.h">
+      <Filter>lib\glfw\include\GL</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
