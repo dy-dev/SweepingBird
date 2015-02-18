@@ -79,8 +79,8 @@
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>bin\release\</OutDir>
-    <IntDir>obj\x64\Release\imgui\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)</OutDir>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(configuration)</IntDir>
     <TargetName>imgui</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -178,7 +178,7 @@
     <ClCompile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>

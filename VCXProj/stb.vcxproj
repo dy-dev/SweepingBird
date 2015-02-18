@@ -79,8 +79,8 @@
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>bin\release\</OutDir>
-    <IntDir>obj\x64\Release\stb\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)</OutDir>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(configuration)</IntDir>
     <TargetName>stb</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
