@@ -34,10 +34,10 @@
     <ClCompile Include="..\Files\Sources\DirectionalLight.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Files\Sources\SweepingBirdsl.cpp">
+    <ClCompile Include="..\Files\Sources\SpotLight.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Files\Sources\SpotLight.cpp">
+    <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

@@ -215,7 +215,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Files\Sources\SpotLight.cpp" />
-    <ClCompile Include="..\Files\Sources\SweepingBirdsl.cpp">
+    <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <ObjectFileName>$(IntDir)aogl.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\Files\Sources\Camera.cpp" />
