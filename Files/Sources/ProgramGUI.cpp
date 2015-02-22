@@ -157,67 +157,68 @@ void ProgramGUI::add_gui_element(std::string varName, GUIInfos* infos)
 	}
 }
 
-void ProgramGUI::display_gui()
+void ProgramGUI::display_gui(bool isDemo)
 {
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glViewport(0, 0, m_iWidth, m_iHeight);
-
-	unsigned char mbut = 0;
-	int mscroll = 0;
-	double mousex;
-	double mousey;
-	glfwGetCursorPos(m_pWindow, &mousex, &mousey);
-	mousex *= m_iDPI;
-	mousey *= m_iDPI;
-	mousey = m_iHeight - mousey;
-
-	if (m_iLeftMouseButton == GLFW_PRESS)
-		mbut |= IMGUI_MBUT_LEFT;
-
-	imguiBeginFrame(mousex, mousey, mbut, mscroll);
-	int logScroll = 0;
-	char lineBuffer[512];
-	imguiBeginScrollArea("aogl", m_iWidth - 210, m_iHeight - 310, 200, 300, &logScroll);
-	sprintf(lineBuffer, "FPS %f", m_fFPS);
-
-	imguiLabel(lineBuffer);
-	for each (auto infos in m_mGUIElements)
+	if (!isDemo)
 	{
-		auto toggle = imguiCollapse(infos.first.c_str(), "", (*infos.second.second), infos.second.second);
-		if (*infos.second.second)
+		unsigned char mbut = 0;
+		int mscroll = 0;
+		double mousex;
+		double mousey;
+		glfwGetCursorPos(m_pWindow, &mousex, &mousey);
+		mousex *= m_iDPI;
+		mousey *= m_iDPI;
+		mousey = m_iHeight - mousey;
+
+		if (m_iLeftMouseButton == GLFW_PRESS)
+			mbut |= IMGUI_MBUT_LEFT;
+
+		imguiBeginFrame(mousex, mousey, mbut, mscroll);
+		int logScroll = 0;
+		char lineBuffer[512];
+		imguiBeginScrollArea("aogl", m_iWidth - 210, m_iHeight - 510, 200, 500, &logScroll);
+		sprintf(lineBuffer, "FPS %f", m_fFPS);
+
+		imguiLabel(lineBuffer);
+		for each (auto infos in m_mGUIElements)
 		{
-			imguiIndent();
-			for each (auto elementInfo in infos.second.first)
+			auto toggle = imguiCollapse(infos.first.c_str(), "", (*infos.second.second), infos.second.second);
+			if (*infos.second.second)
 			{
-				if (elementInfo->type == SLIDER)
+				imguiIndent();
+				for each (auto elementInfo in infos.second.first)
 				{
-					for each (auto value in elementInfo->var)
+					if (elementInfo->type == SLIDER)
 					{
-						imguiSlider(value.first.c_str(), value.second, elementInfo->min, elementInfo->max, elementInfo->step);
+						for each (auto value in elementInfo->var)
+						{
+							imguiSlider(value.first.c_str(), value.second, elementInfo->min, elementInfo->max, elementInfo->step);
+						}
 					}
-				}
-				else if (elementInfo->type == CHECKBOX)
-				{
-					auto toggleChk = imguiCheck(elementInfo->name.c_str(), *elementInfo->check_adress);
-					if (toggleChk)
-						*elementInfo->check_adress = !(*elementInfo->check_adress);
-				}
+					else if (elementInfo->type == CHECKBOX)
+					{
+						auto toggleChk = imguiCheck(elementInfo->name.c_str(), *elementInfo->check_adress);
+						if (toggleChk)
+							*elementInfo->check_adress = !(*elementInfo->check_adress);
+					}
 
+				}
+				imguiUnindent();
 			}
-			imguiUnindent();
+
+
+
+			if (toggle)
+				*infos.second.second = !(*infos.second.second);
 		}
-
-
-
-		if (toggle)
-			*infos.second.second = !(*infos.second.second);
+		imguiEndScrollArea();
+		imguiEndFrame();
+		imguiRenderGLDraw(m_iWidth, m_iHeight);
 	}
-	imguiEndScrollArea();
-	imguiEndFrame();
-	imguiRenderGLDraw(m_iWidth, m_iHeight);
-
 	glDisable(GL_BLEND);
 
 	double newTime = glfwGetTime();

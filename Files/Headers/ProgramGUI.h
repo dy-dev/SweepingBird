@@ -55,7 +55,7 @@ public:
 	int get_right_button_state() const { return m_iRightMouseButton; }
 
 	void event_loop_management();
-	void display_gui();
+	void display_gui(bool isDemo);
 	bool is_still_running() const { return m_bIsStillRunning; }
 	double get_time() { return m_dPrevTime; }
 

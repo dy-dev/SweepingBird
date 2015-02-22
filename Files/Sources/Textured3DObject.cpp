@@ -23,10 +23,12 @@ Textured3DObject::Textured3DObject()
 	m_eCurrentAttribute(NONE),
 	m_iTrianglesCount(0),
 	m_fSize(1.0),
-	m_fSpacing(1.0),
+	m_fSpacing(1.5),
 	m_fRange(0.0),
 	m_fSpeed(0.0),
-	m_bRotating(false)
+	m_bRotating(false),
+	m_bWasRotating(false),
+	m_dRotatingStartTime(0.0)
 {
 }
 
@@ -333,4 +335,14 @@ GLuint Textured3DObject::get_texture(int index)
 		return m_vTexture.at(index);
 	}
 	return -1;
+}
+
+bool Textured3DObject::check_start_rotation()
+{
+	if (m_bWasRotating != m_bRotating)
+	{
+		m_bWasRotating = m_bRotating;
+		return m_bRotating;
+	}
+	return false;
 }

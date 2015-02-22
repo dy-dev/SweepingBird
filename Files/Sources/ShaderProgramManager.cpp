@@ -48,6 +48,8 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("Light1Color", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light1SpecularPower");
 	main_program->set_var_value("Light1SpecularPower", 20);
+	main_program->add_var("Light1Use");
+	main_program->set_var_value("Light1Use", (int)true);
 
 	main_program->add_var("Light2Pos");
 	main_program->set_var_value("Light2Pos", glm::value_ptr(glm::vec3(0)));
@@ -55,18 +57,50 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("Light2Color", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light2SpecularPower");
 	main_program->set_var_value("Light2SpecularPower", 40);
+	main_program->add_var("Light2Use");
+	main_program->set_var_value("Light2Use", (int)true);
 
+	main_program->add_var("Light3Position");
+	main_program->set_var_value("Light3Position", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light3Direction");
 	main_program->set_var_value("Light3Direction", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light3Color");
 	main_program->set_var_value("Light3Color", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light3SpecularPower");
 	main_program->set_var_value("Light3SpecularPower", 40);
+	main_program->add_var("Light3Use");
+	main_program->set_var_value("Light3Use", (int)true);
+	
 
+	main_program->add_var("SpotLightPosition");
+	main_program->set_var_value("SpotLightPosition", glm::value_ptr(glm::vec3(0)));
+	main_program->add_var("SpotLightDirection");
+	main_program->set_var_value("SpotLightDirection", glm::value_ptr(glm::vec3(0)));
+	main_program->add_var("SpotLightColor");
+	main_program->set_var_value("SpotLightColor", glm::value_ptr(glm::vec3(0)));
+	main_program->add_var("SpotLightUse");
+	main_program->set_var_value("SpotLightUse", (int)true);
+	main_program->add_var("SpotLightSpecularPower");
+	main_program->set_var_value("SpotLightSpecularPower", 40.0f);
+	main_program->add_var("SpotLightIntensity");
+	main_program->set_var_value("SpotLightIntensity", 40.0f);
+
+	main_program->add_var("SpotLightAngle");
+	main_program->set_var_value("SpotLightAngle", 1.0f);
+	main_program->add_var("SpotLightFallOffAngle");
+	main_program->set_var_value("SpotLightFallOffAngle", 1.0f);
+	
+	
 	main_program->add_var("CamPos");
 
 	main_program->add_var("Time");
 	main_program->add_var("isCube");
+	main_program->add_var("isLight1Marker");
+	main_program->set_var_value("isLight1Marker", (int)false);
+	main_program->add_var("isLight2Marker");
+	main_program->set_var_value("isLight2Marker", (int)false);
+	main_program->add_var("isSpotLightMarker");
+	main_program->set_var_value("isSpotLightMarker", (int)false);
 	main_program->add_var("Rotate");
 	main_program->set_var_value("Rotate", (int)false);
 
@@ -121,22 +155,40 @@ bool ShaderProgramManager::create_lighting_shader_program()
 	lighting_shader_Program->set_var_value("DepthBuffer", 2);
 	
 	lighting_shader_Program->add_var("ShadowBuffer");
-	lighting_shader_Program->set_var_value("ShadowBuffer", 3);
-
-	
+	lighting_shader_Program->set_var_value("ShadowBuffer", 3);	
 
 	lighting_shader_Program->add_var("CamPos");
 	lighting_shader_Program->add_var("ScreenToWorld");
-	lighting_shader_Program->add_var("Light1Pos");
-	lighting_shader_Program->add_var("Light1Color");
-	lighting_shader_Program->set_var_value("Light1SpecularPower", 40);
-
+	lighting_shader_Program->add_var("worldToLightScreen");
+	lighting_shader_Program->add_var("LightPos");
+	lighting_shader_Program->add_var("LightColor");
+	lighting_shader_Program->add_var("LightIntensity");
+	
 	lighting_shader_Program->add_var("Light3Direction");
 	lighting_shader_Program->set_var_value("Light3Direction", glm::value_ptr(glm::vec3(0.5)));
 	lighting_shader_Program->add_var("Light3Color");
 	lighting_shader_Program->set_var_value("Light3Color", glm::value_ptr(glm::vec3(1)));
 	lighting_shader_Program->add_var("Light3SpecularPower");
 	lighting_shader_Program->set_var_value("Light3SpecularPower", 40);
+	lighting_shader_Program->set_var_value("Light3Use", (int)false);
+	
+	lighting_shader_Program->add_var("SpotLightPosition");
+	lighting_shader_Program->set_var_value("SpotLightPosition", glm::value_ptr(glm::vec3(0)));
+	lighting_shader_Program->add_var("SpotLightDirection");
+	lighting_shader_Program->set_var_value("SpotLightDirection", glm::value_ptr(glm::vec3(0)));
+	lighting_shader_Program->add_var("SpotLightColor");
+	lighting_shader_Program->set_var_value("SpotLightColor", glm::value_ptr(glm::vec3(0)));
+	lighting_shader_Program->add_var("SpotLightUse");
+	lighting_shader_Program->set_var_value("SpotLightUse", (int)true);
+	lighting_shader_Program->add_var("SpotLightSpecularPower");
+	lighting_shader_Program->set_var_value("SpotLightSpecularPower", 40.0f);
+	lighting_shader_Program->add_var("SpotLightIntensity");
+	lighting_shader_Program->set_var_value("SpotLightIntensity", 40.0f);
+	lighting_shader_Program->add_var("SpotLightAngle");
+	lighting_shader_Program->set_var_value("SpotLightAngle", 1.0f);
+	lighting_shader_Program->add_var("SpotLightFallOffAngle");
+	lighting_shader_Program->set_var_value("SpotLightFallOffAngle", 1.0f);
+
 
 	m_mAvailableShaders[LIGHT] = lighting_shader_Program;
 	return true;
@@ -150,14 +202,11 @@ bool ShaderProgramManager::create_pass_through_shader_program()
 	pass_through_shader_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/pass_through.frag");
 	
 	pass_through_shader_program->compile();
-	
-	pass_through_shader_program->add_var("ObjectToLightScreen");
-	pass_through_shader_program->add_var("ObjectToLight");
-	
 
 	pass_through_shader_program->add_var("InstanceNumber");
 	pass_through_shader_program->add_var("MVP");
-	
+	pass_through_shader_program->add_var("MV");
+
 	pass_through_shader_program->add_var("InstanceNumber");
 	pass_through_shader_program->set_var_value("InstanceNumber", 1);
 	
@@ -167,12 +216,15 @@ bool ShaderProgramManager::create_pass_through_shader_program()
 	pass_through_shader_program->add_var("Specular");
 	pass_through_shader_program->set_var_value("Specular", 1);
 	
+
 	pass_through_shader_program->add_var("Light1Pos");
 	pass_through_shader_program->set_var_value("Light1Pos", glm::value_ptr(glm::vec3(0)));
 	pass_through_shader_program->add_var("Light1Color");
 	pass_through_shader_program->set_var_value("Light1Color", glm::value_ptr(glm::vec3(0)));
 	pass_through_shader_program->add_var("Light1SpecularPower");
 	pass_through_shader_program->set_var_value("Light1SpecularPower", 20);
+	pass_through_shader_program->add_var("Light1Use");
+	pass_through_shader_program->set_var_value("Light1Use", (int)true);
 	
 	pass_through_shader_program->add_var("Light2Pos");
 	pass_through_shader_program->set_var_value("Light2Pos", glm::value_ptr(glm::vec3(0)));
@@ -180,6 +232,8 @@ bool ShaderProgramManager::create_pass_through_shader_program()
 	pass_through_shader_program->set_var_value("Light2Color", glm::value_ptr(glm::vec3(0)));
 	pass_through_shader_program->add_var("Light2SpecularPower");
 	pass_through_shader_program->set_var_value("Light2SpecularPower", 40);
+	pass_through_shader_program->add_var("Light2Use");
+	pass_through_shader_program->set_var_value("Light2Use", (int)true);
 	
 	pass_through_shader_program->add_var("Light3Position");
 	pass_through_shader_program->set_var_value("Light3Position", glm::value_ptr(glm::vec3(0)));
@@ -189,11 +243,31 @@ bool ShaderProgramManager::create_pass_through_shader_program()
 	pass_through_shader_program->set_var_value("Light3Color", glm::value_ptr(glm::vec3(0)));
 	pass_through_shader_program->add_var("Light3SpecularPower");
 	pass_through_shader_program->set_var_value("Light3SpecularPower", 40);
+	pass_through_shader_program->add_var("Light3Use");
+	pass_through_shader_program->set_var_value("Light3Use", (int)true);
+	
+	pass_through_shader_program->add_var("SpotLightPosition");
+	pass_through_shader_program->set_var_value("SpotLightPosition", glm::value_ptr(glm::vec3(0)));
+	pass_through_shader_program->add_var("SpotLightDirection");
+	pass_through_shader_program->set_var_value("SpotLightDirection", glm::value_ptr(glm::vec3(0)));
+	pass_through_shader_program->add_var("SpotLightColor");
+	pass_through_shader_program->set_var_value("SpotLightColor", glm::value_ptr(glm::vec3(0)));
+	pass_through_shader_program->add_var("SpotLightUse");
+	pass_through_shader_program->set_var_value("SpotLightUse", (int)true);
+	pass_through_shader_program->add_var("SpotLightSpecularPower");
+	pass_through_shader_program->set_var_value("SpotLightSpecularPower", 40.0f);
+	pass_through_shader_program->add_var("SpotLightIntensity");
+	pass_through_shader_program->set_var_value("SpotLightIntensity", 40.0f);
+	pass_through_shader_program->add_var("SpotLightAngle");
+	pass_through_shader_program->set_var_value("SpotLightAngle", 1.0f);
+	pass_through_shader_program->add_var("SpotLightFallOffAngle");
+	pass_through_shader_program->set_var_value("SpotLightFallOffAngle", 1.0f);
 	
 	pass_through_shader_program->add_var("CamPos");
 	
 	pass_through_shader_program->add_var("Time");
 	pass_through_shader_program->add_var("isCube");
+	pass_through_shader_program->add_var("isLightMarker");	
 	pass_through_shader_program->add_var("Rotate");
 	pass_through_shader_program->set_var_value("Rotate", (int)false);
 	
@@ -214,7 +288,33 @@ bool ShaderProgramManager::create_pass_through_shader_program()
 	return true;
 }
 
+bool ShaderProgramManager::create_gamma_program()
+{
+	ShaderProgram* gamma_shader_program = new ShaderProgram();
 
+	gamma_shader_program->add_shader(GL_VERTEX_SHADER, "Shaders/blit.vert");
+	gamma_shader_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/gamma.frag");
+
+	gamma_shader_program->compile();
+
+	gamma_shader_program->add_var("Gamma");
+
+	m_mAvailableShaders[GAMMA] = gamma_shader_program;
+	return true;
+}
+
+bool ShaderProgramManager::create_sobel_program()
+{
+	ShaderProgram* sobel_shader_program = new ShaderProgram();
+
+	sobel_shader_program->add_shader(GL_VERTEX_SHADER, "Shaders/blit.vert");
+	sobel_shader_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/sobel.frag");
+
+	sobel_shader_program->compile();
+	sobel_shader_program->add_var("Mix");
+	m_mAvailableShaders[SOBEL] = sobel_shader_program;
+	return true;
+}
 
 ShaderProgram* ShaderProgramManager::get_shader(ShaderProgramType type)
 {

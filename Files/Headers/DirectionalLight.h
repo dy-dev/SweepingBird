@@ -24,19 +24,9 @@ public:
 	float * get_y_dir() { return &(m_v3Direction.y); }
 	float * get_z_dir() { return &(m_v3Direction.z); }
 
-	void set_color(glm::vec3 Color){ m_v3Color = Color; };;
-	glm::vec3 get_color(){ return m_v3Color; };
-
-	void set_specular_power(float value){ m_fSpecularPowerValue = value; }
-	float* get_specular_power() { return &m_fSpecularPowerValue; }
-
 	GUIInfos * generate_slider_direction_infos(std::string name);
-	GUIInfos * generate_slider_color_infos(std::string name);
-	GUIInfos * generate_slider_specular_power_infos(std::string name);
-private:
-	glm::vec3 m_v3Direction;
-	glm::vec3 m_v3Color;
 
-	float m_fSpecularPowerValue;
+protected:
+	glm::vec3 m_v3Direction;
 };
 
