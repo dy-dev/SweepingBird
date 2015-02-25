@@ -19,6 +19,8 @@
 #include "glm/gtc/matrix_transform.hpp" // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include "glm/gtc/type_ptr.hpp" // glm::value_ptr
 
+#include <thread>
+
 #include <ProgramGUI.h>
 #include <SceneManager.h>
 #include <TextureManager.h>
@@ -26,6 +28,7 @@
 
 int main(int argc, char **argv)
 {
+	bool bIsDemoProgram = false;
 	SceneManager MySceneManager;
 	MySceneManager.init();
 
@@ -33,7 +36,7 @@ int main(int argc, char **argv)
 	MainWindow.init();
 
 	TextureManager textureManager;
-	textureManager.generate_textures("brick","./textures/spnza_bricks_a_diff.tga", "./textures/spnza_bricks_a_spec.tga");
+	textureManager.generate_textures("brick", "./textures/spnza_bricks_a_diff.tga", "./textures/spnza_bricks_a_spec.tga");
 	textureManager.generate_textures("grass", "./textures/ground_grass_1024_tile.tga", "./textures/ground_grass_1024_tile_specular.tga");
 	textureManager.generate_textures("stone", "./textures/stone_ground_diffuse.tga", "./textures/stone_ground_specular.tga");
 
@@ -47,15 +50,19 @@ int main(int argc, char **argv)
 	MySceneManager.setup_shader_programs();
 	MySceneManager.setup_frame_buffer();
 	MySceneManager.setup_objects();
-
+	if (bIsDemoProgram)
+	{
+		MySceneManager.setupdemo();
+		std::thread demothread(MySceneManager.demo, &MySceneManager, MainWindow.get_time());
+	}
 	do
 	{
 		MainWindow.event_loop_management();
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
-		MySceneManager.display_scene(true);
-		MainWindow.display_gui();
-		
+		MySceneManager.display_scene(true, true, false);
+		MainWindow.display_gui(bIsDemoProgram);
+
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 	} // Check if the ESC key was pressed

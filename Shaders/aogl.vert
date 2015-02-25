@@ -9,15 +9,19 @@ precision highp float;
 precision highp int;
 
 uniform mat4 MVP;
-
-uniform mat4 ObjectToLightScreen;
-uniform mat4 ObjectToLight;
-
+uniform mat4 MV;
 uniform int InstanceNumber;
 
 uniform float Time;
 
 uniform bool isCube;
+uniform bool isLight1Marker;
+uniform bool isLight2Marker;
+uniform bool isSpotLightMarker;
+uniform vec3 Light1Pos;
+uniform vec3 Light2Pos;
+uniform vec3 SpotLightPosition;
+
 uniform bool Rotate;
 uniform float SizeFactor;
 uniform float SpeedFactor;
@@ -56,8 +60,6 @@ void main()
 		float angle = 2.0*3.14/ 8.0;
 		if(gl_InstanceID == 0)
 		{
-			transPosition = vec3(Position.x ,Position.y , Position.z );
-			transPosition *= SizeFactor;
 			radius = 0.0;
 		}
 		else
@@ -89,16 +91,18 @@ void main()
 		transNormal = vec3( transNormal.x, transNormal.y - RangeFactor*cos(radius*SizeFactor*RadiusSpacing*2 - changedTime), transNormal.z);
 		if(Rotate)
 		{
-			if(mod(radius,4) == 0)
+			if(mod(radius,2) == 0)
 			{
-				changedPos = vec3( cos(changedTime)* changedPos.x -sin(changedTime)* changedPos.y, sin(changedTime)* changedPos.x + cos(changedTime)* changedPos.y , changedPos.z );
-				transNormal = vec3( cos(changedTime)* transNormal.x -sin(changedTime)* transNormal.y, sin(changedTime)* transNormal.x + cos(changedTime)* transNormal.y , transNormal.z );
+				radius *= 10;
+				changedPos = vec3( cos(changedTime/radius)* changedPos.x -sin(changedTime/radius)* changedPos.y, sin(changedTime/radius)* changedPos.x + cos(changedTime/radius)* changedPos.y , changedPos.z );
+				transNormal = vec3( cos(changedTime/radius)* transNormal.x -sin(changedTime/radius)* transNormal.y, sin(changedTime/radius)* transNormal.x + cos(changedTime/radius)* transNormal.y , transNormal.z );
 		
 			}
-			else if(mod(radius,3) == 0)
+			else
 			{
-				changedPos = vec3( -cos(changedTime)* changedPos.x + sin(changedTime)* changedPos.y, -sin(changedTime)* changedPos.x - cos(changedTime)* changedPos.y , changedPos.z );
-				transNormal = vec3(-cos(changedTime)* transNormal.x +sin(changedTime)* transNormal.y, -sin(changedTime)* transNormal.x - cos(changedTime)* transNormal.y , transNormal.z );
+				radius *= 10;
+				changedPos = vec3( -cos(changedTime/radius)* changedPos.x + sin(changedTime/radius)* changedPos.y, -sin(changedTime/radius)* changedPos.x - cos(changedTime/radius)* changedPos.y , changedPos.z );
+				transNormal = vec3(-cos(changedTime/radius)* transNormal.x +sin(changedTime/radius)* transNormal.y, -sin(changedTime/radius)* transNormal.x - cos(changedTime/radius)* transNormal.y , transNormal.z );
 			}
 		}
 		// transNormal = vec3( cos(Time)* transNormal.x -sin(Time)* transNormal.z, transNormal.y  , sin(Time)* transNormal.x + cos(Time)* transNormal.z);
@@ -109,6 +113,18 @@ void main()
 			changedPos.y = Position.y;
 			changedPos.z = Position.z;
 		 }*/
+	}
+	else if(isLight1Marker)
+	{
+		changedPos = Position*0.1 + Light1Pos;
+	}
+	else if(isLight2Marker)
+	{
+		changedPos = Position*0.1 + Light2Pos;
+	}
+	else if(isSpotLightMarker)
+	{
+		changedPos = Position*0.5 + SpotLightPosition;
 	}
 	else
 	{

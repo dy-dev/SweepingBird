@@ -5,7 +5,7 @@
 #include <Camera.h>
 #include <ProgramGUI.h>
 #include <Light.h>
-#include <DirectionalLight.h>
+#include <SpotLight.h>
 #include <ObjectManager.h>
 #include <ShaderProgram.h>
 #include <Textured3DObject.h>
@@ -26,7 +26,9 @@ SceneManager::SceneManager()
 	m_bZoomLock(false),
 	m_pObjectManager(nullptr),
 	m_pDeferredObjectManager(nullptr),
-	m_iShadowMapSize(1024)
+	m_iShadowMapSize(1024),
+	m_fGamma(0.15),
+	m_fSobelMixing(0.4f)
 {
 	m_pCamera = new Camera();
 	m_pShaderProgramManager = new ShaderProgramManager();
@@ -57,37 +59,63 @@ void SceneManager::init()
 void SceneManager::setup_lights()
 {
 	Light *light = new Light();
-	light->set_position(glm::vec3(0.0f, 1.0f, 0.0f));
-	light->set_color(glm::vec3(0.15f, 0.15f, 0.15f));
-	light->set_specular_power(30);
+	light->set_position(glm::vec3(8.7f, 4.3f, -7.f));
+	light->set_color(glm::vec3(1.f, 0.65f, 0.65f));
+	light->set_specular_power(10);
+	light->set_intensity(1.0f);
 	m_vLights.push_back(light);
 
 	m_pProgramGUI->add_gui_element("Light 1", light->generate_slider_position_infos("Light 1 Position"));
 	m_pProgramGUI->add_gui_element("Light 1", light->generate_slider_color_infos("Light 1 Color"));
 	m_pProgramGUI->add_gui_element("Light 1", light->generate_slider_specular_power_infos("Light 1 Specular Power"));
+	m_pProgramGUI->add_gui_element("Light 1", light->generate_slider_intensity_infos("Intensity"));
+	m_pProgramGUI->add_gui_element("Light 1", light->generate_use_light_checkbox("Use Light"));
 
-	/*light = new Light();
-	light->set_position(glm::vec3(2.0f, 2.0f, 2.0f));
-	light->set_color(glm::vec3(1.0f, 0.0f, 0.0f));
-	light->set_specular_power(40.0f);
+	light = new Light();
+	light->set_position(glm::vec3(-8.7f, 4.3f, -7.f));
+	light->set_color(glm::vec3(0.65f, 0.65f, 1.f));
+	light->set_specular_power(10.f);
+	light->set_intensity(1.0f);
 	m_vLights.push_back(light);
 
 	m_pProgramGUI->add_gui_element("Light 2", light->generate_slider_position_infos("Light 2 Position"));
 	m_pProgramGUI->add_gui_element("Light 2", light->generate_slider_color_infos("Light 2 Color"));
 	m_pProgramGUI->add_gui_element("Light 2", light->generate_slider_specular_power_infos("Light 2 Specular Power"));
-	*/
+	m_pProgramGUI->add_gui_element("Light 2", light->generate_slider_intensity_infos("Intensity"));
+	m_pProgramGUI->add_gui_element("Light 2", light->generate_use_light_checkbox("Use Light"));
+
 	auto dirlight = new DirectionalLight();
-	dirlight->set_position(glm::vec3(1.0f, 1.0f, 0.0f));
-	dirlight->set_direction(glm::vec3(-1.0f, -1.0f, 0.0f));
-	dirlight->set_color(glm::vec3(0.0f, 1.0f, 0.0f));
-	dirlight->set_specular_power(40.0f);
+	dirlight->set_position(glm::vec3(1.0f, 5.0f, 1.0f));
+	dirlight->set_direction(glm::vec3(0.50f, 1.0f, 1.0f));
+	dirlight->set_color(glm::vec3(0.0f, 0.0f, 0.0f));
+	dirlight->set_specular_power(4.0f);
 	m_vLights.push_back(dirlight);
 
-	m_pProgramGUI->add_gui_element("Light 3", dirlight->generate_slider_position_infos("Light 3 Position"));
-	m_pProgramGUI->add_gui_element("Light 3", dirlight->generate_slider_direction_infos("Light 3 Direction"));
-	m_pProgramGUI->add_gui_element("Light 3", dirlight->generate_slider_color_infos("Light 3 Color"));
-	m_pProgramGUI->add_gui_element("Light 3", dirlight->generate_slider_specular_power_infos("Light 3 Specular Power"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_position_infos("Position"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_direction_infos("Direction"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_specular_power_infos("Specular Power"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_color_infos("Color"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_use_light_checkbox("Use Light"));
 
+
+	auto spotLight = new SpotLight();
+	spotLight->set_position(glm::vec3(7.f,2.5f, -40.0f));
+	spotLight->set_direction(glm::vec3(0.0f, 0.f, 0.3f));
+	spotLight->set_color(glm::vec3(1.0f, 1.0f, 1.0f));
+	spotLight->set_specular_power(20.0f);
+	spotLight->set_angle(2.15f);
+	spotLight->set_falloff_angle(3.14f);
+	spotLight->set_intensity(0.8f);
+	m_vLights.push_back(spotLight);
+
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_position_infos("Position"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_direction_infos("Direction"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_color_infos("Color"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_angle_infos("Angle"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_fall_off_infos("Fall Off"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_intensity_infos("Intensity"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_slider_specular_power_infos("Specular Power"));
+	m_pProgramGUI->add_gui_element("Spot Light", spotLight->generate_use_light_checkbox("Use Light"));
 }
 
 void SceneManager::setup_shader_programs()
@@ -96,6 +124,8 @@ void SceneManager::setup_shader_programs()
 	m_pShaderProgramManager->create_blit_shader_program();
 	m_pShaderProgramManager->create_lighting_shader_program();
 	m_pShaderProgramManager->create_pass_through_shader_program();
+	m_pShaderProgramManager->create_gamma_program();
+	m_pShaderProgramManager->create_sobel_program();
 }
 
 void SceneManager::setup_frame_buffer()
@@ -128,7 +158,7 @@ void SceneManager::setup_frame_buffer()
 
 
 
-
+	//Shadow Map frame buffer
 	glGenFramebuffers(1, &m_gluiShaderFbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_gluiShaderFbo);
 
@@ -162,15 +192,60 @@ void SceneManager::setup_frame_buffer()
 
 	// Fall back to default framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
+
+	// Create Fx Framebuffer Object
+
+	GLuint fxDrawBuffers[1];
+	glGenFramebuffers(1, &m_gluiFxFbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gluiFxFbo);
+
+	fxDrawBuffers[0] = GL_COLOR_ATTACHMENT0;
+	glDrawBuffers(1, fxDrawBuffers);
+	// Create Fx textures
+	const int FX_TEXTURE_COUNT = 4;
+	m_agluiFxTextures = new GLuint[FX_TEXTURE_COUNT];
+	glGenTextures(FX_TEXTURE_COUNT, m_agluiFxTextures);
+	for (int i = 0; i < FX_TEXTURE_COUNT; ++i)
+	{
+		glBindTexture(GL_TEXTURE_2D, m_agluiFxTextures[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_pProgramGUI->get_width(), m_pProgramGUI->get_height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
+
+	// Attach first fx texture to framebuffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_agluiFxTextures[0], 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		fprintf(stderr, "Error on building framebuffern");
+		exit(EXIT_FAILURE);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	auto infos = new GUIInfos("Gamma value", 0.01f, 6.0f, 0.010f);
+	infos->var.push_back(std::make_pair("Gamma value", &m_fGamma));
+
+	m_pProgramGUI->add_gui_element("Gamma", infos);
+
+
+	infos = new GUIInfos("Mixing Sobel value", 0.00f, 5.0f, 0.010f);
+	infos->var.push_back(std::make_pair("Mixing Sobel value", &m_fSobelMixing));
+
+	m_pProgramGUI->add_gui_element("Gamma", infos);
 }
 
 void SceneManager::setup_objects()
 {
-	m_pObjectManager = new ObjectManager(2);
+	m_pObjectManager = new ObjectManager(3);
 
 	Textured3DObject*  cube = new Textured3DObject();
 	cube->load_object_from_file(".\\Objects\\cube.aogl");
-	int maxInstance = 10000;
+	int maxInstance = 5041;
 	m_pObjectManager->bind_object(cube, maxInstance, 0);
 	cube->set_textures(m_pTextureManager->get_textures("brick"));
 	m_pProgramGUI->add_gui_element("Cube", m_pObjectManager->generate_slider_nb_instances_infos(0, maxInstance));
@@ -185,13 +260,31 @@ void SceneManager::setup_objects()
 	plane->set_textures(m_pTextureManager->get_textures("stone"));
 	m_pObjectManager->bind_object(plane, 1, 1);
 
+	Textured3DObject*  cubeLight = new Textured3DObject();
+	cubeLight->load_object_from_file(".\\Objects\\cube.aogl");
+	cubeLight->set_name("CubeLight1");
+	cubeLight->set_textures(m_pTextureManager->get_textures("stone"));
+	m_pObjectManager->bind_object(cubeLight, 1, 0);
+
+	cubeLight = new Textured3DObject();
+	cubeLight->load_object_from_file(".\\Objects\\cube.aogl");
+	cubeLight->set_name("CubeLight2");
+	cubeLight->set_textures(m_pTextureManager->get_textures("stone"));
+	m_pObjectManager->bind_object(cubeLight, 1, 0);
+
+
+	Textured3DObject*  cubeSpotLight = new Textured3DObject();
+	cubeSpotLight->load_object_from_file(".\\Objects\\cube.aogl");
+	cubeSpotLight->set_name("CubeSpotLight");
+	cubeSpotLight->set_textures(m_pTextureManager->get_textures("stone"));
+	m_pObjectManager->bind_object(cubeSpotLight, 1, 0);
+
+
 	m_pDeferredObjectManager = new ObjectManager(1);
 
 	Textured3DObject* blit_plane = new Textured3DObject();;
 	blit_plane->load_object_from_file(".\\Objects\\blit_plane.aogl");
 	m_pDeferredObjectManager->bind_object(blit_plane, 1, 0);
-
-	float numberOfInstance = 1.f;
 }
 
 void SceneManager::set_cam_states()
@@ -263,18 +356,26 @@ void SceneManager::manage_camera_movements()
 	}
 }
 
-void SceneManager::display_scene(bool activate_fbo)
+void SceneManager::display_scene(bool activate_deferred, bool activate_gamma, bool activate_shadow_map)
 {
-	
 	//Default states
 	glEnable(GL_DEPTH_TEST);
-	shadow_map_management();
-	
-	if (activate_fbo)
+
+	if (activate_shadow_map)
+	{
+		shadow_map_management();
+	}
+
+	if (activate_deferred)
 	{
 		// Bind gbuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, m_gluiBufferFbo);
 	}
+	else
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
 	// Clear the front buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -293,42 +394,75 @@ void SceneManager::display_scene(bool activate_fbo)
 	{
 		glUseProgram(shader->get_program());
 
-		draw_scene(shader, mvp);
+		draw_scene(shader, mvp, mv);
 
-		// Fallback to default framebuffer
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		// Revert to window size viewport
-		glViewport(0, 0, m_pProgramGUI->get_width(), m_pProgramGUI->get_height());
-
-		if (activate_fbo)
+		if (activate_gamma)
 		{
-			debug_frame_buffer(mvp);
+			glBindFramebuffer(GL_FRAMEBUFFER, m_gluiFxFbo);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_agluiFxTextures[0], 0);
+		}
+
+		else
+		{
+			// Fallback to default framebuffer
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+		if (activate_deferred)
+		{
+			// Revert to window size viewport
+			glViewport(0, 0, m_pProgramGUI->get_width(), m_pProgramGUI->get_height());
+			illuminate_scene(mvp, mv, activate_shadow_map);
+		}
+		if (activate_gamma)
+		{
+			sobel_management(mvp, mv);
+			gamma_management(mvp, mv);
+		}
+
+		if (activate_deferred)
+		{
+			//debug_frame_buffer(mvp, mv, activate_shadow_map, true);
 		}
 	}
 }
 
-void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp)
+void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp, glm::mat4 mv)
 {
 	// Upload uniforms
 	shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
 	shader->set_var_value("MVP", glm::value_ptr(mvp));
-	shader->set_var_value("Time", (float)m_pProgramGUI->get_time());
+	shader->set_var_value("MV", glm::value_ptr(mv));
+
 	shader->set_var_value("Light1Pos", glm::value_ptr(m_vLights.at(0)->get_position()));
 	shader->set_var_value("Light1Color", glm::value_ptr(m_vLights.at(0)->get_color()));
-	shader->set_var_value("Light1SpecularPower", *(m_vLights.at(0)->get_specular_power()));
+	shader->set_var_value("Light1SpecularPower", m_vLights.at(0)->get_specular_power());
+	shader->set_var_value("Light1Use", (int)m_vLights.at(0)->get_is_in_use());
 
-	/*	shader->set_var_value("Light2Pos", glm::value_ptr(m_vLights.at(1)->get_position()));
+	shader->set_var_value("Light2Pos", glm::value_ptr(m_vLights.at(1)->get_position()));
 	shader->set_var_value("Light2Color", glm::value_ptr(m_vLights.at(1)->get_color()));
-	shader->set_var_value("Light2SpecularPower", *(m_vLights.at(1)->get_specular_power()));
-	*/
-	auto baseLight = m_vLights.at(1);
+	shader->set_var_value("Light2SpecularPower", m_vLights.at(1)->get_specular_power());
+	shader->set_var_value("Light2Use", (int)m_vLights.at(1)->get_is_in_use());
+
+	auto baseLight = m_vLights.at(2);
 	auto light = (DirectionalLight*)baseLight;
 	shader->set_var_value("Light3Position", glm::value_ptr(light->get_position()));
 	shader->set_var_value("Light3Direction", glm::value_ptr(light->get_direction()));
 	shader->set_var_value("Light3Color", glm::value_ptr(light->get_color()));
-	shader->set_var_value("Light3SpecularPower", *(light->get_specular_power()));
+	shader->set_var_value("Light3SpecularPower", light->get_specular_power());
+	shader->set_var_value("Light3Use", (int)light->get_is_in_use());
 
+	baseLight = m_vLights.at(3);
+	auto spotlight = (SpotLight*)baseLight;
+	shader->set_var_value("SpotLightPosition", glm::value_ptr(spotlight->get_position()));
+	shader->set_var_value("SpotLightDirection", glm::value_ptr(spotlight->get_direction()));
+	shader->set_var_value("SpotLightColor", glm::value_ptr(spotlight->get_color()));
+	shader->set_var_value("SpotLightIntensity", spotlight->get_intensity());
+	shader->set_var_value("SpotLightSpecularPower", spotlight->get_specular_power());
+	shader->set_var_value("SpotLightAngle", spotlight->get_angle());
+	shader->set_var_value("SpotLightFallOffAngle", spotlight->get_falloff_angle());
+	shader->set_var_value("SpotLightUse", (int)spotlight->get_is_in_use());
+
+	spotlight->check_angles();
 	for each (auto object in m_pObjectManager->get_objects())
 	{
 		if (object.first != nullptr)
@@ -343,6 +477,12 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp)
 			if (object.first->get_name() == "cube")
 			{
 				shader->set_var_value("isCube", (int)true);
+				if (object.first->check_start_rotation())
+				{
+					object.first->set_rotating_start(m_pProgramGUI->get_time());
+				}
+				shader->set_var_value("Time", (float)(m_pProgramGUI->get_time() - object.first->get_rotating_start()));
+
 				shader->set_var_value("Rotate", (int)*object.first->is_rotating());
 				shader->set_var_value("InstanceNumber", *object.second);
 				shader->set_var_value("SizeFactor", *object.first->get_size());
@@ -354,13 +494,112 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp)
 				glDrawElementsInstanced(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0, *object.second);
 				shader->set_var_value("isCube", (int)false);
 			}
+			else if (object.first->get_name() == "CubeLight1" && m_vLights.at(0)->get_is_in_use())
+			{
+				shader->set_var_value("isLight1Marker", (int)true);
+				glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+				shader->set_var_value("isLight1Marker", (int)false);
+			}
 
+			else if (object.first->get_name() == "CubeLight2" && m_vLights.at(1)->get_is_in_use())
+			{
+				shader->set_var_value("isLight2Marker", (int)true);
+				glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+				shader->set_var_value("isLight2Marker", (int)false);
+			}
+
+			else if (object.first->get_name() == "CubeSpotLight" && spotlight->get_is_in_use())
+			{
+				shader->set_var_value("isSpotLightMarker", (int)true);
+				glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+				shader->set_var_value("isSpotLightMarker", (int)false);
+			}
 			else
 			{
 				glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
 			}
 		}
 	}
+}
+
+bool SceneManager::illuminate_scene(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	// Enable blending
+	glEnable(GL_BLEND);
+	// Setup additive blending
+	glBlendFunc(GL_ONE, GL_ONE);
+
+	//Render Lighting
+	// Use deferred point light shader
+	auto shader = m_pShaderProgramManager->get_shader(LIGHT);
+	if (shader != nullptr)
+	{
+		glUseProgram(shader->get_program());
+		// Compute the inverse worldToScreen matrix
+		glm::mat4 screenToWorld = glm::transpose(glm::inverse(mvp));
+
+		// Bind quad vao
+		auto object = m_pDeferredObjectManager->get_object(0);
+		glBindVertexArray(object.first->get_associated_vao());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", COLOR));
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", NORMAL));
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", DEPTH));
+
+		auto baseLight = m_vLights.at(3);
+		auto spotlight = (SpotLight*)baseLight;
+		shader->set_var_value("SpotLightPosition", glm::value_ptr(spotlight->get_position()));
+		shader->set_var_value("SpotLightDirection", glm::value_ptr(spotlight->get_direction()));
+		shader->set_var_value("SpotLightColor", glm::value_ptr(spotlight->get_color()));
+		shader->set_var_value("SpotLightIntensity", spotlight->get_intensity());
+		shader->set_var_value("SpotLightSpecularPower", spotlight->get_specular_power());
+		shader->set_var_value("SpotLightAngle", spotlight->get_angle());
+		shader->set_var_value("SpotLightFallOffAngle", spotlight->get_falloff_angle());
+
+
+		baseLight = m_vLights.at(2);
+		auto light = (DirectionalLight*)baseLight;
+		shader->set_var_value("Light3Position", glm::value_ptr(light->get_position()));
+		shader->set_var_value("Light3Direction", glm::value_ptr(light->get_direction()));
+		shader->set_var_value("Light3Color", glm::value_ptr(light->get_color()));
+		shader->set_var_value("Light3SpecularPower", light->get_specular_power());
+
+
+		if (activate_shadow_map)
+		{
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, m_gluiShadowTexture);
+
+			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		}
+		else
+		{
+			shader->set_var_value("ScreenToWorld", glm::value_ptr(screenToWorld));
+			for (int i = 0; i < 2; i++)
+			{
+				if (m_vLights.at(i)->get_is_in_use())
+				{
+					shader->set_var_value("ScreenToWorld", glm::value_ptr(screenToWorld));
+					shader->set_var_value("LightPos", glm::value_ptr(m_vLights.at(i)->get_position()));
+					shader->set_var_value("LightColor", glm::value_ptr(m_vLights.at(i)->get_color()));
+					shader->set_var_value("LightIntensity", m_vLights.at(i)->get_intensity());
+					shader->set_var_value("SpotLightUse", (int)false);
+					// Render quad
+					glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+				}
+			}
+			shader->set_var_value("SpotLightUse", (int)spotlight->get_is_in_use());
+			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		}
+		// Disable blending
+		glDisable(GL_BLEND);
+		glBindVertexArray(0);
+		return true;
+	}
+	return false;
 }
 
 void SceneManager::shadow_map_management()
@@ -378,11 +617,11 @@ void SceneManager::shadow_map_management()
 
 		// Light space matrices
 		// From light space to shadow map screen space
-		glm::mat4 projection = glm::perspective(glm::radians(2.0f), 1.f, 1.f, 100.f);
 		// From world to light
-		auto baseLight = m_vLights.at(1);
-		auto light = (DirectionalLight*)baseLight;
+		auto baseLight = m_vLights.at(3);
+		auto light = (SpotLight*)baseLight;
 		glm::mat4 worldToLight = glm::lookAt(light->get_position(), light->get_position() + light->get_direction(), m_pCamera->GetUp()/* glm::vec3(0.f, 0.f, -1.f)*/);
+		glm::mat4 projection = glm::perspective(glm::radians(light->get_angle()), 1.f, 0.1f, 100.f);
 
 		// From object to light (MV for light)
 		glm::mat4 objectToWorld;
@@ -391,6 +630,7 @@ void SceneManager::shadow_map_management()
 		glm::mat4 objectToLightScreen = projection * objectToLight;
 		// From world to shadow map screen space 
 		glm::mat4 worldToLightScreen = projection * worldToLight;
+
 
 		// Bind the shadow FBO
 		glBindFramebuffer(GL_FRAMEBUFFER, m_gluiShaderFbo);
@@ -401,110 +641,415 @@ void SceneManager::shadow_map_management()
 		// Clear only the depth buffer
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		draw_scene(shader, objectToLightScreen);
-	
-		// Unbind the frambuffer
+		draw_scene(shader, objectToLightScreen, objectToLight);
+
+		// Unbind the framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, m_pProgramGUI->get_width(), m_pProgramGUI->get_height());
 	}
 
 }
 
-
-void SceneManager::debug_frame_buffer(glm::mat4 mvp)
+void SceneManager::sobel_management(glm::mat4 mvp, glm::mat4 mv)
 {
-	// Unbind the frambuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_agluiFxTextures[1], 0);
+	// Clear default framebuffer color buffer
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	// Render Debug information
-	glDisable(GL_DEPTH_TEST);
-
-	/*// Enable blending
-	glEnable(GL_BLEND);
-	// Setup additive blending
-	glBlendFunc(GL_ONE, GL_ONE);*/
-
-	//Render Lighting
-	// Set a full screen viewport
-	glViewport(0, 0, m_pProgramGUI->get_width(), m_pProgramGUI->get_height());
-	// Use deferred point light shader
-	auto shader = m_pShaderProgramManager->get_shader(LIGHT);
+	auto shader = m_pShaderProgramManager->get_shader(SOBEL);
 	if (shader != nullptr)
 	{
 		glUseProgram(shader->get_program());
-		// Compute the inverse worldToScreen matrix
-		glm::mat4 screenToWorld = glm::transpose(glm::inverse(mvp));
-
-		shader->set_var_value("ScreenToWorld", glm::value_ptr(screenToWorld));
-		shader->set_var_value("Light1Pos", glm::value_ptr(m_vLights.at(0)->get_position()));
-		shader->set_var_value("Light1Color", glm::value_ptr(m_vLights.at(0)->get_color()));
-		shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
-
-		auto baseLight = m_vLights.at(1);
-		auto light = (DirectionalLight*)baseLight;
-		shader->set_var_value("Light3Position", glm::value_ptr(light->get_position()));
-		shader->set_var_value("Light3Direction", glm::value_ptr(light->get_direction()));
-		shader->set_var_value("Light3Color", glm::value_ptr(light->get_color()));
-		shader->set_var_value("Light3SpecularPower", *(light->get_specular_power()));
-
-		// Bind quad vao
+		shader->set_var_value("Mix", m_fSobelMixing);
 		auto object = m_pDeferredObjectManager->get_object(0);
 		glBindVertexArray(object.first->get_associated_vao());
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", COLOR));
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", NORMAL));
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", DEPTH));
-
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, m_gluiShadowTexture);
-		
-		// Render quad
+		glBindTexture(GL_TEXTURE_2D, m_agluiFxTextures[0]);
 		glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		glBindVertexArray(0);
+	}
+}
 
-		auto blitShader = m_pShaderProgramManager->get_shader(BLIT);
-		if (blitShader != nullptr)
+void SceneManager::gamma_management(glm::mat4 mvp, glm::mat4 mv)
+{
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_agluiFxTextures[2], 0);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	// Clear default framebuffer color buffer
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+
+	auto shaderGamma = m_pShaderProgramManager->get_shader(GAMMA);
+	if (shaderGamma != nullptr)
+	{
+		glUseProgram(shaderGamma->get_program());
+		shaderGamma->set_var_value("Gamma", m_fGamma);
+		auto object = m_pDeferredObjectManager->get_object(0);
+		glBindVertexArray(object.first->get_associated_vao());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_agluiFxTextures[1]);
+		glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		glBindVertexArray(0);
+	}
+}
+
+void SceneManager::debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map, bool activate_sobel_map)
+{
+	// Render Debug information
+	glDisable(GL_DEPTH_TEST);
+	glViewport(0, 0, m_pProgramGUI->get_width(), m_pProgramGUI->get_height());
+
+	auto object = m_pDeferredObjectManager->get_object(0);
+	glBindVertexArray(object.first->get_associated_vao());
+	glActiveTexture(GL_TEXTURE0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+
+	glBindVertexArray(0);
+	auto blitShader = m_pShaderProgramManager->get_shader(BLIT);
+	if (blitShader != nullptr)
+	{
+		auto object = m_pDeferredObjectManager->get_object(0);
+		glBindVertexArray(object.first->get_associated_vao());
+		// Use the blit program
+		glUseProgram(blitShader->get_program());
+		// Bind quad VAO
+		glBindVertexArray(object.first->get_associated_vao());
+		int nbviewport = 4;
+		if (activate_shadow_map)
 		{
-			// Use the blit program
-			glUseProgram(blitShader->get_program());
-			// Bind quad VAO
-			glBindVertexArray(object.first->get_associated_vao());
-			int smallWidth = m_pProgramGUI->get_width() / 4;
-			int smallHeight = m_pProgramGUI->get_height() / 4;
+			nbviewport++;
+		}
+		if (activate_sobel_map)
+		{
+			nbviewport++;
+		}
+		int smallWidth = m_pProgramGUI->get_width() / nbviewport;
+		int smallHeight = m_pProgramGUI->get_height() / nbviewport;
+		int currVP = 0;
+		glActiveTexture(GL_TEXTURE0);
+		glViewport(0, 0, smallWidth, smallHeight);
+		// Bind gbuffer color texture
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", COLOR));
+		// Draw quad
+		glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		currVP++;
 
-			glActiveTexture(GL_TEXTURE0);
-			glViewport(0, 0, smallWidth, smallHeight);
-			// Bind gbuffer color texture
-			glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", COLOR));
-			// Draw quad
-			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		glViewport(currVP*m_pProgramGUI->get_width() / nbviewport, 0, smallWidth, smallHeight);
+		// Bind gbuffer color texture
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", NORMAL));
+		// Draw quad
+		glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		currVP++;
 
+		glViewport(currVP * m_pProgramGUI->get_width() / nbviewport, 0, smallWidth, smallHeight);
+		// Bind gbuffer color texture
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", DEPTH));
+		// Draw quad
+		glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		currVP++;
 
-			glViewport(m_pProgramGUI->get_width() / 4, 0, smallWidth, smallHeight);
-			// Bind gbuffer color texture
-			glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", NORMAL));
-			// Draw quad
-			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		glViewport(currVP * m_pProgramGUI->get_width() / nbviewport, 0, smallWidth, smallHeight);
+		// Bind gbuffer color texture
+		glBindTexture(GL_TEXTURE_2D, m_agluiFxTextures[0]);
+		// Draw quad
+		glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+		currVP++;
 
-
-			glViewport(2 * m_pProgramGUI->get_width() / 4, 0, smallWidth, smallHeight);
-			// Bind gbuffer color texture
-			glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", DEPTH));
-			// Draw quad
-			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
-
-
+		if (activate_shadow_map)
+		{
+			glViewport(currVP * m_pProgramGUI->get_width() / nbviewport, 0, smallWidth, smallHeight);
 			glBindTexture(GL_TEXTURE_2D, m_gluiShadowTexture);
-
-			glViewport(3 * m_pProgramGUI->get_width() / 4, 0, smallWidth, smallHeight);
 			// Draw quad
 			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
-
-
+			currVP++;
+		}
+		if (activate_sobel_map)
+		{
+			glViewport(currVP * m_pProgramGUI->get_width() / nbviewport, 0, smallWidth, smallHeight);
+			glBindTexture(GL_TEXTURE_2D, m_agluiFxTextures[1]);
+			// Draw quad
+			glDrawElements(GL_TRIANGLES, object.first->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+			currVP++;
 		}
 	}
-	// Disable blending
-	//	glDisable(GL_BLEND);
+}
+void SceneManager::setupdemo()
+{
+	auto spotLight = (SpotLight*)m_vLights.at(3);
+	spotLight->set_color(glm::vec3(0.5, 0.4, 0.4));
+	spotLight->set_position(glm::vec3(0., 3.0, -10.));
+	spotLight->set_direction(glm::vec3(0.0, 0.20, 1.0));
+	spotLight->set_intensity(1.7);
+	spotLight->set_is_in_use(true);
+	m_fGamma = 0.2;
+	m_fSobelMixing = 0.7;
 
+	auto light1 = m_vLights.at(0);
+	light1->set_is_in_use(true);
+	light1->set_position(glm::vec3(2.0, 3.5, 5.5));
+	light1->set_intensity(1.2);
+
+	auto light2 = m_vLights.at(1);
+	light2->set_is_in_use(true);
+	light2->set_position(glm::vec3(-2.0, 3.5, 5.5));
+	m_fGamma = 0.2;
+	spotLight->set_intensity(1.35);
+	light1->set_intensity(1.15);
+	light2->set_intensity(1.15);
+	light2->set_color(spotLight->get_color() + glm::vec3(0.1, 0.0, 0.0));/**/
+}
+
+void SceneManager::demo(SceneManager * scn, double start)
+{
+	scn->m_bDemoRunning = true;
+	scn->m_dStartTime = start;
+
+	auto baseLight = scn->m_vLights[2];
+	auto dirlight = (DirectionalLight*)baseLight;
+	/*while (scn->m_pProgramGUI->get_time() < scn->m_dStartTime + 5)
+	{
+	Sleep(50);
+	}*/
+	Textured3DObject * cube = nullptr;
+
+	float * nbinstance;
+	for each (auto object in scn->m_pObjectManager->get_objects())
+	{
+		if (object.first->get_name() == "cube")
+		{
+			cube = object.first;
+			nbinstance = object.second;
+			*nbinstance = 1;
+		}
+	}
+
+	Sleep(10000);
+	auto spotLight = (SpotLight*)scn->m_vLights.at(3);
+	spotLight->set_color(glm::vec3(0.5, 0.4, 0.4));
+	spotLight->set_position(glm::vec3(0., 3.0, -10.));
+	spotLight->set_direction(glm::vec3(0.0, 0.20, 1.0));
+	spotLight->set_intensity(1.7);
+	spotLight->set_is_in_use(true);
+	scn->m_fGamma = 0.3;
+	scn->m_fSobelMixing = 0.0;
+	Sleep(2000);
+	auto light1 = scn->m_vLights.at(0);
+	light1->set_color(glm::vec3(0.35, 0.34, 0.1));
+
+	light1->set_is_in_use(true);
+	light1->set_position(glm::vec3(2.0, 3.5, 5.5));
+	light1->set_intensity(1.2);
+	Sleep(2000);
+	auto light2 = scn->m_vLights.at(1);
+	light2->set_color(glm::vec3(0.35, 0.34, 0.1));
+	light2->set_is_in_use(true);
+	light2->set_position(glm::vec3(-2.0, 3.5, 5.5));
+	scn->m_fGamma = 0.2;
+	spotLight->set_intensity(1.35);
+	light1->set_intensity(1.15);
+	light2->set_intensity(1.15);
+	light2->set_color(spotLight->get_color() + glm::vec3(0.1, 0.0, 0.0));
+	Sleep(2000);
+	bool done = false;
+	while (done == false)
+	{
+		done = true;
+		if (spotLight->get_position().z > -50.0)
+		{
+			spotLight->set_position(spotLight->get_position() + glm::vec3(.0f, 0.0f, -0.2f));
+			done &= false;
+		}
+		if (spotLight->get_position().y < 50.0)
+		{
+			spotLight->set_position(spotLight->get_position() + glm::vec3(.0f, 0.2f, 0.0f));
+			done &= false;
+		}
+		if (spotLight->get_direction().y > -0.4)
+		{
+			spotLight->set_direction(spotLight->get_direction() + glm::vec3(.0f, -0.005f, 0.0f));
+			done &= false;
+		}
+		if (spotLight->get_direction().z < 0.2)
+		{
+			spotLight->set_direction(spotLight->get_direction() + glm::vec3(.0f, 0.f, 0.005f));
+			done &= false;
+		}
+		if (light1->get_intensity() < 1.8)
+		{
+			light1->set_intensity(light1->get_intensity() + 0.0071);
+			light2->set_intensity(light2->get_intensity() + 0.0071);
+		}
+
+		if (spotLight->get_intensity() > 0.8)
+		{
+			spotLight->set_intensity(spotLight->get_intensity() - 0.01);
+			done &= false;
+		}
+		Sleep(40);
+	}
+
+	done = false;
+	while (done == false)
+	{
+		done = true;
+		if (light1->get_position().x < 5.5)
+		{
+			light1->set_position(light1->get_position() + glm::vec3(.01f, 0.0f, 0.f));
+			done &= false;
+		}
+		if (light1->get_position().y < 8)
+		{
+			light1->set_position(light1->get_position() + glm::vec3(.0f, 0.01f, 0.f));
+			done &= false;
+		}
+		if (light1->get_position().z > 2.5)
+		{
+			light1->set_position(light1->get_position() + glm::vec3(.0f, 0.0f, -0.01f));
+			done &= false;
+		}
+
+		if (light2->get_position().x > -5.5)
+		{
+			light2->set_position(light2->get_position() + glm::vec3(-.01f, 0.0f, 0.f));
+			done &= false;
+		}
+		if (light2->get_position().y < 8)
+		{
+			light2->set_position(light2->get_position() + glm::vec3(.0f, 0.01f, 0.f));
+			done &= false;
+		}
+		if (light2->get_position().z > 2.5)
+		{
+			light2->set_position(light2->get_position() + glm::vec3(.0f, 0.0f, -0.01f));
+			done &= false;
+		}
+		/*	if (light1->get_intensity() < 1.9)
+			{
+			light1->set_intensity(light1->get_intensity() + 0.01);
+			done &= false;
+			}
+			if (light2->get_intensity() < 1.9)
+			{
+			light2->set_intensity(light2->get_intensity() + 0.01);
+			done &= false;
+			}*/
+		(*nbinstance) += 1;
+		Sleep(20);
+	}
+
+	done = false;
+	while (done == false)
+	{
+		done = true;
+		if (scn->m_fGamma < 0.23)
+		{
+			scn->m_fGamma += 0.001;
+			done &= false;
+		}
+		Sleep(50);
+	}
+
+
+	//Sleep(2000);
+	while (*nbinstance < 5000)
+	{
+		(*nbinstance) += 100;
+		float size = *(cube->get_size());
+		if (size > 0.1)
+		{
+			cube->set_size(size - 0.005);
+		}
+		Sleep(20);
+	}
+	*nbinstance = 5041;
+	bool firstpart = false;
+	bool secondpart = false;
+	bool thirdpart = false;
+	bool fourthpart = false;
+	while (scn->m_bDemoRunning)
+	{
+		if (firstpart == false)
+		{
+			if (*(cube->get_range()) < 0.9)
+			{
+				cube->set_range((*(cube->get_range()) + 0.001));
+			}
+			if (*(cube->get_radius_spacing()) > 0.8)
+			{
+				cube->set_radius_spacing((*(cube->get_radius_spacing()) - 0.005));
+			}
+			if ((*(cube->get_radius_spacing()) < 0.81 && *(cube->get_range()) > 0.5) && *(cube->get_speed()) < 1)
+			{
+				cube->set_speed((*(cube->get_speed()) + 0.0005));
+			}
+			if (*(cube->get_speed()) > 0.3)
+			{
+				firstpart = true;
+			}
+			if (*(cube->get_size()) > 0.1)
+			{
+				cube->set_size(*(cube->get_size()) - 0.001);
+			}
+			//
+			//light1->set_color(glm::vec3(sin(time / 1000.0f), tan(time / 1000.0f), cos(time / 1000.0f)));
+			//light2->set_color(glm::vec3(cos(time / 1000.0f), sin(time / 1000.0f), cos(time / 1000.0f)));
+			//spotLight->set_color(glm::vec3(tan(time / 1000.0f), tan(time / 1000.0f), sin(time / 1000.0f)));
+			Sleep(30);
+		}
+
+		if (firstpart && secondpart == false)
+		{
+			Sleep(5000);
+			secondpart = true;
+		}
+
+		if (secondpart && thirdpart == false)
+		{
+			done = true;
+			if (*(cube->get_range()) > 0)
+			{
+				cube->set_range((*(cube->get_range()) - 0.001));
+				done &= false;
+			}
+			if (*(cube->get_speed()) > 0)
+			{
+				cube->set_speed((*(cube->get_speed()) - 0.0005));
+				done &= false;
+			}
+			if (done)
+			{
+				thirdpart = true;
+			}
+			Sleep(20);
+		}
+		if (thirdpart && fourthpart == false)
+		{
+			done = true;
+			if (*(cube->is_rotating()) != true)
+			{
+				cube->set_rotating(true);
+				done &= false;
+			}
+
+			if (*(cube->get_speed()) < 40.0)
+			{
+				cube->set_speed((*(cube->get_speed()) + 0.05));
+				done &= false;
+			}
+			if (done)
+			{
+				fourthpart = true;
+			}
+			Sleep(60);
+		}
+		if (fourthpart)
+		{
+			if (*(cube->get_speed()) > 0)
+			{
+				cube->set_speed((*(cube->get_speed()) - 0.05));
+			}
+			Sleep(60);
+		}
+	}
 }

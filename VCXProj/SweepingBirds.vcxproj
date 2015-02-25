@@ -214,7 +214,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Files\Sources\SweepingBirdsl.cpp">
+    <ClCompile Include="..\Files\Sources\SpotLight.cpp" />
+    <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <ObjectFileName>$(IntDir)aogl.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\Files\Sources\Camera.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="..\Files\Headers\SceneManager.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgram.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgramManager.h" />
+    <ClInclude Include="..\Files\Headers\SpotLight.h" />
     <ClInclude Include="..\Files\Headers\Textured3DObject.h" />
     <ClInclude Include="..\Files\Headers\TextureManager.h" />
     <ClInclude Include="..\Files\Headers\UtilityToolKit.h" />

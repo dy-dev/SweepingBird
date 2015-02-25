@@ -67,7 +67,7 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+			
 		m_vObjectManaged.push_back(std::make_pair(object, new float(nb_instances)));
 		return true;
 	}
@@ -140,7 +140,7 @@ GUIInfos * ObjectManager::generate_slider_cube_speed(int index)
 	{
 		auto obj = m_vObjectManaged.at(index);
 
-		auto infos = new GUIInfos("Speed", 0.0f, 5.0, 0.10f);
+		auto infos = new GUIInfos("Speed", 0.0f, 100.0, 0.10f);
 		infos->var.push_back(std::make_pair(infos->name, obj.first->get_speed()));
 
 		return infos;

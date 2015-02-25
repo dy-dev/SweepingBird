@@ -26,15 +26,26 @@ public:
 	glm::vec3 get_color(){ return m_v3Color; };
 
 	void set_specular_power(float value){ m_fSpecularPowerValue = value; }
-	float* get_specular_power() { return &m_fSpecularPowerValue; }
+	float get_specular_power() { return m_fSpecularPowerValue; }
+
+	void set_is_in_use(bool inUse) { m_bIsUsed = inUse; }
+	bool get_is_in_use() {return m_bIsUsed;}
 
 	GUIInfos * generate_slider_position_infos(std::string name);
 	GUIInfos * generate_slider_color_infos(std::string name);
 	GUIInfos * generate_slider_specular_power_infos(std::string name);
-private:
+	GUIInfos * generate_use_light_checkbox(std::string name);
+	GUIInfos * generate_slider_intensity_infos(std::string name);
+	
+	void set_intensity(float intensity) { m_fIntensity = intensity; }
+	float get_intensity() { return m_fIntensity; }
+
+protected:
 	glm::vec3 m_v3Position;
 	glm::vec3 m_v3Color;
 	
+	float m_fIntensity;
 	float m_fSpecularPowerValue;
+	bool m_bIsUsed;
 };
 

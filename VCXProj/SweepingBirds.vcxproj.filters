@@ -34,7 +34,10 @@
     <ClCompile Include="..\Files\Sources\DirectionalLight.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Files\Sources\SweepingBirdsl.cpp">
+    <ClCompile Include="..\Files\Sources\SpotLight.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,6 +73,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Files\Headers\DirectionalLight.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\SpotLight.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

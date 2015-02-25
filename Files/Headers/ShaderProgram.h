@@ -16,7 +16,9 @@ enum ShaderProgramType
 	BLIT,
 	LIGHT,
 	BLIT_POINT_LIGHT,
-	SHADOW_MAP
+	SHADOW_MAP,
+	GAMMA,
+	SOBEL
 };
 
 class ShaderProgram
