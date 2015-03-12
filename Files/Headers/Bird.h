@@ -2,13 +2,14 @@
 
 /* The bird is not a particle itself.
    The bird attracts other particles: the preys.
-   The bird moves above the ground following random directions.
+   The bird moves above the ground following random directions on x/z.
+   The bird is always *above* the ground and may never collide with it.
 */
 class Bird
 {
 public:
   Bird();
-  explicit Bird(const glm::vec3& initialPosition);
+  Bird(float mass, const glm::vec3& initialPosition);
 
   void update(const float deltaTime);
 
@@ -18,5 +19,8 @@ public:
 private:
   glm::vec3 m_v3Position;
   glm::vec3 m_v3Velocity;
+ 
+  float m_mass;
+  float m_timeSinceDirectionChanged;
 
 };

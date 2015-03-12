@@ -1,22 +1,45 @@
 #include "Predator.h"
+#include "glm\geometric.hpp"
+#include "Bird.h"
 
 Predator::Predator()
+  : m_bird(nullptr), 
+    m_scalarK(1.0), 
+    m_scalarL(0.f),
+    m_mass(0.f)
 {
 
 }
 
 Predator::Predator(const float mass, const glm::vec3& initialPosition, const glm::vec3& initialVelocity)
-  : m_mass(mass), m_v3Position(initialPosition), m_v3Velocity(initialVelocity)
+  : m_bird(nullptr), 
+    m_mass(mass), 
+    m_v3Position(initialPosition), 
+    m_v3Velocity(initialVelocity),
+    m_scalarK(1.0), 
+    m_scalarL(0.f)
 {
 
 }
 
 void Predator::update(const float deltaTime)
 {
+  //If is following a bird
+  if (m_bird != nullptr)
+  {
+    const glm::vec3& birdPos = m_bird->getPosition();
+    glm::vec3 forceToApply = m_scalarK * (1.0f - (m_scalarL / glm::max(glm::distance(m_v3Position, birdPos), 0.001f))) * (birdPos - m_v3Position);
 
+    m_v3Velocity = m_v3Velocity + deltaTime * (forceToApply / m_mass);
+    m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
+  }
+  else
+  {
+    // TO DO
+  }
 }
 
-void Predator::makeFollow(const Bird& bird)
+void Predator::makeFollow(const Bird* bird)
 {
-
+  m_bird = bird;
 }
