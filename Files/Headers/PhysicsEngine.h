@@ -1,5 +1,5 @@
 #include "Bird.h"
-#include "Prey.h"
+#include "Predator.h"
 #include <vector>
 
 class PhysicsEngine
@@ -11,6 +11,6 @@ public:
 
 private:
   Bird m_bird;
-  std::vector<Prey> m_vPreys;
+  std::vector<Predator> m_vPreys;
 
 };

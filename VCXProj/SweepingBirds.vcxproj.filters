@@ -40,6 +40,15 @@
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\PhysicsEngine.cpp">
+      <Filter>Sources\Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Bird.cpp">
+      <Filter>Sources\Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Prey.cpp">
+      <Filter>Sources\Physic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
@@ -78,6 +87,15 @@
     <ClInclude Include="..\Files\Headers\SpotLight.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Files\Headers\PhysicsEngine.h">
+      <Filter>Headers\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Bird.h">
+      <Filter>Headers\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Prey.h">
+      <Filter>Headers\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -85,6 +103,12 @@
     </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{7c068eab-3f62-4d02-9772-2520a605a772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Physic">
+      <UniqueIdentifier>{d921e5f0-db9a-4547-b052-690cf6d9e53e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Physics">
+      <UniqueIdentifier>{1f68ef13-5349-47bf-ade6-01b758ee24ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

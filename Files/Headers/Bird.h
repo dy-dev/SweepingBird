@@ -12,6 +12,9 @@ public:
 
   void update(const float deltaTime);
 
+  const glm::vec3& getPosition() const;
+  const glm::vec3& getVelocity() const;
+
 private:
   glm::vec3 m_v3Position;
   glm::vec3 m_v3Velocity;
