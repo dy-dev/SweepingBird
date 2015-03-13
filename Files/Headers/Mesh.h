@@ -43,7 +43,7 @@ public:
 	~Mesh();
 
 	bool load_mesh_from_file(std::string path, std::string &name);
-	bool fill_vertices_infos(const aiMesh* assimpMesh);
+	bool fill_vertices_infos(std::string name, const aiMesh* assimpMesh);
 	
 	void set_material(aiMaterial * mat) { m_pAiMaterial = mat; }
 	aiMaterial * get_material() { return m_pAiMaterial; }
@@ -66,6 +66,7 @@ private :
 	
 private:
 	GLuint m_iVAO;
+	std::string m_sName;
 	std::map< aiTextureType, GLuint > m_mTexture;
 	aiMaterial * m_pAiMaterial;
 

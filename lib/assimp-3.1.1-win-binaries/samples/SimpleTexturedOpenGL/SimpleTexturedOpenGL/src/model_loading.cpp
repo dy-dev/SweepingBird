@@ -510,7 +510,7 @@ int DrawGLScene(std::map<std::string, GLuint*> &textureIdMap)				//Here's where 
 	glLoadIdentity();				// Reset MV Matrix
 
 
-	glTranslatef(0.0f, -0.0f, -4.0f);	// Move 40 Units And Into The Screen
+	glTranslatef(0.0f, -1.0f, -4.0f);	// Move 40 Units And Into The Screen
 
 
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
@@ -825,7 +825,9 @@ int WINAPI WinMain( HINSTANCE hInstance, // Instance
 	*/
 	//modelpath = "D:/IMAC/OpenGLAdvanced/SweepingBirds/lib/assimp-3.1.1-win-binaries/test/models/3DS/cube_with_specular_texture.3DS";
 	//modelpath = "../../test/models/OBJ/spider.obj";
-	modelpath = "D:/IMAC/OpenGLAdvanced/SweepingBirds/Objects/bat/bat_blend.obj";
+	//modelpath = "D:/IMAC/OpenGLAdvanced/SweepingBirdTest/Binaries/Bin/Debug/Objects/bat/bat.obj";
+	modelpath = "D:/IMAC/OpenGLAdvanced/SweepingBirdTest/Objects/Birds/HUMBIRD.OBJ";
+
 	// images / texture
 	std::map<std::string, GLuint*> textureIdMap;	// map image filenames to textureIds
 

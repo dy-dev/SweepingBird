@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 		MainWindow.event_loop_management();
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
-		MySceneManager.display_scene(true, true, false);
+		MySceneManager.display_scene(false, false, false);
 		MainWindow.display_gui(bIsDemoProgram);
 
 		// Check for errors

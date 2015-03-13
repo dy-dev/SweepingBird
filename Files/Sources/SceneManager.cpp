@@ -294,7 +294,7 @@ void SceneManager::setup_objects()
 	m_pAssimpObjectManager = new ObjectManager(1);
 
 	Textured3DObject* birdy = new Textured3DObject();;
-	birdy->load_object(".\\Objects\\Birds\\BirdAlone.obj", false, m_pTextureManager);
+	birdy->load_object(".\\Objects\\Birds\\BeeBird.obj", false, m_pTextureManager);
 	m_pAssimpObjectManager->bind_object(birdy, 1, 0);
 }
 
