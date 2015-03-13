@@ -887,11 +887,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\IMAC\OpenGLAdvanced\SweepingBirds\lib\assimp-3.1.1-win-binaries\contrib\clipper\clipper.cpp" />
     <ClCompile Include="D:\IMAC\OpenGLAdvanced\SweepingBirds\lib\assimp-3.1.1-win-binaries\code\AssimpPCH.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="D:/IMAC/OpenGLAdvanced/SweepingBirds/lib/assimp-3.1.1-win-binaries/VSBuild/ZERO_CHECK.vcxproj">
-      <Project>836250C6-4180-4195-B2CE-BAA575D6E7D5</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

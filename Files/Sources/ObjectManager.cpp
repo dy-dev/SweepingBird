@@ -12,13 +12,11 @@
 
 ObjectManager::ObjectManager()
 {
-	createAILogger();
 }
 
 ObjectManager::ObjectManager(int nb_objects_to_create)
 	:m_iNbObjectManaged(nb_objects_to_create)
 {
-	createAILogger();
 }
 
 ObjectManager::~ObjectManager()
@@ -28,21 +26,6 @@ ObjectManager::~ObjectManager()
 		delete object.first;
 		delete object.second;
 	}
-}
-
-void ObjectManager::createAILogger()
-{
-	//Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
-	Assimp::Logger::LogSeverity severity = Assimp::Logger::VERBOSE;
-
-	// Create a loggr instance for Console Output
-	Assimp::DefaultLogger::create("", severity, aiDefaultLogStream_STDOUT);
-
-	// Create a logger instance for File Output (found in project folder or near .exe)
-	Assimp::DefaultLogger::create("assimp_log.txt", severity, aiDefaultLogStream_FILE);
-
-	// Now I am ready for logging my stuff
-	Assimp::DefaultLogger::get()->info("this is my info-call");
 }
 
 bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int index)
