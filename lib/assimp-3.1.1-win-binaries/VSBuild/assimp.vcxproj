@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{C2DE596E-9B04-4460-A6C3-1B2ECC42201B}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>assimp</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">assimp</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">assimp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)lib\assimp-3.1.1-win-binaries\VSBuild\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">assimp.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">assimp</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">assimp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(SolutionDir)lib\assimp-3.1.1-win-binaries\VSBuild\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">assimp.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">assimp</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">assimp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(SolutionDir)lib\assimp-3.1.1-win-binaries\VSBuild\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">assimp.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">assimp</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">assimp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;C:\local\boost_1_56_0;$(SolutionDir)lib\assimp-3.1.1-win-binaries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\local\boost_1_56_0;$(SolutionDir)lib\assimp-3.1.1-win-binaries;$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+   
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\fast_atof.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\qnan.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BaseImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BaseProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Importer.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ScenePrivate.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ByteSwap.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DefaultProgressHandler.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DefaultIOStream.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DefaultIOSystem.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\CInterfaceIOWrapper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Hash.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFF.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MemoryIOWrapper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ParsingUtils.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\StreamReader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\StringComparison.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SGSpatialSort.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\VertexTriangleAdjacency.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\GenericProperty.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SpatialSort.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SceneCombiner.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ScenePreprocessor.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SkeletonMeshBuilder.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SplitByBoneCountProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SmoothingGroups.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\StandardShapes.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TargetAnimation.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RemoveComments.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Subdivision.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Vertex.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LineSplitter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TinyFormatter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Profiler.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LogAux.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Bitmap.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\LogStream.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\Logger.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\NullLogger.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Win32DebugLogStream.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FileLogStream.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\StdOStreamLogStream.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlobIOSystem.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\CalcTangentsProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ComputeUVMappingProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ConvertToLHProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FindDegenerates.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FindInstancesProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FindInvalidDataProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FixNormalsStep.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\GenFaceNormalsProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\GenVertexNormalsProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PretransformVertices.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ImproveCacheLocality.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\JoinVerticesProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LimitBoneWeightsProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RemoveRedundantMaterials.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RemoveVCProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SortByPTypeProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SplitLargeMeshes.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TextureTransform.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TriangulateProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ValidateDataStructure.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OptimizeGraph.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OptimizeMeshes.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DeboneProcess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ProcessHelper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PolyTools.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MakeVerboseFormat.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\3DSHelper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\3DSLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ACLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ASELoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ASEParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\B3DImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BVHLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaHelper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaExporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DXFLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DXFHelper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\CSMLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\HMPFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\HMPLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\HalfLifeFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IRRLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IRRMeshLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IRRShared.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOAnimation.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWSLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD2FileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD2Loader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD2NormalTable.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD3FileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD3Loader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD5Loader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD5Parser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDCFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDCLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDCNormalTable.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDLDefaultColorMap.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDLFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDLLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MaterialSystem.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\NFFLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OFFLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileMtlImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjTools.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjExporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreStructs.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreParsingUtils.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreBinarySerializer.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreXmlSerializer.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PlyLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PlyParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PlyExporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3DLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPFileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPFileParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPFileImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPZipArchive.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RawLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SMDLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STLLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STLExporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TerragenLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\UnrealLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XFileHelper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XFileImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XFileParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD4FileData.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MS3DLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\COBLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\COBScene.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderDNA.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderDNA.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderScene.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderSceneGen.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderIntermediate.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderModifier.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderBMesh.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderTessellator.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\NDOLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCReaderGen.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCUtil.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STEPFile.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STEPFileReader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STEPFileEncoding.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XGLLoader.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXCompileConfig.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXImporter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXParser.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXTokenizer.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXImportSettings.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXConverter.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXUtil.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXDocument.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXProperties.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\irrXMLWrapper.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\CXMLReaderImpl.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\heapsort.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\irrArray.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\irrString.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\irrTypes.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\irrXML.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\ConvertUTF\ConvertUTF.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\unzip\crypt.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\unzip\ioapi.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\unzip\unzip.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\common\shapes.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\common\utils.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\clipper\clipper.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\math\common_factor_rt.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\foreach.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\format.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\scoped_array.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\scoped_ptr.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\shared_array.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\shared_ptr.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\make_shared.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\static_assert.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BoostWorkaround\boost\tuple\tuple.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\anim.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\ai_assert.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\camera.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\color4.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\color4.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\config.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\defs.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\cfileio.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\light.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\material.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\material.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\matrix3x3.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\matrix3x3.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\matrix4x4.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\matrix4x4.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\mesh.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\postprocess.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\quaternion.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\quaternion.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\scene.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\metadata.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\texture.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\types.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\vector2.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\vector2.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\vector3.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\vector3.inl" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\version.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\cimport.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\importerdesc.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\Importer.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\IOStream.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\IOSystem.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\cexport.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\Exporter.hpp" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp\Compiler\pstdint.h" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Assimp.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BaseImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BaseProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PostStepRegistry.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ImporterRegistry.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DefaultIOStream.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DefaultIOSystem.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Importer.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SGSpatialSort.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\VertexTriangleAdjacency.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SpatialSort.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SceneCombiner.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ScenePreprocessor.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SkeletonMeshBuilder.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SplitByBoneCountProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\StandardShapes.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TargetAnimation.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RemoveComments.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Subdivision.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Bitmap.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DefaultLogger.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Exporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\AssimpCExport.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\CalcTangentsProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ComputeUVMappingProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ConvertToLHProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FindDegenerates.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FindInstancesProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FindInvalidDataProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FixNormalsStep.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\GenFaceNormalsProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\GenVertexNormalsProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PretransformVertices.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ImproveCacheLocality.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\JoinVerticesProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LimitBoneWeightsProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RemoveRedundantMaterials.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RemoveVCProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SortByPTypeProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SplitLargeMeshes.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TextureTransform.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TriangulateProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ValidateDataStructure.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OptimizeGraph.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OptimizeMeshes.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DeboneProcess.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ProcessHelper.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MakeVerboseFormat.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\3DSConverter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\3DSLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ACLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ASELoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ASEParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\B3DImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BVHLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ColladaExporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\DXFLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\CSMLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\HMPLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IRRLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IRRMeshLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IRRShared.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOAnimation.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOBLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWOMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\LWSLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD2Loader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD3Loader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD5Loader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MD5Parser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDCLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDLLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MDLMaterialLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MaterialSystem.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\NFFLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OFFLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileMtlImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjFileParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\ObjExporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreStructs.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreBinarySerializer.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreXmlSerializer.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\OgreMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PlyLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PlyParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\PlyExporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3DLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPFileParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPFileImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\Q3BSPZipArchive.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\RawLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\SMDLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STLLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STLExporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\TerragenLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\UnrealLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XFileImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XFileParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\MS3DLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\COBLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderDNA.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderScene.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderModifier.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderBMesh.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\BlenderTessellator.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\NDOLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCReaderGen.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCUtil.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCGeometry.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCProfile.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCCurve.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCBoolean.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\IFCOpenings.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STEPFileReader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\STEPFileEncoding.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\XGLLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXParser.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXTokenizer.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXConverter.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXUtil.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXDocument.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXProperties.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXMeshGeometry.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXModel.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXAnimation.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXNodeAttribute.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXDeformer.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXBinaryTokenizer.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\FBXDocumentUtil.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\irrXML\irrXML.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\ConvertUTF\ConvertUTF.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\unzip\ioapi.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\unzip\unzip.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\common\shapes.cc" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\advancing_front.cc" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\cdt.cc" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\sweep.cc" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\poly2tri\poly2tri\sweep\sweep_context.cc" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\contrib\clipper\clipper.cpp" />
+    <ClCompile Include="$(SolutionDir)lib\assimp-3.1.1-win-binaries\code\AssimpPCH.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

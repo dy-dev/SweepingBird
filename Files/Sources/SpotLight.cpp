@@ -3,8 +3,8 @@
 
 
 SpotLight::SpotLight()
-	:m_fAngle(2.13),
-	m_fFallOffAngle(3.14)
+	:m_fAngle(2.13f),
+	m_fFallOffAngle(3.14f)
 {
 	m_bIsUsed = true;
 }

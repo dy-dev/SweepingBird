@@ -2,11 +2,11 @@
 #include <string.h>
 #include <iostream>
 
-#include "glew/glew.h"
-#include "imgui/imgui.h"
-#include "imgui/imguiRenderGL3.h"
+#include <glew/glew.h>
+#include <imgui/imgui.h>
+#include <imgui/imguiRenderGL3.h>
 
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 #include <ProgramGUI.h>
 #include <Camera.h>
@@ -24,7 +24,7 @@ ProgramGUI::ProgramGUI()
 	m_iWidth(0),
 	m_iHeight(0),
 	m_iDPI(1),
-	m_fFPS(0.0),
+	m_dFPS(0.0),
 	m_dPrevTime(0.0)
 {
 
@@ -36,7 +36,7 @@ ProgramGUI::ProgramGUI(int width, int height)
 	m_iWidth(width),
 	m_iHeight(height),
 	m_iDPI(1),
-	m_fFPS(0.0),
+	m_dFPS(0.0),
 	m_dPrevTime(0.0)
 {
 }
@@ -177,11 +177,12 @@ void ProgramGUI::display_gui(bool isDemo)
 		if (m_iLeftMouseButton == GLFW_PRESS)
 			mbut |= IMGUI_MBUT_LEFT;
 
-		imguiBeginFrame(mousex, mousey, mbut, mscroll);
-		int logScroll = 0;
+		imguiBeginFrame((int)mousex, (int)mousey, mbut, mscroll);
+		
+			
 		char lineBuffer[512];
-		imguiBeginScrollArea("aogl", m_iWidth - 210, m_iHeight - 510, 200, 500, &logScroll);
-		sprintf(lineBuffer, "FPS %f", m_fFPS);
+		imguiBeginScrollArea("SweepingBird", m_iWidth - 210, m_iHeight - 310, 200, 300, &mscroll);
+		sprintf_s(lineBuffer, "FPS %d", m_dFPS);
 
 		imguiLabel(lineBuffer);
 		for each (auto infos in m_mGUIElements)
@@ -222,7 +223,7 @@ void ProgramGUI::display_gui(bool isDemo)
 	glDisable(GL_BLEND);
 
 	double newTime = glfwGetTime();
-	m_fFPS = 1.f / (newTime - m_dPrevTime);
+	m_dFPS = 1.f / (newTime - m_dPrevTime);
 
 
 	glfwSwapBuffers(m_pWindow);

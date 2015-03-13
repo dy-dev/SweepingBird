@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2826947C-145D-950D-BD49-7B10A95F110F}</ProjectGuid>
-    <RootNamespace>aogl</RootNamespace>
+    <RootNamespace>SweepingBird</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>SweepingBirds</ProjectName>
   </PropertyGroup>
@@ -69,9 +69,8 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)</OutDir>
-    <IntDir>$(SolutionDir)Binaries\Obj\$(configuration)</IntDir>
-    <TargetName>aogl_d</TargetName>
+    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
@@ -104,7 +103,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)aogl_d.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(OutDir)SweepingBird.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,7 +113,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)aogl_d.exe</OutputFile>
+      <OutputFile>$(OutDir)SweepingBird.exe</OutputFile>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -122,7 +121,7 @@
     <ClCompile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -133,7 +132,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)aogl_d.pdb</ProgramDataBaseFileName>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -143,7 +142,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;xmllite.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)aogl_d.exe</OutputFile>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalLibraryDirectories>
@@ -177,7 +175,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)aogl.exe</OutputFile>
+      <OutputFile>$(OutDir)SweepingBird.exe</OutputFile>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -207,8 +205,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;xmllite.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)aogl.exe</OutputFile>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)SweepingBird.exe</OutputFile>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -217,9 +215,10 @@
     <ClCompile Include="..\Files\Sources\Bird.cpp" />
     <ClCompile Include="..\Files\Sources\PhysicsEngine.cpp" />
     <ClCompile Include="..\Files\Sources\Predator.cpp" />
+    <ClCompile Include="..\Files\Sources\Mesh.cpp" />
     <ClCompile Include="..\Files\Sources\SpotLight.cpp" />
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
-      <ObjectFileName>$(IntDir)aogl.obj</ObjectFileName>
+      <ObjectFileName>$(IntDir)SweepingBird.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\Files\Sources\Camera.cpp" />
     <ClCompile Include="..\Files\Sources\DirectionalLight.cpp" />
@@ -234,6 +233,9 @@
     <ClCompile Include="..\Files\Sources\UtilityToolKit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\lib\assimp-3.1.1-win-binaries\VSBuild\assimp.vcxproj">
+      <Project>{c2de596e-9b04-4460-a6c3-1b2ecc42201b}</Project>
+    </ProjectReference>
     <ProjectReference Include="glfw.vcxproj">
       <Project>{9563977C-819A-980D-2A87-7E10169D140F}</Project>
     </ProjectReference>
@@ -252,6 +254,7 @@
     <ClInclude Include="..\Files\Headers\Camera.h" />
     <ClInclude Include="..\Files\Headers\DirectionalLight.h" />
     <ClInclude Include="..\Files\Headers\Light.h" />
+    <ClInclude Include="..\Files\Headers\Mesh.h" />
     <ClInclude Include="..\Files\Headers\ObjectManager.h" />
     <ClInclude Include="..\Files\Headers\PhysicsEngine.h" />
     <ClInclude Include="..\Files\Headers\Predator.h" />

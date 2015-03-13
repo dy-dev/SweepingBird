@@ -49,6 +49,9 @@
     <ClCompile Include="..\Files\Sources\Predator.cpp">
       <Filter>Sources\Physic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\Mesh.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
@@ -87,6 +90,7 @@
     <ClInclude Include="..\Files\Headers\SpotLight.h">
       <Filter>Headers</Filter>
     </ClInclude>
+
     <ClInclude Include="..\Files\Headers\PhysicsEngine.h">
       <Filter>Headers\Physics</Filter>
     </ClInclude>
@@ -95,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="..\Files\Headers\Predator.h">
       <Filter>Headers\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Mesh.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

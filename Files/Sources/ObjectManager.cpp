@@ -1,11 +1,13 @@
+#include <windows.h>
 #include <map>
 
-#include "glew/glew.h"
-#include "GLFW/glfw3.h"
+#include <glew/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <Camera.h>
 #include <ObjectManager.h>
 #include <ProgramGUI.h>
+#include <assimp/DefaultLogger.hpp>
 
 
 ObjectManager::ObjectManager()
@@ -15,10 +17,7 @@ ObjectManager::ObjectManager()
 ObjectManager::ObjectManager(int nb_objects_to_create)
 	:m_iNbObjectManaged(nb_objects_to_create)
 {
-	m_pVao = new GLuint[nb_objects_to_create];
-	glGenVertexArrays(nb_objects_to_create, m_pVao);
 }
-
 
 ObjectManager::~ObjectManager()
 {
@@ -33,42 +32,9 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 {
 	if (index < m_iNbObjectManaged)
 	{
-		//Bind the VAO
-		glBindVertexArray(m_pVao[index]);
-		object->set_associated_vao(m_pVao[index]);
-
-		GLuint vbo[4];
-		glGenBuffers(4, vbo);
-		// Bind indices and upload data
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[0]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, object->get_trianglesList().size() * sizeof(int), object->get_trianglesList().data(), GL_STATIC_DRAW);
-
-		// Bind vertices and upload data
-		glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, object->get_dimension(), GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * object->get_dimension(), (void*)0);
-		glBufferData(GL_ARRAY_BUFFER, object->get_vertices().size()* sizeof(float), object->get_vertices().data(), GL_STATIC_DRAW);
-
-		if (object->get_dimension() == 3)
-		{
-			// Bind normals and upload data
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 3, (void*)0);
-			glBufferData(GL_ARRAY_BUFFER, object->get_normals().size()* sizeof(float), object->get_normals().data(), GL_STATIC_DRAW);
-
-			// Bind uv coords and upload data
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, (void*)0);
-			glBufferData(GL_ARRAY_BUFFER, object->get_uvs().size()* sizeof(float), object->get_uvs().data(), GL_STATIC_DRAW);
-		}
-		// Unbind everything
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			
-		m_vObjectManaged.push_back(std::make_pair(object, new float(nb_instances)));
+		object->bind_meshes();
+		
+		m_vObjectManaged.push_back(std::make_pair(object, new float((float)nb_instances)));
 		return true;
 	}
 	else
@@ -104,7 +70,6 @@ GUIInfos * ObjectManager::generate_slider_cube_size(int index)
 	}
 	return nullptr;
 }
-
 
 GUIInfos * ObjectManager::generate_slider_cube_radius_spacing(int index)
 {
@@ -169,5 +134,7 @@ std::pair<Textured3DObject *, float *>& ObjectManager::get_object(int index)
 		return m_vObjectManaged.at(index);
 	}
 
-	return std::pair<Textured3DObject *, float *>();
+	return *(new std::pair<Textured3DObject *, float *>());
 }
+
+

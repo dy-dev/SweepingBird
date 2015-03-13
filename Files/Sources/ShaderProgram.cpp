@@ -45,7 +45,7 @@ int ShaderProgram::check_compile_error(GLuint shader, const char ** sourceBuffer
 		char * log = new char[logLength];
 		glGetShaderInfoLog(shader, logLength, &logLength, log);
 		char *token, *string;
-		string = strdup(sourceBuffer[0]);
+		string = _strdup(sourceBuffer[0]);
 		int lc = 0;
 		while ((token = strsep_custom(&string, "\n")) != NULL)
 		{
@@ -82,11 +82,10 @@ int ShaderProgram::check_link_error(GLuint program)
 	return 0;
 }
 
-GLuint ShaderProgram::compile_shader(GLenum shaderType, const char * sourceBuffer, int bufferSize)
+GLuint ShaderProgram::compile_shader(GLenum shaderType, const char * sourceBuffer)
 {
 	GLuint shaderObject = glCreateShader(shaderType);
-	const char * sc[1] =
-	{ sourceBuffer };
+	const char * sc[1] = { sourceBuffer };
 	glShaderSource(shaderObject, 1, sc,NULL);
 	glCompileShader(shaderObject);
 	check_compile_error(shaderObject, sc);
@@ -95,7 +94,8 @@ GLuint ShaderProgram::compile_shader(GLenum shaderType, const char * sourceBuffe
 
 GLuint ShaderProgram::compile_shader_from_file(GLenum shaderType, const char * path)
 {
-	FILE * shaderFileDesc = fopen(path, "rb");
+	FILE *shaderFileDesc; 
+	fopen_s(&shaderFileDesc, path, "rb");
 	if (!shaderFileDesc)
 		return 0;
 	fseek(shaderFileDesc, 0, SEEK_END);
@@ -104,7 +104,7 @@ GLuint ShaderProgram::compile_shader_from_file(GLenum shaderType, const char * p
 	char * buffer = new char[fileSize + 1];
 	fread(buffer, 1, fileSize, shaderFileDesc);
 	buffer[fileSize] = '\0';
-	GLuint shaderObject = compile_shader(shaderType, buffer, fileSize);
+	GLuint shaderObject = compile_shader(shaderType, buffer);
 	delete[] buffer;
 	return shaderObject;
 }
@@ -136,5 +136,4 @@ char *  ShaderProgram::strsep_custom(char **stringp, const char *delim)
 			}
 		} while (sc != 0);
 	}
-	return 0;
 }

@@ -22,6 +22,8 @@ class UtilityToolKit
 {
 public:
 	static bool check_errors(const char* title);
-
+	static int printOglError(char *file, int line);
+	static void logInfo(std::string logString);
+	static void createAILogger();
 };
 
