@@ -1,11 +1,10 @@
 #pragma once
 #include <map>
 
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 #include <vector>
 
-class GLFWWindow;
 class Camera;
 
 enum GUIType
@@ -13,6 +12,7 @@ enum GUIType
 	SLIDER,
 	CHECKBOX
 };
+
 struct GUIInfos
 {
 	std::string name;
@@ -79,7 +79,7 @@ protected:
 	int Cameras;
 	bool playing;
 	
-	float m_fFPS;
+	double m_dFPS;
 	double m_dPrevTime;
 
 	int m_iLeftMouseButton;
@@ -90,7 +90,7 @@ protected:
 	float light1YPos;
 	float light1ZPos;
 
-	const int m_iDPI;
+	int m_iDPI;
 
 	std::map<std::string, std::pair<std::vector<GUIInfos*>, bool*> > m_mGUIElements;
 };

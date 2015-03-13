@@ -40,6 +40,9 @@
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\Mesh.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
@@ -76,6 +79,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Files\Headers\SpotLight.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Mesh.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

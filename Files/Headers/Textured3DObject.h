@@ -1,41 +1,43 @@
 #pragma once
-#include <string>
-#include <Windows.h>
 #include <vector>
+#include <map>
 
-enum AttributeType
+#include <assimp/material.h>
+
+
+struct IXmlReader;
+class Mesh;
+struct aiScene;
+
+namespace Assimp
 {
-	NONE,
-	TRIANGLES,
-	UVS,
-	VERTICES,
-	NORMALS
-};
+	class Importer;
+}
 
-class IXmlReader;
+
 class Textured3DObject
 {
 public:
 	Textured3DObject();
 	~Textured3DObject();
-
-	void load_object_from_file(std::string path);
 	
-	void set_associated_vao(GLuint vao) { m_iVAO = vao;}
-	GLuint get_associated_vao(){ return m_iVAO; };
-
-	void set_textures(std::vector<GLuint> texture) { m_vTexture = texture; }
-	GLuint get_texture(int index);
-
-	void set_name(std::string name) {m_sName = name;}
+	/// <summary>
+	/// Load 3D objects from the specified path.
+	/// </summary>
+	/// <param name="path">The path</param>
+	/// <param name="own_format">if set to <c>true</c> object is described in internal format (aogl),
+	/// other type of formal otherwise</param>
+	/// <returns></returns>
+	bool load_object(std::string path, bool own_format);
+	void bind_meshes();
+	
+	void set_name(std::string name) { m_sName = name; }
 	std::string get_name(){ return m_sName; }
-	std::vector<int> get_trianglesList() const { return m_vTrianglesList; };
-	int  get_triangles_count() { return m_iTrianglesCount; }
-	int  get_dimension() { return m_iDimension; }
-	std::vector<float > get_uvs() const { return m_vUVs; };
-	std::vector<float > get_vertices() const { return m_vVertices; };
-	std::vector<float > get_normals() const { return m_vNormals; };
 
+	void set_textures(const std::map< aiTextureType, GLuint >& textures, int mesh_index);
+	GLuint get_texture(int mesh_index, int texture_index);
+
+	const std::vector<Mesh *>& get_meshes() { return m_vMeshes; }
 
 	float * get_size() { return &m_fSize; }
 	void set_size(float size) { m_fSize = size; }
@@ -50,20 +52,24 @@ public:
 	void set_rotating(bool rot){ m_bRotating = rot; }
 	void set_rotating_start(double start){ m_dRotatingStartTime = start; }
 	double get_rotating_start(){ return m_dRotatingStartTime; }
+
 private:
-	HRESULT get_attributes(IXmlReader* pReader);
+	/// <summary>
+	/// Load object from file at the specified path.
+	/// This method is called for format managed by assimp lib
+	/// </summary>
+	/// <param name="path">The path</param>
+	/// <returns></returns>
+	bool load_object(std::string path);
+	bool generate_meshes(const aiScene *sc);
 
+protected:
 	std::string m_sName;
-	GLuint m_iVAO;
-	std::vector<GLuint> m_vTexture;
+	
+	Assimp::Importer *m_pImporter;
+	const aiScene* m_pScene;
 
-	AttributeType m_eCurrentAttribute;
-	int m_iTrianglesCount;
-	int m_iDimension;
-	std::vector<int> m_vTrianglesList;
-	std::vector<float> m_vUVs;
-	std::vector<float> m_vVertices;
-	std::vector<float> m_vNormals;
+	std::vector<Mesh *	> m_vMeshes;
 
 	float m_fSize;
 	float m_fSpacing;
@@ -72,5 +78,5 @@ private:
 	bool m_bRotating;
 	bool m_bWasRotating;
 	double m_dRotatingStartTime;
-};		 
+};
 

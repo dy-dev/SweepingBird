@@ -9,7 +9,7 @@
 
 #include <Light.h>
 
-class GUIInfos;
+struct GUIInfos;
 
 class DirectionalLight : public Light
 {

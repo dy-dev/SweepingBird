@@ -28,6 +28,7 @@ void TextureManager::generate_textures(std::string name, std::string diffuse_pat
 	int comp;
 	unsigned char * diffuse = stbi_load(diffuse_path.c_str(), &x, &y, &comp, 3);
 	unsigned char * specular = stbi_load(specular_path.c_str(), &x, &y, &comp, 3);
+	std::map<aiTextureType, GLuint> texs;
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures[0]);
@@ -38,6 +39,7 @@ void TextureManager::generate_textures(std::string name, std::string diffuse_pat
 	glGenerateMipmap(GL_TEXTURE_2D);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	texs[aiTextureType_DIFFUSE] = textures[0];
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, textures[1]);
@@ -48,8 +50,9 @@ void TextureManager::generate_textures(std::string name, std::string diffuse_pat
 	glGenerateMipmap(GL_TEXTURE_2D);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	texs[aiTextureType_SPECULAR] = textures[1];
 
-	m_mTextures[name] = std::vector<GLuint>(textures, textures + 2);
+	m_mTextures[name] = texs;
 
 }
 
@@ -58,7 +61,7 @@ void TextureManager::create_deferred_texture(std::string name, int width, int he
 	// Texture handles
 	GLuint gbufferTextures[3];
 	glGenTextures(3, gbufferTextures);
-
+	std::map<aiTextureType, GLuint> texs;
 	// Create color texture
 	glBindTexture(GL_TEXTURE_2D, gbufferTextures[0]);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
@@ -66,6 +69,7 @@ void TextureManager::create_deferred_texture(std::string name, int width, int he
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	texs[aiTextureType_DIFFUSE] = gbufferTextures[0];
 
 	// Create normal texture
 	glBindTexture(GL_TEXTURE_2D, gbufferTextures[1]);
@@ -74,6 +78,7 @@ void TextureManager::create_deferred_texture(std::string name, int width, int he
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	texs[aiTextureType_NORMALS] = gbufferTextures[1];
 
 	// Create depth texture
 	glBindTexture(GL_TEXTURE_2D, gbufferTextures[2]);
@@ -82,8 +87,9 @@ void TextureManager::create_deferred_texture(std::string name, int width, int he
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	texs[aiTextureType_DISPLACEMENT] = gbufferTextures[2];
 
-	m_mTextures[name] = std::vector<GLuint>(gbufferTextures, gbufferTextures + 3);
+	m_mTextures[name] = texs;
 }
 
 void TextureManager::create_shadow_texture(std::string name, int size)
@@ -101,10 +107,12 @@ void TextureManager::create_shadow_texture(std::string name, int size)
 	// Color needs to be 0 outside of texture coordinates
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	m_mTextures[name] = std::vector<GLuint>(shadowTexture);
+	std::map<aiTextureType, GLuint> tex;
+	tex[aiTextureType_AMBIENT] = shadowTexture;
+	m_mTextures[name] = tex;
 }
 
-const std::vector< GLuint >& TextureManager::get_textures(std::string name)
+const std::map< aiTextureType, GLuint >& TextureManager::get_textures(std::string name)
 {
 	auto tex = m_mTextures.find(name);
 
@@ -112,15 +120,19 @@ const std::vector< GLuint >& TextureManager::get_textures(std::string name)
 	{
 		return tex->second;
 	}
-	return std::vector<GLuint>();
+	return *(new std::map< aiTextureType, GLuint >());
 }
 
-GLuint TextureManager::get_texture(std::string name, TextureType index)
+GLuint TextureManager::get_texture(std::string name, aiTextureType type)
 { 
-	auto tex = m_mTextures.find(name);
-	if (tex != m_mTextures.end() && tex->second.size() > (int)index)
+	auto textures = m_mTextures.find(name);
+	if (textures != m_mTextures.end())
 	{
-		return tex->second.at(index);
+		auto tex = textures->second.find(type);
+		if (tex != textures->second.end())
+		{
+			return tex->second;
+		}
 	}
-	return -1; 
+	return 0; 
 }

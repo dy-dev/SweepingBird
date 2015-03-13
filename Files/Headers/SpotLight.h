@@ -1,7 +1,7 @@
 #pragma once
 #include <DirectionalLight.h>
 
-class GUIInfos;
+struct GUIInfos;
 
 class SpotLight : public DirectionalLight
 {

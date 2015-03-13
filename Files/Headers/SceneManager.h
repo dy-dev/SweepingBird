@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
 
-#include "glm/mat4x4.hpp" // glm::mat4
+#include <glm/mat4x4.hpp> // glm::mat4
 
 #include <ShaderProgram.h>
 
-class GLFWwindow;
+
 class Camera;
 class ProgramGUI;
 class Light;
@@ -52,6 +52,7 @@ protected:
 	ShaderProgramManager* m_pShaderProgramManager;
 	ObjectManager* m_pObjectManager;
 	ObjectManager* m_pDeferredObjectManager;
+	ObjectManager* m_pAssimpObjectManager;
 	TextureManager * m_pTextureManager;
 	int m_iLockPositionX;
 	int m_iLockPositionY;

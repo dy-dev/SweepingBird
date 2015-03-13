@@ -48,7 +48,7 @@ private:
 	// Shader utils
 	int check_link_error(GLuint program);
 	int check_compile_error(GLuint shader, const char ** sourceBuffer);
-	GLuint compile_shader(GLenum shaderType, const char * sourceBuffer, int bufferSize);
+	GLuint compile_shader(GLenum shaderType, const char * sourceBuffer);
 	GLuint compile_shader_from_file(GLenum shaderType, const char * fileName);
 
 	

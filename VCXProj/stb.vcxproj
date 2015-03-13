@@ -67,8 +67,8 @@
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)</OutDir>
-    <IntDir>$(SolutionDir)Binaries\Obj\$(configuration)</IntDir>
+    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
     <TargetName>stb</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>

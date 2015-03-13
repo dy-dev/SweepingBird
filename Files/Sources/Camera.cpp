@@ -1,5 +1,5 @@
 #include "Camera.h"
-#define M_PI 3.14
+#define M_PI 3.14f
 
 
 Camera::Camera()
@@ -22,8 +22,8 @@ void Camera::Camera_compute()
 
 void Camera::Camera_defaults()
 {
-	phi = 3.14 / 3.f;
-	theta = 3.14 / 2.f;
+	phi = 3.14f / 3.f;
+	theta = 3.14f / 2.f;
 	radius = 10.f;
 	Camera_compute();
 }
@@ -44,10 +44,10 @@ void Camera::Camera_turn(float ph, float th)
 	theta += 1.f * th;
 	phi -= 1.f * ph;
 	if (phi >= (2 * M_PI) - 0.1)
-		phi = 0.00001;
+		phi = 0.00001f;
 	else
 		if (phi <= 0)
-			phi = 2 * M_PI - 0.1;
+			phi = 2.f * M_PI - 0.1f;
 	Camera_compute();
 }
 

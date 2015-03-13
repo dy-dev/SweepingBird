@@ -2,7 +2,7 @@
 #include <Textured3DObject.h>
 
 class Camera;
-class GUIInfos;
+struct GUIInfos;
 
 class ObjectManager
 {
@@ -10,6 +10,8 @@ public:
 	ObjectManager();
 	ObjectManager(int nb_objects_to_create);
 	~ObjectManager();
+
+	void createAILogger();
 
 	bool bind_object(Textured3DObject* object, int nb_instances, int index);
 	const std::vector<std::pair<Textured3DObject*, float*> >& get_objects() { return m_vObjectManaged; };
@@ -22,7 +24,6 @@ public:
 	GUIInfos * generate_check_cube_rotation(int index);
 
 private:
-	GLuint * m_pVao;
 	int m_iNbObjectManaged;
 	std::vector<std::pair<Textured3DObject*, float*> > m_vObjectManaged;
 

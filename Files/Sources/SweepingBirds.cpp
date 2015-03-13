@@ -1,3 +1,5 @@
+#pragma warning(disable : 4201)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,19 +7,19 @@
 #include <iostream>
 #include <windows.h>
 
-#include "glew/glew.h"
+#include <glew/glew.h>
 
-#include "GLFW/glfw3.h"
-#include "stb/stb_image.h"
-#include "imgui/imgui.h"
-#include "imgui/imguiRenderGL3.h"
+#include <GLFW/glfw3.h>
+#include <stb/stb_image.h>
+#include <imgui/imgui.h>
+#include <imgui/imguiRenderGL3.h>
 
-#include "glm/glm.hpp"
-#include "glm/vec3.hpp" // glm::vec3
-#include "glm/vec4.hpp" // glm::vec4, glm::ivec4
-#include "glm/mat4x4.hpp" // glm::mat4
-#include "glm/gtc/matrix_transform.hpp" // glm::translate, glm::rotate, glm::scale, glm::perspective
-#include "glm/gtc/type_ptr.hpp" // glm::value_ptr
+#include <glm/glm.hpp>
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/vec4.hpp> // glm::vec4, glm::ivec4
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
 #include <thread>
 
@@ -28,6 +30,9 @@
 
 int main(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
+
 	bool bIsDemoProgram = false;
 	SceneManager MySceneManager;
 	MySceneManager.init();
@@ -41,7 +46,6 @@ int main(int argc, char **argv)
 	textureManager.generate_textures("stone", "./textures/stone_ground_diffuse.tga", "./textures/stone_ground_specular.tga");
 
 	textureManager.create_deferred_texture("deferred", MainWindow.get_width(), MainWindow.get_height());
-
 	textureManager.create_shadow_texture("shadow", MySceneManager.get_shadow_texture_size());
 
 	MySceneManager.set_texture_manager(&textureManager);
