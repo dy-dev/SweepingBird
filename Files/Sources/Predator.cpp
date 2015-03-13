@@ -35,7 +35,7 @@ void Predator::update(const float deltaTime)
   }
   else
   {
-    // TO DO
+    m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
   }
 }
 

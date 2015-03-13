@@ -46,7 +46,7 @@
     <ClCompile Include="..\Files\Sources\Bird.cpp">
       <Filter>Sources\Physic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Files\Sources\Prey.cpp">
+    <ClCompile Include="..\Files\Sources\Predator.cpp">
       <Filter>Sources\Physic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,7 +93,7 @@
     <ClInclude Include="..\Files\Headers\Bird.h">
       <Filter>Headers\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Files\Headers\Prey.h">
+    <ClInclude Include="..\Files\Headers\Predator.h">
       <Filter>Headers\Physics</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,8 @@ class Bird
 {
 public:
   Bird();
+
+  //By default, bird's initial velocity is 1.f toward z
   Bird(float mass, const glm::vec3& initialPosition);
 
   void update(const float deltaTime);

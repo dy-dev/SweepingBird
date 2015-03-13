@@ -216,7 +216,7 @@
   <ItemGroup>
     <ClCompile Include="..\Files\Sources\Bird.cpp" />
     <ClCompile Include="..\Files\Sources\PhysicsEngine.cpp" />
-    <ClCompile Include="..\Files\Sources\Prey.cpp" />
+    <ClCompile Include="..\Files\Sources\Predator.cpp" />
     <ClCompile Include="..\Files\Sources\SpotLight.cpp" />
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <ObjectFileName>$(IntDir)aogl.obj</ObjectFileName>
@@ -254,7 +254,7 @@
     <ClInclude Include="..\Files\Headers\Light.h" />
     <ClInclude Include="..\Files\Headers\ObjectManager.h" />
     <ClInclude Include="..\Files\Headers\PhysicsEngine.h" />
-    <ClInclude Include="..\Files\Headers\Prey.h" />
+    <ClInclude Include="..\Files\Headers\Predator.h" />
     <ClInclude Include="..\Files\Headers\ProgramGUI.h" />
     <ClInclude Include="..\Files\Headers\SceneManager.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgram.h" />
