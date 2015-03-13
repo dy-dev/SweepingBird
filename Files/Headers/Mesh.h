@@ -44,8 +44,9 @@ public:
 
 	bool load_mesh_from_file(std::string path, std::string &name);
 	bool fill_vertices_infos(const aiMesh* assimpMesh);
-	bool gen_textures(aiMaterial * material);
-
+	
+	void set_material(aiMaterial * mat) { m_pAiMaterial = mat; }
+	aiMaterial * get_material() { return m_pAiMaterial; }
 	GLuint get_vao(){ return m_iVAO; };
 
 	void bind();
@@ -62,10 +63,11 @@ public:
 
 private :
 	HRESULT get_attributes(IXmlReader* pReader, std::string &name);
-
+	
 private:
 	GLuint m_iVAO;
 	std::map< aiTextureType, GLuint > m_mTexture;
+	aiMaterial * m_pAiMaterial;
 
 	AttributeType m_eCurrentAttribute;
 	int m_iTrianglesCount;

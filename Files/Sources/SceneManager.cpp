@@ -482,11 +482,9 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp, glm::mat4 m
 			for each (auto mesh in object.first->get_meshes())
 			{
 				glBindVertexArray(mesh->get_vao());
-				// Select textures
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, mesh->get_texture(aiTextureType_DIFFUSE));
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, mesh->get_texture(aiTextureType_SPECULAR));
+
+				m_pTextureManager->apply_material(mesh->get_material());
+
 				glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
 			}
 		}

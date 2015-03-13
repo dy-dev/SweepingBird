@@ -79,6 +79,25 @@ void UtilityToolKit::createAILogger()
 // VECTOR STUFF
 //
 
+std::string UtilityToolKit::getBasePath(const std::string& path)
+{
+	size_t pos = path.find_last_of("\\/");
+	return (std::string::npos == pos) ? "" : path.substr(0, pos + 1);
+}
+
+std::string UtilityToolKit::getFileName(const std::string& path)
+{
+	size_t posSlash = path.find_last_of("\\/");
+	size_t posDot = path.find_last_of(".");
+	if (std::string::npos == posSlash && std::string::npos == posDot)
+		return "";
+	else if (std::string::npos == posSlash)
+		return  path.substr(0, posDot);
+	else if (std::string::npos == posDot)
+		return  path.substr(posSlash + 1, path.length() - posSlash - 1);
+	else
+		return  path.substr(posSlash + 1, posDot - posSlash - 1);
+}
 
 // res = a cross b;
 void crossProduct(float *a, float *b, float *res) {
