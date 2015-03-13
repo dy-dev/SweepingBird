@@ -57,6 +57,7 @@ void PhysicsEngine::launchPredators()
   {
     (*it)->makeFollow(&m_bird);
   }
+  m_bPredatorsLaunched = true;
 }
 
 void PhysicsEngine::dismissPredators()
@@ -66,4 +67,5 @@ void PhysicsEngine::dismissPredators()
   {
     (*it)->makeFollow(nullptr);
   }
+  m_bPredatorsLaunched = false;
 }
