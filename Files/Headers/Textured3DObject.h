@@ -6,7 +6,10 @@
 
 
 struct IXmlReader;
+
 class Mesh;
+class TextureManager;
+
 struct aiScene;
 
 namespace Assimp
@@ -28,7 +31,7 @@ public:
 	/// <param name="own_format">if set to <c>true</c> object is described in internal format (aogl),
 	/// other type of formal otherwise</param>
 	/// <returns></returns>
-	bool load_object(std::string path, bool own_format);
+	bool load_object(std::string path, bool own_format, TextureManager * texmgr= nullptr);
 	void bind_meshes();
 	
 	void set_name(std::string name) { m_sName = name; }
@@ -60,8 +63,9 @@ private:
 	/// </summary>
 	/// <param name="path">The path</param>
 	/// <returns></returns>
-	bool load_object(std::string path);
+	bool load_object(std::string path, TextureManager * texmgr);
 	bool generate_meshes(const aiScene *sc);
+	bool generate_textures(const aiScene *sc, TextureManager * texmgr);
 
 protected:
 	std::string m_sName;
@@ -70,6 +74,10 @@ protected:
 	const aiScene* m_pScene;
 
 	std::vector<Mesh *	> m_vMeshes;
+	// images / texture
+	// map image filenames to textureIds
+	// pointer to texture Array
+	std::map<std::string, GLuint> textureIdMap;
 
 	float m_fSize;
 	float m_fSpacing;

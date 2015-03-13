@@ -147,7 +147,7 @@ void SceneManager::setup_frame_buffer()
 	glDrawBuffers(2, gbufferDrawBuffers);
 
 	// Attach textures to framebuffer
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_AMBIENT), 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_DIFFUSE), 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_NORMALS), 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_DISPLACEMENT), 0);
 
@@ -294,7 +294,7 @@ void SceneManager::setup_objects()
 	m_pAssimpObjectManager = new ObjectManager(1);
 
 	Textured3DObject* birdy = new Textured3DObject();;
-	birdy->load_object(".\\Objects\\Birds\\BirdAlone.obj", false);
+	birdy->load_object(".\\Objects\\Birds\\BirdAlone.obj", false, m_pTextureManager);
 	m_pAssimpObjectManager->bind_object(birdy, 1, 0);
 }
 
@@ -432,7 +432,7 @@ void SceneManager::display_scene(bool activate_deferred, bool activate_gamma, bo
 
 		if (activate_deferred)
 		{
-			//debug_frame_buffer(mvp, mv, activate_shadow_map, true);
+			debug_frame_buffer(mvp, mv, false, false);
 		}
 	}
 }
@@ -574,7 +574,7 @@ bool SceneManager::illuminate_scene(glm::mat4 mvp, glm::mat4 mv, bool activate_s
 		auto mesh = m_pDeferredObjectManager->get_object(0).first->get_meshes()[0];
 		glBindVertexArray(mesh->get_vao());
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_AMBIENT));
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_DIFFUSE));
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_NORMALS));
 		glActiveTexture(GL_TEXTURE2);
@@ -744,8 +744,7 @@ void SceneManager::debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate
 		glBindVertexArray(mesh->get_vao());
 		// Use the blit program
 		glUseProgram(blitShader->get_program());
-		// Bind quad VAO
-		glBindVertexArray(mesh->get_vao());
+		
 		int nbviewport = 4;
 		if (activate_shadow_map)
 		{
@@ -755,13 +754,15 @@ void SceneManager::debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate
 		{
 			nbviewport++;
 		}
+		
 		int smallWidth = m_pProgramGUI->get_width() / nbviewport;
 		int smallHeight = m_pProgramGUI->get_height() / nbviewport;
 		int currVP = 0;
+	
 		glActiveTexture(GL_TEXTURE0);
 		glViewport(0, 0, smallWidth, smallHeight);
 		// Bind gbuffer color texture
-		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_AMBIENT));
+		glBindTexture(GL_TEXTURE_2D, m_pTextureManager->get_texture("deferred", aiTextureType_DIFFUSE));
 		// Draw quad
 		glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
 		currVP++;

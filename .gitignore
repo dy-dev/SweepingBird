@@ -45,3 +45,4 @@ Temporary Items
 /lib/assimp-3.1.1-win-binaries/samples/SimpleTexturedOpenGL/Win32/Debug/*.lib
 /lib/assimp-3.1.1-win-binaries/samples/SimpleTexturedOpenGL/Win32
 x64
+*.suo

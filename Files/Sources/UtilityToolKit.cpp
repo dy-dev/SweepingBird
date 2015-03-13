@@ -59,6 +59,22 @@ void UtilityToolKit::logInfo(std::string logString)
 	Assimp::DefaultLogger::get()->info(logString.c_str());
 }
 
+
+void UtilityToolKit::createAILogger()
+{
+	//Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
+	Assimp::Logger::LogSeverity severity = Assimp::Logger::VERBOSE;
+
+	// Create a loggr instance for Console Output
+	Assimp::DefaultLogger::create("", severity, aiDefaultLogStream_STDOUT);
+
+	// Create a logger instance for File Output (found in project folder or near .exe)
+	Assimp::DefaultLogger::create("assimp_log.txt", severity, aiDefaultLogStream_FILE);
+
+	// Now I am ready for logging my stuff
+	Assimp::DefaultLogger::get()->info("this is my info-call");
+}
+
 // ----------------------------------------------------
 // VECTOR STUFF
 //
