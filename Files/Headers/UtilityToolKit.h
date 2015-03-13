@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 #ifndef DEBUG_PRINT
 #define DEBUG_PRINT 1
 #endif
@@ -25,5 +25,8 @@ public:
 	static int printOglError(char *file, int line);
 	static void logInfo(std::string logString);
 	static void createAILogger();
+	static std::string getBasePath(const std::string& path);
+	static std::string getFileName(const std::string& path);
+
 };
 

@@ -64,12 +64,12 @@ private:
 	/// <param name="path">The path</param>
 	/// <returns></returns>
 	bool load_object(std::string path, TextureManager * texmgr);
-	bool generate_meshes(const aiScene *sc);
-	bool generate_textures(const aiScene *sc, TextureManager * texmgr);
+	bool generate_meshes();
+	bool generate_textures(TextureManager * texmgr);
 
 protected:
 	std::string m_sName;
-	
+	std::string m_sPath;
 	Assimp::Importer *m_pImporter;
 	const aiScene* m_pScene;
 
@@ -78,6 +78,8 @@ protected:
 	// map image filenames to textureIds
 	// pointer to texture Array
 	std::map<std::string, GLuint> textureIdMap;
+	std::vector<std::string> m_vTexturePath;
+
 
 	float m_fSize;
 	float m_fSpacing;

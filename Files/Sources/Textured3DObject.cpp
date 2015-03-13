@@ -18,6 +18,7 @@
 
 Textured3DObject::Textured3DObject()
 	:m_sName(""),
+	m_sPath(""),
 	m_fSize(1.0),
 	m_fSpacing(1.5),
 	m_fRange(0.0),
@@ -66,7 +67,7 @@ bool Textured3DObject::load_object(std::string path, TextureManager * texmgr)
 	}
 
 	m_pScene = m_pImporter->ReadFile(path, aiProcessPreset_TargetRealtime_Quality);
-
+	m_sPath = path;
 	// If the import failed, report it
 	if (!m_pScene)
 	{
@@ -77,30 +78,30 @@ bool Textured3DObject::load_object(std::string path, TextureManager * texmgr)
 	// Now we can access the file's contents.
 	UtilityToolKit::logInfo("Import of scene " + path + " succeeded.");
 
-	generate_meshes(m_pScene);
-	generate_textures(m_pScene, texmgr);
+	generate_meshes();
+	generate_textures(texmgr);
 	// We're done. Everything will be cleaned up by the importer destructor
 	return true;
 }
 
-bool Textured3DObject::generate_meshes(const aiScene *sc)
+bool Textured3DObject::generate_meshes()
 {
 	bool success = false;
-	if (sc != nullptr)
+	if (m_pScene != nullptr)
 	{
 		struct MyMaterial aMat;
 		GLuint buffer;
 		// For each mesh
-		for (unsigned int n = 0; n < sc->mNumMeshes; ++n)
+		for (unsigned int n = 0; n < m_pScene->mNumMeshes; ++n)
 		{
-			if (sc->mMeshes[n] != nullptr)
+			if (m_pScene->mMeshes[n] != nullptr)
 			{
 				auto mesh = new Mesh();
-				success &= mesh->fill_vertices_infos(sc->mMeshes[n]);
+				success &= mesh->fill_vertices_infos(m_pScene->mMeshes[n]);
 
 				// create material uniform buffer
-				aiMaterial *mtl = sc->mMaterials[sc->mMeshes[n]->mMaterialIndex];
-				success &= mesh->gen_textures(mtl);
+				aiMaterial *mtl = m_pScene->mMaterials[m_pScene->mMeshes[n]->mMaterialIndex];
+				mesh->set_material(mtl);
 				m_vMeshes.push_back(mesh);
 			}
 		}
@@ -108,73 +109,31 @@ bool Textured3DObject::generate_meshes(const aiScene *sc)
 	return success;
 }
 
-bool Textured3DObject::generate_textures(const aiScene* scene, TextureManager * texmgr )
+bool Textured3DObject::generate_textures(TextureManager * texmgr)
 {
 	/* scan scene's materials for textures */
-	for (unsigned int m = 0; m<scene->mNumMaterials; ++m)
+	for (unsigned int m = 0; m < m_pScene->mNumMaterials; ++m)
 	{
 		int texIndex = 0;
 		aiString path;	// filename
 
-		aiReturn texFound = scene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
+		aiReturn texFound = m_pScene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
 		while (texFound == AI_SUCCESS)
 		{
 			//fill map with textures, OpenGL image ids set to 0
 			textureIdMap[path.data] = 0;
+			char myPath[_MAX_PATH + 1];
+			GetModuleFileName(NULL, myPath, _MAX_PATH);
+
+			m_vTexturePath.push_back(UtilityToolKit::getBasePath(std::string(myPath)) + UtilityToolKit::getBasePath(m_sPath) + std::string(path.data));
 			// more textures?
 			texIndex++;
-			texFound = scene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
+			texFound = m_pScene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
 		}
 	}
- 
- int numTextures = textureIdMap.size();
- 
-//	/* create and fill array with DevIL texture ids */
-//	ILuint* imageIds = new ILuint[numTextures];
-//	ilGenImages(numTextures, imageIds);
-//
-//	/* create and fill array with GL texture ids */
-//	GLuint* textureIds = new GLuint[numTextures];
-//	glGenTextures(numTextures, textureIds); /* Texture name generation */
-//
-//	/* get iterator */
-//	std::map<std::string, GLuint>::iterator itr = textureIdMap.begin();
-//	int i = 0;
-//	for (; itr != textureIdMap.end(); ++i, ++itr)
-//	{
-//		//save IL image ID
-//		std::string filename = (*itr).first;  // get filename
-//		(*itr).second = textureIds[i];	  // save texture id for filename in map
-//
-//		ilBindImage(imageIds[i]); /* Binding of DevIL image name */
-//		ilEnable(IL_ORIGIN_SET);
-//		ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
-//		success = ilLoadImage((ILstring)filename.c_str());
-//
-//		if (success) {
-//			/* Convert image to RGBA */
-//			ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
-//
-//			/* Create and load textures to OpenGL */
-//			glBindTexture(GL_TEXTURE_2D, textureIds[i]);
-//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ilGetInteger(IL_IMAGE_WIDTH),
-//				ilGetInteger(IL_IMAGE_HEIGHT), 0, GL_RGBA, GL_UNSIGNED_BYTE,
-//				ilGetData());
-//		}
-//		else
-//			printf("Couldn't load Image: %s\n", filename.c_str());
-//	}
-//	/* Because we have already copied image data into texture data
-//	we can release memory used by image. */
-//	ilDeleteImages(numTextures, imageIds);
-//
-//	//Cleanup
-//	delete[] imageIds;
-//	delete[] textureIds;
-//
-//	//return success;
+
+	texmgr->generate_textures(m_vTexturePath);
+
 	return true;
 }
 

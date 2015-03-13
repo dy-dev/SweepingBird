@@ -26,7 +26,8 @@
 Mesh::Mesh()
 	:m_eCurrentAttribute(NONE),
 	m_iTrianglesCount(0),
-	m_iDimension(3)
+	m_iDimension(3),
+	m_pAiMaterial(nullptr)
 {
 	glGenVertexArrays(1, &m_iVAO);
 }
@@ -366,59 +367,6 @@ bool Mesh::fill_vertices_infos(const aiMesh* assimpMesh)
 		}
 	}
 
-	return true;
-}
-
-bool Mesh::gen_textures(aiMaterial * material)
-{
-	struct MyMaterial aMat;
-	aiString texPath;	//contains filename of texture
-	if (AI_SUCCESS == material->GetTexture(aiTextureType_DIFFUSE, 0, &texPath)){
-		//bind texture
-		//unsigned int texId = textureIdMap[texPath.data];
-		//m_vTexture.push_back(texId);
-		aMat.texCount = 1;
-	}
-	else
-	{
-		aMat.texCount = 0;
-	}
-
-	//float c[4];
-	//set_float4(c, 0.8f, 0.8f, 0.8f, 1.0f);
-	//aiColor4D diffuse;
-	//if (AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_DIFFUSE, &diffuse))
-	//	color4_to_float4(&diffuse, c);
-	//memcpy(aMat.diffuse, c, sizeof(c));
-
-	//set_float4(c, 0.2f, 0.2f, 0.2f, 1.0f);
-	//aiColor4D ambient;
-	//if (AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_AMBIENT, &ambient))
-	//	color4_to_float4(&ambient, c);
-	//memcpy(aMat.ambient, c, sizeof(c));
-
-	//set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
-	//aiColor4D specular;
-	//if (AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_SPECULAR, &specular))
-	//	color4_to_float4(&specular, c);
-	//memcpy(aMat.specular, c, sizeof(c));
-
-	//set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
-	//aiColor4D emission;
-	//if (AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_EMISSIVE, &emission))
-	//	color4_to_float4(&emission, c);
-	//memcpy(aMat.emissive, c, sizeof(c));
-
-	//float shininess = 0.0;
-	//unsigned int max;
-	//aiGetMaterialFloatArray(mtl, AI_MATKEY_SHININESS, &shininess, &max);
-	//aMat.shininess = shininess;
-
-	//glGenBuffers(1, &(aMesh.uniformBlockIndex));
-	//glBindBuffer(GL_UNIFORM_BUFFER, aMesh.uniformBlockIndex);
-	//glBufferData(GL_UNIFORM_BUFFER, sizeof(aMat), (void *)(&aMat), GL_STATIC_DRAW);
-
-	//myMeshes.push_back(aMesh);
 	return true;
 }
 
