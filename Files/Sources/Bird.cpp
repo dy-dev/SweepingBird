@@ -16,7 +16,8 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
  : m_mass(mass),
    m_v3Position (initialPosition),
    m_v3Velocity (glm::vec3(0,0,1.f)),
-   m_timeSinceDirectionChanged(0.0f)
+   m_timeSinceDirectionChanged(0.0f),
+   m_angle(0.f)
 {
 
 }
@@ -37,8 +38,8 @@ void Bird::update(const float deltaTime)
     const glm::vec3 currentDirection = glm::normalize(m_v3Velocity);
 
     //To avoid hard turns  we limit the range
-    float movingAngle = glm::linearRand(-M_PI_4, M_PI_4);
-    glm::vec3 newDirection = glm::rotate(currentDirection, movingAngle, VERTICAL);
+    m_angle = glm::linearRand(-M_PI_4, M_PI_4);
+    glm::vec3 newDirection = glm::rotate(currentDirection, m_angle, VERTICAL);
 
     //Compute final velocity. Bird never moves on Y Axis
     glm::vec2 newVelocity = glm::linearRand(glm::vec2(1.f), glm::vec2(4.f));//Magic numbers to be tested
@@ -57,4 +58,9 @@ const glm::vec3& Bird::getPosition() const
 const glm::vec3& Bird::getVelocity() const
 {
   return m_v3Velocity;
+}
+
+float Bird::getAngle() const
+{
+  return m_angle;
 }

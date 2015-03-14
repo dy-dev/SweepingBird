@@ -44,6 +44,9 @@ public:
 	static void demo(SceneManager * scn, double start);
 	void setupdemo();
 
+  void updateBird(const glm::vec3& birdPosition, float birdAngle);
+  void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
+
 protected:
 	Camera * m_pCamera;
 	ProgramGUI * m_pProgramGUI;

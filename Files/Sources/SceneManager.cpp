@@ -1084,3 +1084,16 @@ void SceneManager::demo(SceneManager * scn, double start)
 		}
 	}
 }
+
+void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
+{
+  glm::mat4 model(1.f);
+  model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
+
+  //Set uniform in shader TODO
+}
+
+void SceneManager::updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections)
+{
+
+}

@@ -17,6 +17,8 @@ public:
 
   const glm::vec3& getPosition() const;
   const glm::vec3& getVelocity() const;
+  
+  float getAngle() const;
 
 private:
   glm::vec3 m_v3Position;
@@ -24,5 +26,5 @@ private:
  
   float m_mass;
   float m_timeSinceDirectionChanged;
-
+  float m_angle;
 };
