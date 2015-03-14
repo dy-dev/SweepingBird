@@ -43,6 +43,16 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 	}
 }
 
+std::pair<Textured3DObject *, float *>& ObjectManager::get_object(int index)
+{
+	if (index < m_vObjectManaged.size())
+	{
+		return m_vObjectManaged.at(index);
+	}
+
+	return *(new std::pair<Textured3DObject *, float *>());
+}
+
 GUIInfos * ObjectManager::generate_slider_nb_instances_infos(int index, float max)
 {
 	if (index < m_vObjectManaged.size())
@@ -135,16 +145,5 @@ GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max
 	return infos;
 }
 
-
-
-std::pair<Textured3DObject *, float *>& ObjectManager::get_object(int index)
-{
-	if (index < m_vObjectManaged.size())
-	{
-		return m_vObjectManaged.at(index);
-	}
-
-	return *(new std::pair<Textured3DObject *, float *>());
-}
 
 

@@ -181,8 +181,8 @@ void ProgramGUI::display_gui(bool isDemo)
 		
 			
 		char lineBuffer[512];
-		imguiBeginScrollArea("SweepingBird", m_iWidth - 210, m_iHeight - 310, 200, 300, &mscroll);
-		sprintf_s(lineBuffer, "FPS %d", m_dFPS);
+		imguiBeginScrollArea("SweepingBird", m_iWidth - 210, m_iHeight - 810, 200, 800, &mscroll);
+		sprintf_s(lineBuffer, "FPS %f", m_dFPS);
 
 		imguiLabel(lineBuffer);
 		for each (auto infos in m_mGUIElements)
@@ -193,7 +193,7 @@ void ProgramGUI::display_gui(bool isDemo)
 				imguiIndent();
 				for each (auto elementInfo in infos.second.first)
 				{
-					if (elementInfo->type == SLIDER)
+					if (elementInfo != nullptr && elementInfo->type == SLIDER)
 					{
 						for each (auto value in elementInfo->var)
 						{

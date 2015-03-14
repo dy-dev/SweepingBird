@@ -21,7 +21,7 @@ public:
 
 	void init();
 	void manage_camera_movements();
-	void display_scene(bool activate_deferred, bool activate_gamma, bool activate_shadow_map);
+	void display_scene(bool activate_gamma);
 
 	void set_programGUI(ProgramGUI * programGUI){ m_pProgramGUI = programGUI; }
 	void set_texture_manager(TextureManager* textureManager){ m_pTextureManager = textureManager; }
@@ -32,15 +32,11 @@ public:
 	void setup_objects();
 
 	void draw_scene(ShaderProgram * shader, glm::mat4 mvp, glm::mat4 mv);
-	bool illuminate_scene(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map = false);
-	void shadow_map_management();
 	void gamma_management(glm::mat4 mvp, glm::mat4 mv);
-	void sobel_management(glm::mat4 mvp, glm::mat4 mv);
 	void debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map, bool activate_sobel_map);
 
 	Camera * get_camera() const { return m_pCamera; }
 
-	int get_shadow_texture_size(){ return m_iShadowMapSize; }
 	static void demo(SceneManager * scn, double start);
 	void setupdemo();
 
@@ -53,10 +49,9 @@ protected:
 	std::vector<Light*> m_vLights;
 
 	ShaderProgramManager* m_pShaderProgramManager;
-	ObjectManager* m_pObjectManager;
-	ObjectManager* m_pDeferredObjectManager;
 	ObjectManager* m_pAssimpObjectManager;
 	TextureManager * m_pTextureManager;
+
 	int m_iLockPositionX;
 	int m_iLockPositionY;
 
@@ -65,22 +60,18 @@ protected:
 	bool m_bZoomLock;
 
 	GLuint m_gluiBufferFbo;
-
 	GLuint m_gluiShaderFbo;
-	GLuint m_gluiShadowTexture;
-
+	
 	GLuint m_gluiFxFbo;
 	GLuint * m_agluiFxTextures;
+	
 	float m_fGamma;
-	float m_fSobelMixing;
-	int m_iShadowMapSize;
-
+	
 	static const float MOUSE_PAN_SPEED;
 	static const float MOUSE_ZOOM_SPEED;
 	static const float MOUSE_TURN_SPEED;
 
 	double m_dStartTime;
-
 	bool m_bDemoRunning;
 };
 

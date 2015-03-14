@@ -28,15 +28,32 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/aogl.frag");
 
 	main_program->compile();
-
+	main_program->add_var("isGround");
+	main_program->set_var_value("isGround", (int)false);
 	main_program->add_var("MaxMountainHeight");
-	main_program->set_var_value("MaxMountainHeight", 1000.0f);
+	main_program->set_var_value("MaxMountainHeight", 300.0f);
 	main_program->add_var("MountainFrequence");
-	main_program->set_var_value("MountainFrequence", 100.0f);
+	main_program->set_var_value("MountainFrequence", 250.0f);
 	main_program->add_var("ColorControl");
 	main_program->set_var_value("ColorControl", 100.0f);
+
+	main_program->add_var("isBird");
+	main_program->set_var_value("isBird", (int)false);
+
+	main_program->add_var("isPredator");
+	main_program->set_var_value("isPredator", (int)false);
 	
+	main_program->add_var("isSkyBox");
+	main_program->set_var_value("isSkyBox", (int)false);
+
+	main_program->add_var("isBat");
+	main_program->add_var("SizeFactor");
+	main_program->set_var_value("SizeFactor", 1.0f);
 	main_program->add_var("InstanceNumber");
+	main_program->set_var_value("InstanceNumber",1);
+	main_program->add_var("Translation");
+	main_program->set_var_value("Translation", glm::value_ptr(glm::vec3(1)));
+
 	main_program->add_var("MVP");
 	
 	main_program->add_var("InstanceNumber");
@@ -49,24 +66,6 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("Specular", 1);
 
 	
-	main_program->add_var("Light1Pos");
-	main_program->set_var_value("Light1Pos", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("Light1Color");
-	main_program->set_var_value("Light1Color", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("Light1SpecularPower");
-	main_program->set_var_value("Light1SpecularPower", 20);
-	main_program->add_var("Light1Use");
-	main_program->set_var_value("Light1Use", (int)true);
-
-	main_program->add_var("Light2Pos");
-	main_program->set_var_value("Light2Pos", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("Light2Color");
-	main_program->set_var_value("Light2Color", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("Light2SpecularPower");
-	main_program->set_var_value("Light2SpecularPower", 40);
-	main_program->add_var("Light2Use");
-	main_program->set_var_value("Light2Use", (int)true);
-
 	main_program->add_var("Light3Position");
 	main_program->set_var_value("Light3Position", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light3Direction");
@@ -79,23 +78,6 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("Light3Use", (int)true);
 	
 
-	main_program->add_var("SpotLightPosition");
-	main_program->set_var_value("SpotLightPosition", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("SpotLightDirection");
-	main_program->set_var_value("SpotLightDirection", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("SpotLightColor");
-	main_program->set_var_value("SpotLightColor", glm::value_ptr(glm::vec3(0)));
-	main_program->add_var("SpotLightUse");
-	main_program->set_var_value("SpotLightUse", (int)true);
-	main_program->add_var("SpotLightSpecularPower");
-	main_program->set_var_value("SpotLightSpecularPower", 40.0f);
-	main_program->add_var("SpotLightIntensity");
-	main_program->set_var_value("SpotLightIntensity", 40.0f);
-
-	main_program->add_var("SpotLightAngle");
-	main_program->set_var_value("SpotLightAngle", 1.0f);
-	main_program->add_var("SpotLightFallOffAngle");
-	main_program->set_var_value("SpotLightFallOffAngle", 1.0f);
 	
 	
 	main_program->add_var("CamPos");
@@ -110,9 +92,6 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("isSpotLightMarker", (int)false);
 	main_program->add_var("Rotate");
 	main_program->set_var_value("Rotate", (int)false);
-
-	main_program->add_var("SizeFactor");
-	main_program->set_var_value("SizeFactor", 1.0f);
 
 	main_program->add_var("RadiusSpacing");
 	main_program->set_var_value("RadiusSpacing", 1.0f);

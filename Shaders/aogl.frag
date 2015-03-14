@@ -10,7 +10,11 @@ precision highp int;
 uniform sampler2D Diffuse;
 uniform sampler2D Specular;
 
-uniform bool isCube;
+
+uniform bool isBird;
+uniform bool isPredator;
+uniform bool isGround;
+uniform bool isSkybox;
 uniform float Time;
 
 uniform vec3 Light1Pos;
@@ -60,15 +64,60 @@ in block
 void main()
 {
 	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;
-	if(isCube)
+	if(isGround)
 	{
-		float colorChange = ColorControl;
-		if(colorChange ==0.0)
+		diffuse =  vec3(0.1f,0.1f,0.7f);
+		if(In.Position.y < 20)
 		{
-			colorChange = 0.001;
+			diffuse =  vec3(0.1f,0.1f,0.7f);
 		}
-		float GroundColor = 1.0-In.Position.y/colorChange;	
-		diffuse =  vec3(GroundColor,GroundColor,GroundColor);
+		if(In.Position.y >20 && In.Position.y < 200)
+		{
+			diffuse =  vec3(0.8f,0.8f,0.3f);
+		}
+		else if(In.Position.y > 200 && In.Position.y < 500)
+		{
+			diffuse =  vec3(0.1f,0.6f,0.0f);
+		}
+		else if(In.Position.y > 500 && In.Position.y < 1000)
+		{
+			diffuse =  vec3(0.9f,0.9f,0f);
+		}
+		
+		else if(In.Position.y > 1000 && In.Position.y < 2000)
+		{
+			diffuse =  vec3(0.5f,0.5f,0.5f);
+		}
+		else if(In.Position.y > 2000)
+		{
+			diffuse =  vec3(0.9f,0.9f,0.9f);
+		}
+		float red = 0.0;
+		float green = 0.0;
+		float blue = 1.0;
+		
+		if(In.Position.y < 1000)
+		{
+			blue -= In.Position.y/ColorControl;
+		}
+		else
+		{
+			blue = (In.Position.y-1000)/ColorControl - 1.0;
+		}
+		
+		if(In.Position.y < 200)
+		{
+			green = 3*In.Position.y/ColorControl;
+			red =  In.Position.y/ColorControl;
+		}
+		else //if(In.Position.y > 200 && In.Position.y < 500)
+		{
+			green = (3*In.Position.y-200)/ColorControl - 1.0;
+			 red = 2*In.Position.y/ColorControl;
+		}
+		
+		diffuse =  vec3(red,green,blue);
 	}
 	FragColor = vec4(diffuse,1.0);
 }
+

@@ -10,17 +10,16 @@ precision highp int;
 
 uniform mat4 MVP;
 uniform mat4 MV;
+
 uniform int InstanceNumber;
+uniform vec3 Translation;
 
 uniform float Time;
 
-uniform bool isCube;
-uniform bool isLight1Marker;
-uniform bool isLight2Marker;
-uniform bool isSpotLightMarker;
-uniform vec3 Light1Pos;
-uniform vec3 Light2Pos;
-uniform vec3 SpotLightPosition;
+uniform bool isBird;
+uniform bool isPredator;
+uniform bool isGround;
+uniform bool isSkybox;
 
 uniform bool Rotate;
 uniform float SizeFactor;
@@ -51,15 +50,41 @@ out block
 
 void main()
 {	
-	vec3 changePos = Position;
-	if(isCube)
+	vec3 changePos = Position*SizeFactor;
+	changePos += Translation;
+	if(isBird)
 	{
+		
+	}
+	else if(isPredator)
+	{
+		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
+		changePos.y += cos(gl_InstanceID) * gl_InstanceID;
+		changePos.z += tan(gl_InstanceID) * gl_InstanceID;
+	}
+	else if(isSkybox)
+	{
+	}
+	else if(isGround)
+	{	
 		float freq = MountainFrequence;
 		if(freq == 0)
 		{
 			freq = 0.001;
 		}
-		changePos.y = MaxMountainHeight*sin(changePos.x/freq) + MaxMountainHeight*cos(changePos.z/freq); 
+		float changedTime = Time*SpeedFactor;
+		float tempz = changePos.z - changedTime;
+		changePos.y = MaxMountainHeight*sin(changePos.x/freq) + MaxMountainHeight*cos((tempz)/freq); 
+		changePos.y += MaxMountainHeight*cos(5*changePos.x/freq);
+		changePos.y += MaxMountainHeight*sin(3*tempz/freq);
+
+	
+		//float radius = changePos.x*changePos.x + changePos.z*changePos.z;
+		//changePos.y *= sin(radius /  freq);
+		if(changePos.y<0)
+		{
+			changePos.y = 0;
+		}
 	}
 	gl_Position = MVP * vec4(changePos, 1.0);
 	

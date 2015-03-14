@@ -41,12 +41,6 @@ int main(int argc, char **argv)
 	MainWindow.init();
 
 	TextureManager textureManager;
-	textureManager.generate_textures("brick", "./textures/spnza_bricks_a_diff.tga", "./textures/spnza_bricks_a_spec.tga");
-	textureManager.generate_textures("grass", "./textures/ground_grass_1024_tile.tga", "./textures/ground_grass_1024_tile_specular.tga");
-	textureManager.generate_textures("stone", "./textures/stone_ground_diffuse.tga", "./textures/stone_ground_specular.tga");
-
-	textureManager.create_deferred_texture("deferred", MainWindow.get_width(), MainWindow.get_height());
-	textureManager.create_shadow_texture("shadow", MySceneManager.get_shadow_texture_size());
 
 	MySceneManager.set_texture_manager(&textureManager);
 	MySceneManager.set_programGUI(&MainWindow);
@@ -64,7 +58,7 @@ int main(int argc, char **argv)
 		MainWindow.event_loop_management();
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
-		MySceneManager.display_scene(false, false, false);
+		MySceneManager.display_scene(false);
 		MainWindow.display_gui(bIsDemoProgram);
 
 		// Check for errors

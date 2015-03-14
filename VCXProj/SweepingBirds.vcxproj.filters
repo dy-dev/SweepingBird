@@ -4,37 +4,13 @@
     <ClCompile Include="..\Files\Sources\Camera.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Files\Sources\Light.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Files\Sources\ProgramGUI.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Files\Sources\ShaderProgram.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Files\Sources\Textured3DObject.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Files\Sources\ObjectManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Files\Sources\SceneManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Files\Sources\TextureManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Files\Sources\UtilityToolKit.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Files\Sources\ShaderProgramManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Files\Sources\DirectionalLight.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Files\Sources\SpotLight.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
@@ -49,48 +25,47 @@
     <ClCompile Include="..\Files\Sources\Predator.cpp">
       <Filter>Sources\Physic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\DirectionalLight.cpp">
+      <Filter>Sources\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Light.cpp">
+      <Filter>Sources\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\SpotLight.cpp">
+      <Filter>Sources\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\ObjectManager.cpp">
+      <Filter>Sources\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Textured3DObject.cpp">
+      <Filter>Sources\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\TextureManager.cpp">
+      <Filter>Sources\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="..\Files\Sources\Mesh.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\ShaderProgram.cpp">
+      <Filter>Sources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\ShaderProgramManager.cpp">
+      <Filter>Sources\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Files\Headers\Light.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Files\Headers\ProgramGUI.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Files\Headers\ShaderProgram.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Files\Headers\Textured3DObject.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Files\Headers\ObjectManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Files\Headers\SceneManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Files\Headers\TextureManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Files\Headers\UtilityToolKit.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Files\Headers\ShaderProgramManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Files\Headers\DirectionalLight.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Files\Headers\SpotLight.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-
     <ClInclude Include="..\Files\Headers\PhysicsEngine.h">
       <Filter>Headers\Physics</Filter>
     </ClInclude>
@@ -100,8 +75,32 @@
     <ClInclude Include="..\Files\Headers\Predator.h">
       <Filter>Headers\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Files\Headers\Light.h">
+      <Filter>Headers\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\DirectionalLight.h">
+      <Filter>Headers\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\SpotLight.h">
+      <Filter>Headers\Lights</Filter>
+    </ClInclude>
     <ClInclude Include="..\Files\Headers\Mesh.h">
-      <Filter>Headers</Filter>
+      <Filter>Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\ObjectManager.h">
+      <Filter>Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Textured3DObject.h">
+      <Filter>Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\TextureManager.h">
+      <Filter>Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\ShaderProgram.h">
+      <Filter>Headers\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\ShaderProgramManager.h">
+      <Filter>Headers\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +115,24 @@
     </Filter>
     <Filter Include="Headers\Physics">
       <UniqueIdentifier>{1f68ef13-5349-47bf-ade6-01b758ee24ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Lights">
+      <UniqueIdentifier>{743981f8-69d5-4505-bb1d-45fde39283b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Lights">
+      <UniqueIdentifier>{6994aea5-471c-4729-a0a3-05baca8ccc1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Graphics">
+      <UniqueIdentifier>{0b29b510-344a-4759-ab24-2a46e5aefb2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Graphics">
+      <UniqueIdentifier>{ad88c424-58a9-40b8-a1bb-d4df95de9379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Shaders">
+      <UniqueIdentifier>{26599b21-4db0-4023-9bf1-b68a2deef9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Shaders">
+      <UniqueIdentifier>{f4a0b6be-35dd-462c-9fee-1e8201d5b293}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

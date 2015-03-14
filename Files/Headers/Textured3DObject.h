@@ -2,6 +2,13 @@
 #include <vector>
 #include <map>
 
+#include <glm/glm.hpp>
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/vec4.hpp> // glm::vec4, glm::ivec4
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
+
 #include <assimp/material.h>
 
 
@@ -33,7 +40,8 @@ public:
 	/// <returns></returns>
 	bool load_object(std::string path, bool own_format, TextureManager * texmgr= nullptr);
 	void bind_meshes();
-	
+
+
 	void set_name(std::string name) { m_sName = name; }
 	std::string get_name(){ return m_sName; }
 
@@ -44,6 +52,18 @@ public:
 
 	float * get_size() { return &m_fSize; }
 	void set_size(float size) { m_fSize = size; }
+	
+	float * get_height() { return &m_fHeight; }
+	void set_height(float height) { m_fHeight = height; }
+
+	
+	void set_position(glm::vec3 Position) { m_v3Position = Position; };
+	glm::vec3 get_position(){ return m_v3Position; };
+
+	float * get_x_pos() { return &(m_v3Position.x); }
+	float * get_y_pos() { return &(m_v3Position.y); }
+	float * get_z_pos() { return &(m_v3Position.z); }
+
 	void set_radius_spacing(float spacing) { m_fSpacing = spacing; }
 	float * get_radius_spacing() { return &m_fSpacing; }
 	void set_range(float range) { m_fRange = range; }
@@ -80,8 +100,11 @@ protected:
 	std::map<std::string, GLuint> textureIdMap;
 	std::vector<std::string> m_vTexturePath;
 
+	glm::vec3 m_v3Position;
+
 
 	float m_fSize;
+	float m_fHeight;
 	float m_fSpacing;
 	float m_fRange;
 	float m_fSpeed;

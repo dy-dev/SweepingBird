@@ -22,9 +22,9 @@ void Camera::Camera_compute()
 
 void Camera::Camera_defaults()
 {
-	phi = 3.14f / 3.f;
-	theta = 3.14f / 2.f;
-	radius = 10.f;
+	phi = 1.1405f;
+	theta = 1.92f;
+	radius = 2200;
 	Camera_compute();
 }
 
