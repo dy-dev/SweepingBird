@@ -160,9 +160,6 @@ void SceneManager::setup_frame_buffer()
 	// Back to the default framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-
-
 	//Shadow Map frame buffer
 	glGenFramebuffers(1, &m_gluiShaderFbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_gluiShaderFbo);
@@ -286,16 +283,37 @@ void SceneManager::setup_objects()
 
 
 	m_pDeferredObjectManager = new ObjectManager(1);
-
 	Textured3DObject* blit_plane = new Textured3DObject();;
 	blit_plane->load_object(".\\Objects\\blit_plane.aogl", true);
 	m_pDeferredObjectManager->bind_object(blit_plane, 1, 0);
 
-	m_pAssimpObjectManager = new ObjectManager(1);
-
+	m_pAssimpObjectManager = new ObjectManager(4);
+	Textured3DObject* bats = new Textured3DObject();;
+	bats->load_object(".\\Objects\\Bats\\Bats.obj", false, m_pTextureManager);
+	
 	Textured3DObject* birdy = new Textured3DObject();;
-	birdy->load_object(".\\Objects\\Birds\\BeeBird.obj", false, m_pTextureManager);
+	birdy->load_object(".\\Objects\\Bird\\BeeBird.obj", false, m_pTextureManager);
+	
+	Textured3DObject* skyBox = new Textured3DObject();;
+	skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
+	
+	Textured3DObject* ground = new Textured3DObject();;
+	ground->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
+	ground->set_size(1000);
+	ground->set_radius_spacing(100);
+	ground->set_range(500);
+	
+	
+	m_pAssimpObjectManager->bind_object(bats, maxInstance, 0);
 	m_pAssimpObjectManager->bind_object(birdy, 1, 0);
+	m_pAssimpObjectManager->bind_object(ground, 1, 0);
+	m_pAssimpObjectManager->bind_object(skyBox, 1, 0);
+
+	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider_nb_instances_infos(0, (float)maxInstance));
+	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("Mountain Height", 1.0f, 10000.0f, 10.0f, ground->get_size()));
+	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("Mountain Frequence", 1.0f, 200.0f, 10.0f, ground->get_radius_spacing()));
+	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("Mountain Color", 1.0f, 10000.0f, 10.0f, ground->get_range()));
+
 }
 
 void SceneManager::set_cam_states()
@@ -391,7 +409,7 @@ void SceneManager::display_scene(bool activate_deferred, bool activate_gamma, bo
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Get camera matrices
-	glm::mat4 projection = glm::perspective(45.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 100.f);
+	glm::mat4 projection = glm::perspective(45.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 100000.0f);
 	glm::mat4 worldToView = glm::lookAt(m_pCamera->GetEye(), m_pCamera->GetO(), m_pCamera->GetUp());
 	glm::mat4 objectToWorld;
 	glm::mat4 mv = worldToView * objectToWorld;
@@ -482,10 +500,17 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp, glm::mat4 m
 			for each (auto mesh in object.first->get_meshes())
 			{
 				glBindVertexArray(mesh->get_vao());
-
+				if (object.first->get_name() == "Ground")
+				{
+					shader->set_var_value("isCube", (int)true);
+					shader->set_var_value("MaxMountainHeight", *object.first->get_size());
+					shader->set_var_value("MountainFrequence", *object.first->get_radius_spacing());
+					shader->set_var_value("ColorControl", *object.first->get_range());
+				}
 				m_pTextureManager->apply_material(mesh->get_material());
 
 				glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+				shader->set_var_value("isCube", (int)false);
 			}
 		}
 	}

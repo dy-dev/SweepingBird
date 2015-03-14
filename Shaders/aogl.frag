@@ -39,6 +39,8 @@ uniform bool SpotLightUse;
 
 uniform vec3 CamPos;
 
+uniform float ColorControl;
+
 layout(location = FRAG_COLOR, index = 0) out vec4 FragColor;
 
 // Write in GL_COLOR_ATTACHMENT0
@@ -58,5 +60,15 @@ in block
 void main()
 {
 	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;
+	if(isCube)
+	{
+		float colorChange = ColorControl;
+		if(colorChange ==0.0)
+		{
+			colorChange = 0.001;
+		}
+		float GroundColor = 1.0-In.Position.y/colorChange;	
+		diffuse =  vec3(GroundColor,GroundColor,GroundColor);
+	}
 	FragColor = vec4(diffuse,1.0);
 }

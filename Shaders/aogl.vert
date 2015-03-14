@@ -28,9 +28,13 @@ uniform float SpeedFactor;
 uniform float RangeFactor;
 uniform float RadiusSpacing;
 
+uniform float MaxMountainHeight;
+uniform float MountainFrequence;
+
 layout(location = POSITION) in vec3 Position;
 layout(location = NORMAL) in vec3 Normal;
 layout(location = TEXCOORD) in vec2 TexCoord;
+
 
 out gl_PerVertex
 {
@@ -47,9 +51,19 @@ out block
 
 void main()
 {	
+	vec3 changePos = Position;
+	if(isCube)
+	{
+		float freq = MountainFrequence;
+		if(freq == 0)
+		{
+			freq = 0.001;
+		}
+		changePos.y = MaxMountainHeight*sin(changePos.x/freq) + MaxMountainHeight*cos(changePos.z/freq); 
+	}
+	gl_Position = MVP * vec4(changePos, 1.0);
 	
-	gl_Position = MVP * vec4(Position, 1.0);
 	Out.TexCoord = TexCoord;
-	Out.Position = Position;
+	Out.Position = changePos;
 	Out.Normal = Normal;
 }

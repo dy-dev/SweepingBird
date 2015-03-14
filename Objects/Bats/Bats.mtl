@@ -9,5 +9,5 @@ Ks 0.000000 0.000000 0.000000
 Ni 1.000000
 d 0.000000
 illum 2
-map_Kd bat.png
-map_d bat.png
+map_Kd Bats.png
+map_d Bats.png

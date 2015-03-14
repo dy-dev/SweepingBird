@@ -68,6 +68,7 @@ bool Textured3DObject::load_object(std::string path, TextureManager * texmgr)
 
 	m_pScene = m_pImporter->ReadFile(path, aiProcessPreset_TargetRealtime_Quality);
 	m_sPath = path;
+	m_sName = UtilityToolKit::getFileName(path);
 	// If the import failed, report it
 	if (!m_pScene)
 	{

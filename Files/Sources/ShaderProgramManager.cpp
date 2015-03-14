@@ -29,6 +29,13 @@ bool ShaderProgramManager::create_main_shader_program()
 
 	main_program->compile();
 
+	main_program->add_var("MaxMountainHeight");
+	main_program->set_var_value("MaxMountainHeight", 1000.0f);
+	main_program->add_var("MountainFrequence");
+	main_program->set_var_value("MountainFrequence", 100.0f);
+	main_program->add_var("ColorControl");
+	main_program->set_var_value("ColorControl", 100.0f);
+	
 	main_program->add_var("InstanceNumber");
 	main_program->add_var("MVP");
 	

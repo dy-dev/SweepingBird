@@ -33,7 +33,7 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 	if (index < m_iNbObjectManaged)
 	{
 		object->bind_meshes();
-		
+
 		m_vObjectManaged.push_back(std::make_pair(object, new float((float)nb_instances)));
 		return true;
 	}
@@ -49,8 +49,8 @@ GUIInfos * ObjectManager::generate_slider_nb_instances_infos(int index, float ma
 	{
 		auto obj = m_vObjectManaged.at(index);
 
-		auto infos = new GUIInfos("NB Cube instances", 0.0f, max, 1.0f);
-		infos->var.push_back(std::make_pair("NB Cube instances", obj.second));
+		auto infos = new GUIInfos("NB instances", 0.0f, max, 1.0f);
+		infos->var.push_back(std::make_pair("NB instances", obj.second));
 
 		return infos;
 	}
@@ -126,6 +126,16 @@ GUIInfos * ObjectManager::generate_check_cube_rotation(int index)
 	}
 	return nullptr;
 }
+
+GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max, float step, float * value_to_change)
+{
+	auto infos = new GUIInfos(name, min, max, step);
+	infos->var.push_back(std::make_pair(infos->name, value_to_change));
+
+	return infos;
+}
+
+
 
 std::pair<Textured3DObject *, float *>& ObjectManager::get_object(int index)
 {
