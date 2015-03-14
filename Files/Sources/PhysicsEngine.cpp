@@ -1,11 +1,14 @@
 #include "PhysicsEngine.h"
+#include "SceneManager.h"
 
 /// The threshold at wich predators start hunting the bird
 #define PREDATOR_THRESHOLD_M 15.f
 
-PhysicsEngine::PhysicsEngine()
-  : m_bird(2.0f, glm::vec3(0,0,0)),
+PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
+  : m_wpSceneManager(sceneManager),
+  m_bird(2.0f, glm::vec3(0, 0, 0)),
   m_bPredatorsLaunched(false)
+  
 {
   //Basic predator generation for testing purposes
   Predator* a = new Predator(3.f, glm::vec3(0, 0, 0));
@@ -48,6 +51,23 @@ void PhysicsEngine::update(const float deltaTime)
   {
     (*it)->update(deltaTime);
   }
+
+  /*------ UPDATE GRAPHICS ---------- */
+
+  m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
+
+  //May be optimized
+  auto it = m_vPredators.begin();
+  std::vector<glm::vec3> predatorsPositions;
+  std::vector<glm::vec3> predatorsDirections;
+  for (it; it != m_vPredators.end(); ++it)
+  {
+    predatorsPositions.push_back((*it)->getPosition());
+    predatorsDirections.push_back((*it)->getDirection());
+  }
+
+  m_wpSceneManager->updatePredators(predatorsPositions, predatorsDirections);
+
 }
 
 void PhysicsEngine::launchPredators()

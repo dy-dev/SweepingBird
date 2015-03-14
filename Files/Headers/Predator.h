@@ -15,10 +15,14 @@ public:
   void update(const float deltaTime);
   void makeFollow(const Bird * const bird);
 
+  const glm::vec3& getPosition() const;
+  const glm::vec3& getDirection() const;
+
 private:
   const Bird * m_bird;
   glm::vec3 m_v3Position;
   glm::vec3 m_v3Velocity;
+  glm::vec3 m_v3Direction;
 
   float m_mass;
   float m_scalarK;
