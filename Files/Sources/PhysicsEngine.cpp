@@ -57,7 +57,7 @@ void PhysicsEngine::update(const float deltaTime)
   m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
 
   //May be optimized
-  auto it = m_vPredators.begin();
+  it = m_vPredators.begin();
   std::vector<glm::vec3> predatorsPositions;
   std::vector<glm::vec3> predatorsDirections;
   for (it; it != m_vPredators.end(); ++it)
