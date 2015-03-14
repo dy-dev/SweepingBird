@@ -28,6 +28,8 @@
 #include <TextureManager.h>
 #include <UtilityToolKit.h>
 
+#include <PhysicsEngine.h>
+
 int main(int argc, char **argv)
 {
 	(void)argc;
@@ -54,13 +56,20 @@ int main(int argc, char **argv)
 	MySceneManager.setup_shader_programs();
 	MySceneManager.setup_frame_buffer();
 	MySceneManager.setup_objects();
+
+  PhysicsEngine MyPhysicsEngine(&MySceneManager);
+
 	if (bIsDemoProgram)
 	{
 		MySceneManager.setupdemo();
 		std::thread demothread(MySceneManager.demo, &MySceneManager, MainWindow.get_time());
 	}
+
+  float elapsedTime = 0.f;
 	do
 	{
+    MyPhysicsEngine.update(elapsedTime);
+
 		MainWindow.event_loop_management();
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
@@ -69,6 +78,8 @@ int main(int argc, char **argv)
 
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
+
+    elapsedTime = static_cast<float>(glfwGetTime()) - elapsedTime;
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 
