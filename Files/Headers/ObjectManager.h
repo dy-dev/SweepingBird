@@ -22,7 +22,7 @@ public:
 	GUIInfos * generate_slider_cube_speed(int index);
 	GUIInfos * generate_slider_cube_range(int index);
 	GUIInfos * generate_check_cube_rotation(int index);
-
+	GUIInfos * generate_slider(std::string name, float min, float max, float step, float * value_to_change);
 private:
 	int m_iNbObjectManaged;
 	std::vector<std::pair<Textured3DObject*, float*> > m_vObjectManaged;

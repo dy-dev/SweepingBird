@@ -68,6 +68,7 @@ bool Textured3DObject::load_object(std::string path, TextureManager * texmgr)
 
 	m_pScene = m_pImporter->ReadFile(path, aiProcessPreset_TargetRealtime_Quality);
 	m_sPath = path;
+	m_sName = UtilityToolKit::getFileName(path);
 	// If the import failed, report it
 	if (!m_pScene)
 	{
@@ -97,7 +98,12 @@ bool Textured3DObject::generate_meshes()
 			if (m_pScene->mMeshes[n] != nullptr)
 			{
 				auto mesh = new Mesh();
-				success &= mesh->fill_vertices_infos(m_pScene->mMeshes[n]);
+				std::string childName = "";
+				if (n < m_pScene->mRootNode->mNumChildren)
+				{
+					childName = m_pScene->mRootNode->mChildren[n]->mName.data;
+				}
+				success &= mesh->fill_vertices_infos(childName, m_pScene->mMeshes[n]);
 
 				// create material uniform buffer
 				aiMaterial *mtl = m_pScene->mMaterials[m_pScene->mMeshes[n]->mMaterialIndex];
