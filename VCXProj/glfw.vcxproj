@@ -86,7 +86,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\lib\glfw\lib;..\lib\glfw\include;..\lib\glfw\lib\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_GLFW_WGL;_GLFW_WIN32;_GLFW_USE_OPENGL;_GLFW_HAS_PTHREAD;_GLFW_HAS_SCHED_YIELD;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

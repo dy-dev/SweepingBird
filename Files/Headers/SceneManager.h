@@ -12,6 +12,7 @@ class Light;
 class ObjectManager;
 class TextureManager;
 class ShaderProgramManager;
+class Textured3DObject;
 
 class SceneManager
 {
@@ -42,6 +43,7 @@ public:
 
   void updateBird(const glm::vec3& birdPosition, float birdAngle);
   void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
+  const Textured3DObject* getGround() const;
 
 protected:
 	Camera * m_pCamera;
@@ -51,6 +53,7 @@ protected:
 	ShaderProgramManager* m_pShaderProgramManager;
 	ObjectManager* m_pAssimpObjectManager;
 	TextureManager * m_pTextureManager;
+  Textured3DObject* m_pGround;
 
 	int m_iLockPositionX;
 	int m_iLockPositionY;

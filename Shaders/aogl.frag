@@ -81,7 +81,7 @@ void main()
 		}
 		else if(In.Position.y > 500 && In.Position.y < 1000)
 		{
-			diffuse =  vec3(0.9f,0.9f,0f);
+			diffuse =  vec3(0.9f,0.9f,0.f);
 		}
 		
 		else if(In.Position.y > 1000 && In.Position.y < 2000)

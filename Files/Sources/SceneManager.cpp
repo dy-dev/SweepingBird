@@ -151,24 +151,24 @@ void SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, skyBox->get_z_pos()));
 	m_pAssimpObjectManager->bind_object(skyBox, 1, 3);
 
-	Textured3DObject* ground = new Textured3DObject();;
-	ground->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
-	ground->set_height(300.f);
-	ground->set_speed(800.f);
-	ground->set_size(0.6f);
-	ground->set_radius_spacing(500.0);
-	ground->set_range(100.f);
-	ground->set_position(glm::vec3(0.0,-200.0,500.0));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Speed", 10.0f, 1000.0f, 1.f, ground->get_speed()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Height", 1.0f, 600.0f, 10.0f, ground->get_height()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Frequency", 300.0, 800.0f, 10.0f, ground->get_radius_spacing()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Color", 1.0f, 500.0f, 10.0f, ground->get_range()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.01f, 1.0f, 0.1f, ground->get_size()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, ground->get_x_pos()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, ground->get_y_pos()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, ground->get_z_pos()));
+	m_pGround = new Textured3DObject();;
+  m_pGround->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
+  m_pGround->set_height(300.f);
+  m_pGround->set_speed(800.f);
+  m_pGround->set_size(0.6f);
+  m_pGround->set_radius_spacing(500.0);
+  m_pGround->set_range(100.f);
+  m_pGround->set_position(glm::vec3(0.0, -200.0, 500.0));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Speed", 10.0f, 1000.0f, 1.f, m_pGround->get_speed()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Height", 1.0f, 600.0f, 10.0f, m_pGround->get_height()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Frequency", 300.0, 800.0f, 10.0f, m_pGround->get_radius_spacing()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Color", 1.0f, 500.0f, 10.0f, m_pGround->get_range()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.01f, 1.0f, 0.1f, m_pGround->get_size()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, m_pGround->get_x_pos()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, m_pGround->get_y_pos()));
+  m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, m_pGround->get_z_pos()));
 
-	m_pAssimpObjectManager->bind_object(ground, 1, 2);
+  m_pAssimpObjectManager->bind_object(m_pGround, 1, 2);
 }
 
 void SceneManager::set_cam_states()
@@ -460,4 +460,9 @@ void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
 void SceneManager::updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections)
 {
 
+}
+
+const Textured3DObject* SceneManager::getGround() const
+{
+  return m_pGround;
 }

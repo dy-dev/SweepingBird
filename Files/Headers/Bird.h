@@ -14,6 +14,7 @@ public:
   Bird(float mass, const glm::vec3& initialPosition);
 
   void update(const float deltaTime);
+  void setHeight(float newHeight);
 
   const glm::vec3& getPosition() const;
   const glm::vec3& getVelocity() const;

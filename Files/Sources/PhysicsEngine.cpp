@@ -1,8 +1,10 @@
-#include "PhysicsEngine.h"
-#include "SceneManager.h"
+#include <PhysicsEngine.h>
+#include <SceneManager.h>
+#include <Textured3DObject.h>
 
 /// The threshold at wich predators start hunting the bird
 #define PREDATOR_THRESHOLD_M 15.f
+#define BIRD_OFFSET 2.f
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   : m_wpSceneManager(sceneManager),
@@ -37,6 +39,7 @@ void PhysicsEngine::update(const float deltaTime)
 {
   m_bird.update(deltaTime);
 
+
   if (m_bird.getPosition().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
   {
     launchPredators();
@@ -45,6 +48,10 @@ void PhysicsEngine::update(const float deltaTime)
   {
     dismissPredators();
   }
+
+  const Textured3DObject* ground = m_wpSceneManager->getGround();
+  float groundLevel = *(ground->get_y_pos());
+  m_bird.setHeight(groundLevel + BIRD_OFFSET);
 
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)

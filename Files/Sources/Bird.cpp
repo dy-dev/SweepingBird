@@ -64,3 +64,8 @@ float Bird::getAngle() const
 {
   return m_angle;
 }
+
+void Bird::setHeight(float newHeight)
+{
+  m_v3Position.y = newHeight;
+}

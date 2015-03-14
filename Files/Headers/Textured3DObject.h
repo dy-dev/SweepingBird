@@ -63,6 +63,7 @@ public:
 	float * get_x_pos() { return &(m_v3Position.x); }
 	float * get_y_pos() { return &(m_v3Position.y); }
 	float * get_z_pos() { return &(m_v3Position.z); }
+  const float * get_y_pos() const { return &(m_v3Position.y); }
 
 	void set_radius_spacing(float spacing) { m_fSpacing = spacing; }
 	float * get_radius_spacing() { return &m_fSpacing; }
