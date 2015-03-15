@@ -1,6 +1,9 @@
 #include <PhysicsEngine.h>
 #include <SceneManager.h>
 #include <Textured3DObject.h>
+#include <GLFW/glfw3.h>
+#include <UtilityToolKit.h>
+#include <ProgramGUI.h>
 
 /// The threshold at wich predators start hunting the bird
 #define PREDATOR_THRESHOLD_M 15.f
@@ -49,9 +52,27 @@ void PhysicsEngine::update(const float deltaTime)
     dismissPredators();
   }
 
-  const Textured3DObject* ground = m_wpSceneManager->getGround();
-  float groundLevel = *(ground->get_y_pos());
-  m_bird.setHeight(groundLevel + BIRD_OFFSET);
+  Textured3DObject* ground = m_wpSceneManager->getGround();
+  Textured3DObject* bird = m_wpSceneManager->getBird();
+  float groundLevel = *(ground->get_height());
+  float freq = *ground->get_radius_spacing();
+  if (freq == 0)
+  {
+    freq = 0.001;
+  }
+  float Time = m_pProgramGUI->get_time();
+  float changedTime = Time * *ground->get_speed();
+  float tempz = ((m_bird.getPosition().z * *bird->get_size()) + m_bird.getPosition().z) - changedTime;
+  float MaxMountainHeight = *ground->get_height();
+  float mountainX = (m_bird.getPosition().x * *bird->get_size()) + m_bird.getPosition().x;
+  float birdHeight = MaxMountainHeight*sin(mountainX / freq) + MaxMountainHeight*cos((tempz) / freq);
+  birdHeight += MaxMountainHeight*cos(5 * mountainX / freq);
+  birdHeight += MaxMountainHeight*sin(3 * tempz / freq);
+  if (birdHeight < 0.f)
+    birdHeight = 0.f;
+
+  birdHeight += BIRD_OFFSET;
+  m_bird.setHeight(birdHeight);
 
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)
@@ -60,6 +81,7 @@ void PhysicsEngine::update(const float deltaTime)
   }
 
   /*------ UPDATE GRAPHICS ---------- */
+  *m_wpSceneManager->getBird()->get_y_pos() = birdHeight;
 
   m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
 

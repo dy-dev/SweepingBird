@@ -141,6 +141,8 @@ void SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("PosZ", -5500.0f, 5500.0f, 1.f, birdy->get_z_pos()));
 	m_pAssimpObjectManager->bind_object(birdy, 1, 1);
 
+  m_pBird = birdy;
+
 	Textured3DObject* skyBox = new Textured3DObject();;
 	skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
 	skyBox->set_position(glm::vec3(0.0, 500.0, -4000.0));
@@ -462,7 +464,7 @@ void SceneManager::updatePredators(const std::vector<glm::vec3>& predatorsPositi
 
 }
 
-const Textured3DObject* SceneManager::getGround() const
+Textured3DObject* SceneManager::getGround()
 {
   return m_pGround;
 }

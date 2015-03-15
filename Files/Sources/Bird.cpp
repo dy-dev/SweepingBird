@@ -31,7 +31,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
 void Bird::update(const float deltaTime)
 {
   m_timeSinceDirectionChanged += deltaTime;
-
+  /*
   if (m_timeSinceDirectionChanged > DIRECTION_TIMER_S)
   {
     m_timeSinceDirectionChanged = 0.0f;
@@ -45,6 +45,7 @@ void Bird::update(const float deltaTime)
     glm::vec2 newVelocity = glm::linearRand(glm::vec2(1.f), glm::vec2(4.f));//Magic numbers to be tested
     m_v3Velocity = newDirection * glm::vec3(newVelocity.x, 0.0f, newVelocity.y);
   }
+  */
 
   m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
   //TO DO: add terrain height offset in y position
