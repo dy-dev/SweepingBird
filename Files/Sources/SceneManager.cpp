@@ -69,15 +69,12 @@ void SceneManager::init()
 	}
 	m_persProjInfo.zNear = 1.0f;
 	m_persProjInfo.zFar = 100.0f;
-	/*Vector3f pos = Vector3f(m_pCamera->GetEye().x, m_pCamera->GetEye().y, m_pCamera->GetEye().z);
-	Vector3f target = Vector3f(m_pCamera->GetO().x, m_pCamera->GetO().y, m_pCamera->GetO().z);
-	Vector3f up = Vector3f(m_pCamera->GetUp().x, m_pCamera->GetUp().y, m_pCamera->GetUp().z);*/
-	Vector3f Pos(0.0f, 1.0f, -20.0f);
+	//Vector3f Pos(0.0f, 1.0f, -20.0f);
+	Vector3f Pos(m_pCamera->GetEye().x, m_pCamera->GetEye().y, m_pCamera->GetEye().z );
 	Vector3f Target(0.0f, 0.0f, 1.0f);
 	Vector3f Up(0.0, 1.0f, 0.0f);
 
 	m_pGameCamera = new OVGCamera(m_pProgramGUI->get_width(), m_persProjInfo.Height, Pos, Target, Up);
-	//m_pGameCamera = new OVGCamera(m_pProgramGUI->get_width(), m_persProjInfo.Height, pos, target, up);
 }
 
 bool SceneManager::setup_skybox()
@@ -193,7 +190,7 @@ bool SceneManager::setup_objects()
 	//m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, skyBox->get_z_pos()));
 	//m_pAssimpObjectManager->bind_object(skyBox, 1, 3);
 
-	/*Textured3DObject* ground = new Textured3DObject();;
+	Textured3DObject* ground = new Textured3DObject();;
 	ground->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
 	ground->set_height(300.f);
 	ground->set_speed(800.f);
@@ -211,7 +208,6 @@ bool SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, ground->get_z_pos()));
 	
 	m_pAssimpObjectManager->bind_object(ground, 1, 2);
-*/
 
 	return true;
 }
@@ -271,31 +267,26 @@ void SceneManager::manage_camera_movements()
 			if (m_bTurnLock)
 			{
 				m_pCamera->Camera_turn(diffLockPositionY * MOUSE_TURN_SPEED, diffLockPositionX * MOUSE_TURN_SPEED);
+				m_pGameCamera->OnMouseTurn(diffLockPositionY * MOUSE_TURN_SPEED, diffLockPositionX * MOUSE_TURN_SPEED);
 			}
 			else
 			{
 				if (m_bPanLock)
 				{
 					m_pCamera->Camera_pan(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
+					m_pGameCamera->OnMouseMove(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 				}
 			}
 		}
 		m_iLockPositionX = (int)mousex;
 		m_iLockPositionY = (int)mousey;
 	}
+	
 }
 
-void SceneManager::display_skybox()
-{
-	m_pGameCamera->OnRender();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_pSkyBox->Render();
-}
 
 void SceneManager::display_scene(bool activate_gamma)
 {
-	
 	//Default states
 	glEnable(GL_DEPTH_TEST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -313,7 +304,6 @@ void SceneManager::display_scene(bool activate_gamma)
 	glm::mat4 mv = worldToView * objectToWorld;
 	glm::mat4 mvp = projection * mv;
 	glm::vec4 light = worldToView * glm::vec4(m_vLights.at(0)->get_position(), 1.0f);
-
 
 	// Select shader
 	auto shader = m_pShaderProgramManager->get_shader(MAIN);

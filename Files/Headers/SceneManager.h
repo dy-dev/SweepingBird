@@ -27,7 +27,6 @@ namespace SweepingBirds
 		void init();
 		void manage_camera_movements();
 		void display_scene(bool activate_gamma);
-		void display_skybox();
 
 		void set_programGUI(ProgramGUI * programGUI){ m_pProgramGUI = programGUI; }
 		void set_texture_manager(TextureManager* textureManager){ m_pTextureManager = textureManager; }
