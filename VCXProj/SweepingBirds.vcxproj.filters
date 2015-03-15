@@ -52,6 +52,18 @@
     <ClCompile Include="..\Files\Sources\ShaderProgramManager.cpp">
       <Filter>Sources\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\Skybox.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\SkyboxTechnique.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Technique.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\OGLDevMesh.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
@@ -101,6 +113,18 @@
     </ClInclude>
     <ClInclude Include="..\Files\Headers\ShaderProgramManager.h">
       <Filter>Headers\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Skybox.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\SkyboxTechnique.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Technique.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\OGLDevMesh.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #include <SpotLight.h>
 #include <ProgramGUI.h>
 
+using namespace SweepingBirds;
 
 SpotLight::SpotLight()
 	:m_fAngle(2.13f),

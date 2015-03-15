@@ -5,26 +5,30 @@
    The bird moves above the ground following random directions on x/z.
    The bird is always *above* the ground and may never collide with it.
 */
-class Bird
+namespace SweepingBirds
 {
-public:
-  Bird();
 
-  //By default, bird's initial velocity is 1.f toward z
-  Bird(float mass, const glm::vec3& initialPosition);
+	class Bird
+	{
+	public:
+		Bird();
 
-  void update(const float deltaTime);
+		//By default, bird's initial velocity is 1.f toward z
+		Bird(float mass, const glm::vec3& initialPosition);
 
-  const glm::vec3& getPosition() const;
-  const glm::vec3& getVelocity() const;
-  
-  float getAngle() const;
+		void update(const float deltaTime);
 
-private:
-  glm::vec3 m_v3Position;
-  glm::vec3 m_v3Velocity;
- 
-  float m_mass;
-  float m_timeSinceDirectionChanged;
-  float m_angle;
-};
+		const glm::vec3& getPosition() const;
+		const glm::vec3& getVelocity() const;
+
+		float getAngle() const;
+
+	private:
+		glm::vec3 m_v3Position;
+		glm::vec3 m_v3Velocity;
+
+		float m_mass;
+		float m_timeSinceDirectionChanged;
+		float m_angle;
+	};
+}

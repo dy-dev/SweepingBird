@@ -2,6 +2,8 @@
 #include "glm\geometric.hpp"
 #include "Bird.h"
 
+using namespace SweepingBirds;
+
 Predator::Predator()
   : m_bird(nullptr), 
     m_scalarK(1.0), 

@@ -30,28 +30,39 @@
 
 #include <PhysicsEngine.h>
 
+using namespace SweepingBirds;
+
+
+#include <Skybox.h>
+#include <ogldev_math_3d.h>
+
+OVGCamera* m_pGameCamera;
+PersProjInfo m_persProjInfo;
+SweepingBirds::SkyBox * m_pSkyBox;
+
 int main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
 
 	bool bIsDemoProgram = false;
-	SceneManager MySceneManager;
-	MySceneManager.init();
-
 	ProgramGUI MainWindow(1024, 768);
 	MainWindow.init();
 
-	TextureManager textureManager;
-
-	MySceneManager.set_texture_manager(&textureManager);
+	SceneManager MySceneManager;
 	MySceneManager.set_programGUI(&MainWindow);
+	TextureManager textureManager;
+	MySceneManager.set_texture_manager(&textureManager);
+
+	MySceneManager.init();
+
 	MySceneManager.setup_lights();
 	MySceneManager.setup_shader_programs();
 	MySceneManager.setup_frame_buffer();
 	MySceneManager.setup_objects();
+	MySceneManager.setup_skybox();
 
-  PhysicsEngine MyPhysicsEngine(&MySceneManager);
+	PhysicsEngine MyPhysicsEngine(&MySceneManager);
 
 	if (bIsDemoProgram)
 	{
@@ -59,21 +70,23 @@ int main(int argc, char **argv)
 		std::thread demothread(MySceneManager.demo, &MySceneManager, MainWindow.get_time());
 	}
 
-  float elapsedTime = 0.f;
+	float elapsedTime = 0.f;
 	do
 	{
-    MyPhysicsEngine.update(elapsedTime);
+		MyPhysicsEngine.update(elapsedTime);
 
 		MainWindow.event_loop_management();
+	
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
 		MySceneManager.display_scene(false);
+		
 		MainWindow.display_gui(bIsDemoProgram);
 
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 
-    elapsedTime = static_cast<float>(glfwGetTime()) - elapsedTime;
+		elapsedTime = static_cast<float>(glfwGetTime()) - elapsedTime;
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 

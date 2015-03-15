@@ -1,6 +1,7 @@
 #include "Camera.h"
 #define M_PI 3.14f
 
+using namespace SweepingBirds;
 
 Camera::Camera()
 {

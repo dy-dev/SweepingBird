@@ -1,6 +1,8 @@
 #include <DirectionalLight.h>
 #include <ProgramGUI.h>
 
+using namespace SweepingBirds;
+
 DirectionalLight::DirectionalLight()
 {
 	m_bIsUsed = true;

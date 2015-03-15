@@ -1,5 +1,6 @@
 #include <Light.h>
 #include <ProgramGUI.h>
+using namespace SweepingBirds;
 
 Light::Light()
 	:m_fSpecularPowerValue(30.0f),

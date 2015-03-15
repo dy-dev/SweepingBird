@@ -3,6 +3,9 @@
 #include <glew/glew.h>
 #include <GLFW/glfw3.h>
 
+
+#include <Skybox.h>
+
 #include <SceneManager.h>
 #include <Camera.h>
 #include <ProgramGUI.h>
@@ -16,10 +19,12 @@
 #include <Mesh.h>
 
 #define M_PI 3.14
+using namespace SweepingBirds;
 
 const float SceneManager::MOUSE_PAN_SPEED = 0.001f;
 const float SceneManager::MOUSE_ZOOM_SPEED = 0.05f;
 const float SceneManager::MOUSE_TURN_SPEED = 0.005f;
+
 
 SceneManager::SceneManager()
 	:m_iLockPositionX(0),
@@ -32,6 +37,7 @@ SceneManager::SceneManager()
 {
 	m_pCamera = new Camera();
 	m_pShaderProgramManager = new ShaderProgramManager();
+
 }
 
 
@@ -53,6 +59,41 @@ void SceneManager::init()
 	m_bPanLock = false;
 	m_bTurnLock = false;
 	m_bZoomLock = false;
+
+	m_persProjInfo.FOV = 60.0f;
+
+	if (m_pProgramGUI != nullptr)
+	{
+		m_persProjInfo.Height = m_pProgramGUI->get_height();
+		m_persProjInfo.Width = m_pProgramGUI->get_width();
+	}
+	m_persProjInfo.zNear = 1.0f;
+	m_persProjInfo.zFar = 100.0f;
+	/*Vector3f pos = Vector3f(m_pCamera->GetEye().x, m_pCamera->GetEye().y, m_pCamera->GetEye().z);
+	Vector3f target = Vector3f(m_pCamera->GetO().x, m_pCamera->GetO().y, m_pCamera->GetO().z);
+	Vector3f up = Vector3f(m_pCamera->GetUp().x, m_pCamera->GetUp().y, m_pCamera->GetUp().z);*/
+	Vector3f Pos(0.0f, 1.0f, -20.0f);
+	Vector3f Target(0.0f, 0.0f, 1.0f);
+	Vector3f Up(0.0, 1.0f, 0.0f);
+
+	m_pGameCamera = new OVGCamera(m_pProgramGUI->get_width(), m_persProjInfo.Height, Pos, Target, Up);
+	//m_pGameCamera = new OVGCamera(m_pProgramGUI->get_width(), m_persProjInfo.Height, pos, target, up);
+}
+
+bool SceneManager::setup_skybox()
+{
+	m_pSkyBox = new SkyBox(m_pGameCamera, m_pTextureManager, m_persProjInfo);
+
+	if (!m_pSkyBox->Init(".",
+		"./textures/sp3right.jpg",
+		"./textures/sp3left.jpg",
+		"./textures/sp3top.jpg",
+		"./textures/sp3bot.jpg",
+		"./textures/sp3front.jpg",
+		"./textures/sp3back.jpg")) {
+		return false;
+	}
+	return true;
 }
 
 void SceneManager::setup_lights()
@@ -116,10 +157,11 @@ void SceneManager::setup_frame_buffer()
 	m_pProgramGUI->add_gui_element("Gamma", infos);
 }
 
-void SceneManager::setup_objects()
+
+bool SceneManager::setup_objects()
 {
 	m_pAssimpObjectManager = new ObjectManager(4);
-	Textured3DObject* bats = new Textured3DObject();;
+	Textured3DObject* bats = new Textured3DObject();
 	int maxInstance = 100;
 	bats->load_object(".\\Objects\\Bats\\Bats.obj", false, m_pTextureManager);
 	bats->set_position(glm::vec3(-200.0f, 150.0f, 588.0f));
@@ -141,24 +183,24 @@ void SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("PosZ", -5500.0f, 5500.0f, 1.f, birdy->get_z_pos()));
 	m_pAssimpObjectManager->bind_object(birdy, 1, 1);
 
-	Textured3DObject* skyBox = new Textured3DObject();;
-	skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
-	skyBox->set_position(glm::vec3(0.0, 500.0, -4000.0));
-	skyBox->set_size(0.40f);
-	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.001f, 2.0f, 0.1f, skyBox->get_size()));
-	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosX", -1500.0f, 1500.0f, 1.f, skyBox->get_x_pos()));
-	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosY", -1500.0f, 1500.0f, 1.f, skyBox->get_y_pos()));
-	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, skyBox->get_z_pos()));
-	m_pAssimpObjectManager->bind_object(skyBox, 1, 3);
+	//Textured3DObject* skyBox = new Textured3DObject();;
+	//skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
+	//skyBox->set_position(glm::vec3(0.0, 500.0, -4000.0));
+	//skyBox->set_size(0.40f);
+	//m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.001f, 2.0f, 0.1f, skyBox->get_size()));
+	//m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosX", -1500.0f, 1500.0f, 1.f, skyBox->get_x_pos()));
+	//m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosY", -1500.0f, 1500.0f, 1.f, skyBox->get_y_pos()));
+	//m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, skyBox->get_z_pos()));
+	//m_pAssimpObjectManager->bind_object(skyBox, 1, 3);
 
-	Textured3DObject* ground = new Textured3DObject();;
+	/*Textured3DObject* ground = new Textured3DObject();;
 	ground->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
 	ground->set_height(300.f);
 	ground->set_speed(800.f);
 	ground->set_size(0.6f);
 	ground->set_radius_spacing(500.0);
 	ground->set_range(100.f);
-	ground->set_position(glm::vec3(0.0,-200.0,500.0));
+	ground->set_position(glm::vec3(0.0, -200.0, 500.0));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Speed", 10.0f, 1000.0f, 1.f, ground->get_speed()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Height", 1.0f, 600.0f, 10.0f, ground->get_height()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Frequency", 300.0, 800.0f, 10.0f, ground->get_radius_spacing()));
@@ -167,8 +209,11 @@ void SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, ground->get_x_pos()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, ground->get_y_pos()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, ground->get_z_pos()));
-
+	
 	m_pAssimpObjectManager->bind_object(ground, 1, 2);
+*/
+
+	return true;
 }
 
 void SceneManager::set_cam_states()
@@ -240,16 +285,26 @@ void SceneManager::manage_camera_movements()
 	}
 }
 
+void SceneManager::display_skybox()
+{
+	m_pGameCamera->OnRender();
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_pSkyBox->Render();
+}
+
 void SceneManager::display_scene(bool activate_gamma)
 {
+	
 	//Default states
 	glEnable(GL_DEPTH_TEST);
-
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+	
+	m_pGameCamera->OnRender();
 	// Clear the front buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	m_pSkyBox->Render();
+
 
 	// Get camera matrices
 	glm::mat4 projection = glm::perspective(45.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 100000.0f);

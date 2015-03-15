@@ -9,6 +9,7 @@
 #include <ProgramGUI.h>
 #include <assimp/DefaultLogger.hpp>
 
+using namespace SweepingBirds;
 
 ObjectManager::ObjectManager()
 {

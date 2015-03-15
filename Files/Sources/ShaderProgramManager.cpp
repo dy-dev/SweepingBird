@@ -8,6 +8,9 @@
 #include <ShaderProgramManager.h>
 #include <ShaderProgram.h>
 
+using namespace SweepingBirds;
+
+
 ShaderProgramManager::ShaderProgramManager()
 {
 }

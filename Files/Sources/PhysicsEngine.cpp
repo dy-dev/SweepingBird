@@ -4,6 +4,8 @@
 /// The threshold at wich predators start hunting the bird
 #define PREDATOR_THRESHOLD_M 15.f
 
+using namespace SweepingBirds;
+
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   : m_wpSceneManager(sceneManager),
   m_bird(2.0f, glm::vec3(0, 0, 0)),

@@ -9,24 +9,27 @@
 
 #include <Light.h>
 
-struct GUIInfos;
-
-class DirectionalLight : public Light
+namespace SweepingBirds
 {
-public:
-	DirectionalLight();
-	~DirectionalLight();
+	struct GUIInfos;
 
-	void set_direction(glm::vec3 direction) { m_v3Direction = direction; };
-	glm::vec3 get_direction(){ return m_v3Direction; };
+	class DirectionalLight : public Light
+	{
+	public:
+		DirectionalLight();
+		~DirectionalLight();
 
-	float * get_x_dir() { return &(m_v3Direction.x); }
-	float * get_y_dir() { return &(m_v3Direction.y); }
-	float * get_z_dir() { return &(m_v3Direction.z); }
+		void set_direction(glm::vec3 direction) { m_v3Direction = direction; };
+		glm::vec3 get_direction(){ return m_v3Direction; };
 
-	GUIInfos * generate_slider_direction_infos(std::string name);
+		float * get_x_dir() { return &(m_v3Direction.x); }
+		float * get_y_dir() { return &(m_v3Direction.y); }
+		float * get_z_dir() { return &(m_v3Direction.z); }
 
-protected:
-	glm::vec3 m_v3Direction;
-};
+		GUIInfos * generate_slider_direction_infos(std::string name);
 
+	protected:
+		glm::vec3 m_v3Direction;
+	};
+
+}

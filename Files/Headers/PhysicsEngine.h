@@ -2,25 +2,28 @@
 #include "Predator.h"
 #include <vector>
 
-class SceneManager;
-
-class PhysicsEngine
+namespace SweepingBirds
 {
-public:
-  PhysicsEngine(SceneManager* sceneManager);
-  ~PhysicsEngine();
 
-  void update(const float deltaTime);
+	class SceneManager;
+	class PhysicsEngine
+	{
+	public:
+		PhysicsEngine(SceneManager* sceneManager);
+		~PhysicsEngine();
 
-private:
-  void launchPredators();
-  void dismissPredators();
+		void update(const float deltaTime);
 
-  //wp => weak pointer
-  SceneManager* m_wpSceneManager;
+	private:
+		void launchPredators();
+		void dismissPredators();
 
-  Bird m_bird;
-  std::vector<Predator* > m_vPredators;
-  bool m_bPredatorsLaunched;
+		//wp => weak pointer
+		SceneManager* m_wpSceneManager;
 
-};
+		Bird m_bird;
+		std::vector<Predator* > m_vPredators;
+		bool m_bPredatorsLaunched;
+
+	};
+}

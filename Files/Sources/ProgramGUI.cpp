@@ -11,6 +11,7 @@
 #include <ProgramGUI.h>
 #include <Camera.h>
 
+using namespace SweepingBirds;
 
 
 // Font buffers
@@ -200,7 +201,7 @@ void ProgramGUI::display_gui(bool isDemo)
 							imguiSlider(value.first.c_str(), value.second, elementInfo->min, elementInfo->max, elementInfo->step);
 						}
 					}
-					else if (elementInfo->type == CHECKBOX)
+					else if (elementInfo != nullptr && elementInfo->type == CHECKBOX)
 					{
 						auto toggleChk = imguiCheck(elementInfo->name.c_str(), *elementInfo->check_adress);
 						if (toggleChk)

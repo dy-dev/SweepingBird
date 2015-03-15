@@ -121,7 +121,7 @@
     <ClCompile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;$(SolutionDir)lib\ogldev-source\Include;$(SolutionDir)lib\ogldev-source\Include\ImageMagick-6;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -141,11 +141,10 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;xmllite.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;xmllite.lib;shlwapi.lib;CORE_DB_Magick++_.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\ogldev-source\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Objects" "$(TargetDir)Objects" /e /y /i /r 
@@ -218,9 +217,12 @@ exit 0</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Files\Sources\Bird.cpp" />
+    <ClCompile Include="..\Files\Sources\OGLDevMesh.cpp" />
     <ClCompile Include="..\Files\Sources\PhysicsEngine.cpp" />
     <ClCompile Include="..\Files\Sources\Predator.cpp" />
     <ClCompile Include="..\Files\Sources\Mesh.cpp" />
+    <ClCompile Include="..\Files\Sources\Skybox.cpp" />
+    <ClCompile Include="..\Files\Sources\SkyboxTechnique.cpp" />
     <ClCompile Include="..\Files\Sources\SpotLight.cpp" />
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
       <ObjectFileName>$(IntDir)SweepingBird.obj</ObjectFileName>
@@ -233,6 +235,7 @@ exit 0</Command>
     <ClCompile Include="..\Files\Sources\SceneManager.cpp" />
     <ClCompile Include="..\Files\Sources\ShaderProgram.cpp" />
     <ClCompile Include="..\Files\Sources\ShaderProgramManager.cpp" />
+    <ClCompile Include="..\Files\Sources\Technique.cpp" />
     <ClCompile Include="..\Files\Sources\Textured3DObject.cpp" />
     <ClCompile Include="..\Files\Sources\TextureManager.cpp" />
     <ClCompile Include="..\Files\Sources\UtilityToolKit.cpp" />
@@ -240,6 +243,9 @@ exit 0</Command>
   <ItemGroup>
     <ProjectReference Include="..\lib\assimp-3.1.1-win-binaries\VSBuild\assimp.vcxproj">
       <Project>{c2de596e-9b04-4460-a6c3-1b2ecc42201b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\ogldev-source\Common.vcxproj">
+      <Project>{a964cc6d-d87f-405c-9eb7-9659b2c76690}</Project>
     </ProjectReference>
     <ProjectReference Include="glfw.vcxproj">
       <Project>{9563977C-819A-980D-2A87-7E10169D140F}</Project>
@@ -261,13 +267,17 @@ exit 0</Command>
     <ClInclude Include="..\Files\Headers\Light.h" />
     <ClInclude Include="..\Files\Headers\Mesh.h" />
     <ClInclude Include="..\Files\Headers\ObjectManager.h" />
+    <ClInclude Include="..\Files\Headers\OGLDevMesh.h" />
     <ClInclude Include="..\Files\Headers\PhysicsEngine.h" />
     <ClInclude Include="..\Files\Headers\Predator.h" />
     <ClInclude Include="..\Files\Headers\ProgramGUI.h" />
     <ClInclude Include="..\Files\Headers\SceneManager.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgram.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgramManager.h" />
+    <ClInclude Include="..\Files\Headers\Skybox.h" />
+    <ClInclude Include="..\Files\Headers\SkyboxTechnique.h" />
     <ClInclude Include="..\Files\Headers\SpotLight.h" />
+    <ClInclude Include="..\Files\Headers\Technique.h" />
     <ClInclude Include="..\Files\Headers\Textured3DObject.h" />
     <ClInclude Include="..\Files\Headers\TextureManager.h" />
     <ClInclude Include="..\Files\Headers\UtilityToolKit.h" />

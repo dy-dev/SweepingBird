@@ -4,6 +4,8 @@
 #include <UtilityToolKit.h>
 #include <TextureManager.h>
 
+using namespace SweepingBirds;
+
 
 TextureManager::TextureManager()
 {

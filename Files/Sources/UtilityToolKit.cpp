@@ -5,6 +5,8 @@
 
 #include <UtilityToolKit.h>
 
+using namespace SweepingBirds;
+
 bool UtilityToolKit::check_errors(const char* title)
 {
 	int error;

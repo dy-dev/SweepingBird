@@ -2,6 +2,7 @@
 
 #include "ShaderProgram.h"
 
+using namespace SweepingBirds;
 
 ShaderProgram::ShaderProgram()
 {

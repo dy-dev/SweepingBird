@@ -7,6 +7,8 @@
 #define DIRECTION_TIMER_S 10.0f
 #define VERTICAL glm::vec3(0.f, 1.f, 0.f)
 
+using namespace SweepingBirds;
+
 Bird::Bird()
 {
 

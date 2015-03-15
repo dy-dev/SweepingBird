@@ -16,6 +16,9 @@
 #include <TextureManager.h>
 #include <UtilityToolKit.h>
 
+using namespace SweepingBirds;
+
+
 Textured3DObject::Textured3DObject()
 	:m_sName(""),
 	m_sPath(""),

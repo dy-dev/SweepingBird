@@ -22,6 +22,9 @@
 #define HR(stmt)                do { hr = (stmt); goto CleanUp; } while(0)
 #define SAFE_RELEASE(I)         do { if (I){ I->Release(); } I = NULL; } while(0)
 
+using namespace SweepingBirds;
+
+
 
 Mesh::Mesh()
 	:m_eCurrentAttribute(NONE),
