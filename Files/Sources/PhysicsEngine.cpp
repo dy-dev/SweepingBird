@@ -62,9 +62,9 @@ void PhysicsEngine::update(const float deltaTime)
   }
   float Time = m_pProgramGUI->get_time();
   float changedTime = Time * *ground->get_speed();
-  float tempz = ((m_bird.getPosition().z * *bird->get_size()) + m_bird.getPosition().z) - changedTime;
+  float tempz = m_bird.getPosition().z  - changedTime;
   float MaxMountainHeight = *ground->get_height();
-  float mountainX = (m_bird.getPosition().x * *bird->get_size()) + m_bird.getPosition().x;
+  float mountainX = m_bird.getPosition().x;
   float birdHeight = MaxMountainHeight*sin(mountainX / freq) + MaxMountainHeight*cos((tempz) / freq);
   birdHeight += MaxMountainHeight*cos(5 * mountainX / freq);
   birdHeight += MaxMountainHeight*sin(3 * tempz / freq);

@@ -50,7 +50,7 @@ out block
 
 void main()
 {	
-	vec3 changePos = Position*SizeFactor;
+	vec3 changePos = Position;//*SizeFactor;
 	changePos += Translation;
 	if(isBird)
 	{
