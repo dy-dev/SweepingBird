@@ -101,7 +101,7 @@ void SkyBox::Render()
 	glDepthFunc(GL_LEQUAL);
 
 	Pipeline p;
-	p.Scale(100.0f, 100.0f, 100.0f);
+	p.Scale(1.0f, 1.0f, 1.0f);
 	p.Rotate(0.0f, 0.0f, 0.0f);
 	p.WorldPos(m_pCamera->GetPos().x, m_pCamera->GetPos().y, m_pCamera->GetPos().z);
 	p.SetCamera(m_pCamera->GetPos(), m_pCamera->GetTarget(), m_pCamera->GetUp());

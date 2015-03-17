@@ -20,7 +20,7 @@ TextureManager::~TextureManager()
 		tex.second.clear();
 	}
 }
-void TextureManager::generate_textures(std::vector<std::string> paths)
+void TextureManager::generate_textures(std::vector<std::pair< std::string, aiTextureType> > paths)
 {
 	int numTexture = paths.size();
 	// Create Texture
@@ -32,7 +32,7 @@ void TextureManager::generate_textures(std::vector<std::string> paths)
 	int index = 0;
 	for each (auto path in paths)
 	{
-		unsigned char * image = stbi_load(path.c_str(), &x, &y, &comp, 3);
+		unsigned char * image = stbi_load(path.first.c_str(), &x, &y, &comp, 3);
 
 		std::map<aiTextureType, GLuint> texs;
 
@@ -45,8 +45,8 @@ void TextureManager::generate_textures(std::vector<std::string> paths)
 		glGenerateMipmap(GL_TEXTURE_2D);
 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		texs[aiTextureType_DIFFUSE] = textures[index];
-		m_mTextures[UtilityToolKit::getFileName(path)] = texs;
+		texs[path.second] = textures[index];
+		m_mTextures[UtilityToolKit::getFileName(path.first)] = texs;
 		index++;
 	}
 }
@@ -215,6 +215,27 @@ void  TextureManager::apply_material(const aiMaterial *mtl/*, std::map<std::stri
 		//bind texture	
 		unsigned int texId = get_texture(UtilityToolKit::getFileName(texPath.data), aiTextureType_DIFFUSE);
 		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texId);
+	}
+	if (AI_SUCCESS == mtl->GetTexture(aiTextureType_SPECULAR, texIndex, &texPath))
+	{
+		//bind texture	
+		unsigned int texId = get_texture(UtilityToolKit::getFileName(texPath.data), aiTextureType_SPECULAR);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texId);
+	}
+	if (AI_SUCCESS == mtl->GetTexture(aiTextureType_AMBIENT, texIndex, &texPath))
+	{
+		//bind texture	
+		unsigned int texId = get_texture(UtilityToolKit::getFileName(texPath.data), aiTextureType_AMBIENT);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, texId);
+	}
+	if (AI_SUCCESS == mtl->GetTexture(aiTextureType_OPACITY, texIndex, &texPath))
+	{
+		//bind texture	
+		unsigned int texId = get_texture(UtilityToolKit::getFileName(texPath.data), aiTextureType_OPACITY);
+		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, texId);
 	}
 }

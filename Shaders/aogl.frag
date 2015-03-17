@@ -9,6 +9,9 @@ precision highp int;
 
 uniform sampler2D Diffuse;
 uniform sampler2D Specular;
+uniform sampler2D Ambiant;
+uniform sampler2D Opacity;
+uniform sampler2D Shininess;
 
 
 uniform bool isBird;
@@ -16,6 +19,9 @@ uniform bool isPredator;
 uniform bool isGround;
 uniform bool isSkybox;
 uniform float Time;
+uniform int ObjectId;
+uniform float MaxMountainHeight;
+
 
 uniform vec3 Light1Pos;
 uniform vec3 Light1Color;
@@ -64,8 +70,37 @@ in block
 void main()
 {
 	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;
-	if(isGround)
+	vec3 color = diffuse;
+	if(ObjectId == 0)
 	{
+		vec3 specular = texture(Specular, In.TexCoord).rgb;
+		vec3 ambiant = texture(Ambiant, In.TexCoord).rgb;
+		vec3 opacity = texture(Opacity, In.TexCoord).rgb;
+		vec3 shininess = texture(Shininess, In.TexCoord).rgb;
+		
+		if ( In.Position.y < MaxMountainHeight/2)
+		{
+			color = mix(diffuse, specular, 2*In.Position.y/(MaxMountainHeight)); 
+		}
+		else if (In.Position.y > MaxMountainHeight/2 && In.Position.y < MaxMountainHeight)
+		{
+			color = mix(specular, ambiant, (2*In.Position.y - MaxMountainHeight)/MaxMountainHeight); 
+		}
+		else if (In.Position.y > MaxMountainHeight && In.Position.y < 3*MaxMountainHeight/2)
+		{
+			color = mix(ambiant, opacity, 2*(In.Position.y - MaxMountainHeight)/MaxMountainHeight); 
+		}
+		else if (In.Position.y > 3*MaxMountainHeight/2 && In.Position.y < 2*MaxMountainHeight)
+		{
+			color = mix(opacity, shininess, 2*(In.Position.y - 3*MaxMountainHeight/2)/MaxMountainHeight);
+		}
+		else if (In.Position.y > 2*MaxMountainHeight)
+		{
+			color = shininess; 
+		}
+		
+	}
+	/*
 		diffuse =  vec3(0.1f,0.1f,0.7f);
 		if(In.Position.y < 20)
 		{
@@ -117,7 +152,7 @@ void main()
 		}
 		
 		diffuse =  vec3(red,green,blue);
-	}
-	FragColor = vec4(diffuse,1.0);
+	}*/
+	FragColor = vec4(color,1.0);
 }
 

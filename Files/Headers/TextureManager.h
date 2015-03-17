@@ -28,7 +28,7 @@ namespace SweepingBirds
 		TextureManager();
 		~TextureManager();
 
-		void generate_textures(std::vector<std::string> path);
+		void generate_textures(std::vector<std::pair<std::string, aiTextureType> > path);
 		void generate_textures(std::string name, std::string diffuse_path, std::string specular_path);
 		void create_deferred_texture(std::string name, int width, int height);
 		void create_shadow_texture(std::string name, int size);

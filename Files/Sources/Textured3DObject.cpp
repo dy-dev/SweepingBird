@@ -28,7 +28,8 @@ Textured3DObject::Textured3DObject()
 	m_fSpeed(0.0),
 	m_bRotating(false),
 	m_bWasRotating(false),
-	m_dRotatingStartTime(0.0)
+	m_dRotatingStartTime(0.0),
+	m_fRotationAngle(0.0f)
 {
 	m_pImporter = new Assimp::Importer();
 }
@@ -125,7 +126,6 @@ bool Textured3DObject::generate_textures(TextureManager * texmgr)
 	{
 		int texIndex = 0;
 		aiString path;	// filename
-
 		aiReturn texFound = m_pScene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
 		while (texFound == AI_SUCCESS)
 		{
@@ -133,8 +133,29 @@ bool Textured3DObject::generate_textures(TextureManager * texmgr)
 			textureIdMap[path.data] = 0;
 			char myPath[_MAX_PATH + 1];
 			GetModuleFileName(NULL, myPath, _MAX_PATH);
+			auto textureBaseName = UtilityToolKit::getBasePath(std::string(myPath)) + UtilityToolKit::getBasePath(m_sPath);
+			m_vTexturePath.push_back(std::make_pair(textureBaseName + std::string(path.data), aiTextureType_DIFFUSE));
+			if (m_pScene->mMaterials[m]->GetTexture(aiTextureType_SPECULAR, texIndex, &path) == AI_SUCCESS)
+			{
+				m_vTexturePath.push_back(std::make_pair(textureBaseName + std::string(path.data), aiTextureType_SPECULAR));
+			}
+			if (m_pScene->mMaterials[m]->GetTexture(aiTextureType_AMBIENT, texIndex, &path) == AI_SUCCESS)
+			{
+				m_vTexturePath.push_back(std::make_pair(textureBaseName + std::string(path.data), aiTextureType_AMBIENT));
+			}
+			if (m_pScene->mMaterials[m]->GetTexture(aiTextureType_OPACITY, texIndex, &path) == AI_SUCCESS)
+			{
+				m_vTexturePath.push_back(std::make_pair(textureBaseName + std::string(path.data), aiTextureType_OPACITY));
+			}
+			if (m_pScene->mMaterials[m]->GetTexture(aiTextureType_DISPLACEMENT, texIndex, &path) == AI_SUCCESS)
+			{
+				m_vTexturePath.push_back(std::make_pair(textureBaseName + std::string(path.data), aiTextureType_DISPLACEMENT));
+			}
+			if (m_pScene->mMaterials[m]->GetTexture(aiTextureType_SHININESS, texIndex, &path) == AI_SUCCESS)
+			{
+				m_vTexturePath.push_back(std::make_pair(textureBaseName + std::string(path.data), aiTextureType_SHININESS));
+			}
 
-			m_vTexturePath.push_back(UtilityToolKit::getBasePath(std::string(myPath)) + UtilityToolKit::getBasePath(m_sPath) + std::string(path.data));
 			// more textures?
 			texIndex++;
 			texFound = m_pScene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);

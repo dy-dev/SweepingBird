@@ -17,8 +17,7 @@ namespace SweepingBirds
 		bool create_blit_point_light_shader_program();
 		bool create_pass_through_shader_program();
 		bool create_gamma_program();
-		bool create_sobel_program();
-
+		
 		ShaderProgram* get_shader(ShaderProgramType type);
 
 	private:

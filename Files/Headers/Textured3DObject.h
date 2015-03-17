@@ -24,6 +24,13 @@ namespace Assimp
 
 namespace SweepingBirds
 {
+	enum ObjectType
+	{
+		GROUND,
+		BIRD,
+		BAT,
+		SKYBOX
+	};
 
 	class Mesh;
 	class TextureManager;
@@ -47,6 +54,10 @@ namespace SweepingBirds
 		void set_name(std::string name) { m_sName = name; }
 		std::string get_name(){ return m_sName; }
 
+		void set_object_type(ObjectType name) { m_eType = name; }
+		ObjectType get_object_type(){ return m_eType; }
+		
+
 		void set_textures(const std::map< aiTextureType, GLuint >& textures, int mesh_index);
 		GLuint get_texture(int mesh_index, int texture_index);
 
@@ -62,6 +73,13 @@ namespace SweepingBirds
 		void set_position(glm::vec3 Position) { m_v3Position = Position; };
 		glm::vec3 get_position(){ return m_v3Position; };
 
+		void set_direction(glm::vec3 Direction) { m_v3Direction = Direction; };
+		glm::vec3 get_direction(){ return m_v3Direction; };
+
+		void set_rotation_angle(float angle) { m_fRotationAngle = angle; }
+		float get_rotation_angle() { return m_fRotationAngle; }
+
+		
 		float * get_x_pos() { return &(m_v3Position.x); }
 		float * get_y_pos() { return &(m_v3Position.y); }
 		float * get_z_pos() { return &(m_v3Position.z); }
@@ -92,6 +110,7 @@ namespace SweepingBirds
 	protected:
 		std::string m_sName;
 		std::string m_sPath;
+		ObjectType m_eType;
 		Assimp::Importer *m_pImporter;
 		const aiScene* m_pScene;
 
@@ -100,16 +119,17 @@ namespace SweepingBirds
 		// map image filenames to textureIds
 		// pointer to texture Array
 		std::map<std::string, GLuint> textureIdMap;
-		std::vector<std::string> m_vTexturePath;
+		std::vector<std::pair<std::string, aiTextureType> > m_vTexturePath;
 
 		glm::vec3 m_v3Position;
-
+		glm::vec3 m_v3Direction;
 
 		float m_fSize;
 		float m_fHeight;
 		float m_fSpacing;
 		float m_fRange;
 		float m_fSpeed;
+		float m_fRotationAngle;
 		bool m_bRotating;
 		bool m_bWasRotating;
 		double m_dRotatingStartTime;

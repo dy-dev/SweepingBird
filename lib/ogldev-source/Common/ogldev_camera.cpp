@@ -87,7 +87,7 @@ void OVGCamera::Init()
     m_OnRightEdge = false;
     m_mousePos.x  = m_windowWidth / 2;
     m_mousePos.y  = m_windowHeight / 2;
-
+	OnMouseTurn(0.0f, 0.0f);
    // glutWarpPointer(m_mousePos.x, m_mousePos.y);
 }
 
@@ -244,7 +244,7 @@ void OVGCamera::OnRender()
 
 void OVGCamera::Update()
 {
-   /* const Vector3f Vaxis(0.0f, 1.0f, 0.0f);
+    const Vector3f Vaxis(0.0f, 1.0f, 0.0f);
 
     // Rotate the view vector by the horizontal angle around the vertical axis
     Vector3f View(1.0f, 0.0f, 0.0f);
@@ -260,11 +260,11 @@ void OVGCamera::Update()
     m_target.Normalize();
 
     m_up = m_target.Cross(Haxis);
-    m_up.Normalize();*/
-
+    m_up.Normalize();
+/*
 	m_pos.x = cos(m_AngleH) * sin(m_AngleV) + m_target.x;
 	m_pos.y = cos(m_AngleV)  + m_target.y;
 	m_pos.z = sin(m_AngleH) * sin(m_AngleV)  + m_target.z;
-	m_up = Vector3f(0.f, m_AngleV < M_PI ? 1.f : -1.f, 0.f);
+	m_up = Vector3f(0.f, m_AngleV < M_PI ? 1.f : -1.f, 0.f);*/
 
 }

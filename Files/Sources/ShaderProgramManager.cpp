@@ -40,6 +40,9 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->add_var("ColorControl");
 	main_program->set_var_value("ColorControl", 100.0f);
 
+	main_program->add_var("ObjectId");
+	main_program->set_var_value("ObjectId", (int)0);
+	
 	main_program->add_var("isBird");
 	main_program->set_var_value("isBird", (int)false);
 
@@ -67,8 +70,13 @@ bool ShaderProgramManager::create_main_shader_program()
 
 	main_program->add_var("Specular");
 	main_program->set_var_value("Specular", 1);
+	main_program->add_var("Ambiant");
+	main_program->set_var_value("Ambiant", 2);
+	main_program->add_var("Opacity");
+	main_program->set_var_value("Opacity", 3);
+	main_program->add_var("Shininess");
+	main_program->set_var_value("Shininess", 4);
 
-	
 	main_program->add_var("Light3Position");
 	main_program->set_var_value("Light3Position", glm::value_ptr(glm::vec3(0)));
 	main_program->add_var("Light3Direction");
@@ -79,9 +87,6 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("Light3SpecularPower", 40);
 	main_program->add_var("Light3Use");
 	main_program->set_var_value("Light3Use", (int)true);
-	
-
-	
 	
 	main_program->add_var("CamPos");
 
@@ -292,18 +297,6 @@ bool ShaderProgramManager::create_gamma_program()
 	return true;
 }
 
-bool ShaderProgramManager::create_sobel_program()
-{
-	ShaderProgram* sobel_shader_program = new ShaderProgram();
-
-	sobel_shader_program->add_shader(GL_VERTEX_SHADER, "Shaders/blit.vert");
-	sobel_shader_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/sobel.frag");
-
-	sobel_shader_program->compile();
-	sobel_shader_program->add_var("Mix");
-	m_mAvailableShaders[SOBEL] = sobel_shader_program;
-	return true;
-}
 
 ShaderProgram* ShaderProgramManager::get_shader(ShaderProgramType type)
 {

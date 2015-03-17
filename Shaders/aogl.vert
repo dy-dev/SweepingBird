@@ -21,6 +21,8 @@ uniform bool isPredator;
 uniform bool isGround;
 uniform bool isSkybox;
 
+uniform int ObjectId;
+
 uniform bool Rotate;
 uniform float SizeFactor;
 uniform float SpeedFactor;
@@ -50,22 +52,8 @@ out block
 
 void main()
 {	
-	vec3 changePos = Position*SizeFactor;
-	changePos += Translation;
-	if(isBird)
-	{
-		
-	}
-	else if(isPredator)
-	{
-		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
-		changePos.y += cos(gl_InstanceID) * gl_InstanceID;
-		changePos.z += tan(gl_InstanceID) * gl_InstanceID;
-	}
-	else if(isSkybox)
-	{
-	}
-	else if(isGround)
+	vec3 changePos = Position;
+	if(ObjectId == 0)
 	{	
 		float freq = MountainFrequence;
 		if(freq == 0)
@@ -73,21 +61,32 @@ void main()
 			freq = 0.001;
 		}
 		float changedTime = Time*SpeedFactor;
-		float tempz = changePos.z - changedTime;
-		changePos.y = MaxMountainHeight*sin(changePos.x/freq) + MaxMountainHeight*cos((tempz)/freq); 
-		changePos.y += MaxMountainHeight*cos(5*changePos.x/freq);
-		changePos.y += MaxMountainHeight*sin(3*tempz/freq);
-
-	
-		//float radius = changePos.x*changePos.x + changePos.z*changePos.z;
-		//changePos.y *= sin(radius /  freq);
-		if(changePos.y<0)
-		{
-			changePos.y = 0;
-		}
+		float tempx = changePos.x - changedTime;
+		changePos.y = MaxMountainHeight*sin(tempx/freq) *sin(tempx/freq) + MaxMountainHeight*cos((changePos.z)/freq)*cos((changePos.z)/freq); 
+		changePos.y += MaxMountainHeight*cos(5*changePos.z/freq)*cos(5*changePos.z/freq);
+		changePos.y += MaxMountainHeight*sin(10*changePos.z/freq)*sin(10*changePos.z/freq)*sin(4*tempx/freq)*sin(4*tempx/freq);
+		changePos.y += MaxMountainHeight*cos(15*changePos.z/freq)*cos(15*changePos.z/freq)*cos(8*tempx/freq)*cos(8*tempx/freq);
+		changePos.y /= 2;
 	}
-	gl_Position = MVP * vec4(changePos, 1.0);
+	else if(ObjectId == 1) // Bird
+	{
+		
+	}
+	else if(ObjectId == 2) // Bats
+	{
+		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
+		changePos.y += cos(gl_InstanceID) * gl_InstanceID;
+		changePos.z += tan(gl_InstanceID) * gl_InstanceID;
+		//changePos = vec3( cos(1.5f)* changePos.x -sin(1.5f)* changePos.z, changePos.y  , sin(1.5f)* changePos.x + cos(1.5f)* changePos.z);
+	}
 	
+	
+	gl_Position = MVP * vec4(changePos, 1.0);
+	if(ObjectId == 3) //Skybox
+	{
+		vec4 WVP_Pos = MVP * vec4(changePos, 1.0);
+		gl_Position = WVP_Pos.xyww;                   
+	}
 	Out.TexCoord = TexCoord;
 	Out.Position = changePos;
 	Out.Normal = Normal;

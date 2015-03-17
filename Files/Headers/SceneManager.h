@@ -16,7 +16,7 @@ namespace SweepingBirds
 	class ObjectManager;
 	class TextureManager;
 	class ShaderProgramManager;
-
+	class Textured3DObject;
 
 	class SceneManager
 	{
@@ -37,7 +37,8 @@ namespace SweepingBirds
 		bool setup_objects();
 		bool setup_skybox();
 
-		void draw_scene(ShaderProgram * shader, glm::mat4 mvp, glm::mat4 mv);
+		void draw_scene(ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
+		void draw_object(std::pair<Textured3DObject *, float*> object, ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
 		void gamma_management(glm::mat4 mvp, glm::mat4 mv);
 		void debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map, bool activate_sobel_map);
 
