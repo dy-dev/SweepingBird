@@ -161,16 +161,16 @@ bool SceneManager::setup_objects()
 
 	Textured3DObject* ground = new Textured3DObject();;
 	ground->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
-	ground->set_height(1000.0F);
+	ground->set_height(480.0F);
 	ground->set_speed(0.f);
 	ground->set_size(1.3f);
-	ground->set_radius_spacing(8000.0f);
+	ground->set_radius_spacing(280.0f);
 	ground->set_range(100.f);
-	ground->set_position(glm::vec3(0.0, -2500.0, 0.0));
+	ground->set_position(glm::vec3(0.0, -500.0, 0.0));
 	ground->set_object_type(GROUND);
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Speed", 0.0f, 1000.0f, 1.f, ground->get_speed()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Height", 300.0f, 1000.0f, 10.0f, ground->get_height()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Frequency", 100.0, 10000.0f, 10.0f, ground->get_radius_spacing()));
+	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Frequency", 1.0, 1000.0f, 10.0f, ground->get_radius_spacing()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Color", 1.0f, 500.0f, 10.0f, ground->get_range()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.01f, 3.0f, 0.1f, ground->get_size()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, ground->get_x_pos()));
@@ -178,6 +178,7 @@ bool SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, ground->get_z_pos()));
 
 	m_pAssimpObjectManager->bind_object(ground, 1, 2);
+	m_pGround = ground;
 
 	Textured3DObject* bats = new Textured3DObject();
 	int maxInstance = 100;
@@ -204,7 +205,7 @@ bool SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("PosZ", -5500.0f, 5500.0f, 1.f, birdy->get_z_pos()));
 	m_pAssimpObjectManager->bind_object(birdy, 1, 1);
 
-  m_pBird = birdy;
+	m_pBird = birdy;
 
 	Textured3DObject* skyBox = new Textured3DObject();;
 	skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
@@ -217,6 +218,7 @@ bool SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, skyBox->get_z_pos()));
 	m_pAssimpObjectManager->bind_object(skyBox, 1, 3);
 
+	
 	return true;
 }
 
@@ -345,7 +347,7 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 
 {
 	// Upload uniforms
 	shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
-	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_translation()));
+	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_mock_pos()));
 
 	auto baseLight = m_vLights.at(0);
 	auto light = (DirectionalLight*)baseLight;
@@ -383,10 +385,12 @@ void SceneManager::draw_object(std::pair<Textured3DObject *, float*> object, Sha
 		shader->set_var_value("SizeFactor", *object.first->get_size());
 
 		glm::mat4 Model;
-		auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
+		/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
 		auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
-		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));
-		glm::mat4 mv = wtv * ModelScaled;
+		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
+		
+		auto ModelTranslated = glm::translate(Model, object.first->get_position());
+		glm::mat4 mv = wtv * ModelTranslated;
 		glm::mat4 mvp = proj * mv;
 		shader->set_var_value("MVP", glm::value_ptr(mvp));
 		shader->set_var_value("MV", glm::value_ptr(mv));
@@ -557,7 +561,7 @@ void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
 	/*glm::mat4 model(1.f);
 	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
 	*/
-	m_pBird->set_position(birdPosition);
+	*m_pBird->get_y_pos() = (birdPosition.y);
 	//Set uniform in shader TODO
 }
 

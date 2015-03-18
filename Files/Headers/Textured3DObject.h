@@ -55,7 +55,7 @@ namespace SweepingBirds
 
 		void set_object_type(ObjectType name) { m_eType = name; }
 		ObjectType get_object_type(){ return m_eType; }
-		
+
 
 		void set_textures(const std::map< aiTextureType, GLuint >& textures, int mesh_index);
 		GLuint get_texture(int mesh_index, int texture_index);
@@ -69,9 +69,9 @@ namespace SweepingBirds
 		void set_height(float height) { m_fHeight = height; }
 
 
-	void set_position(glm::vec3 Position) { m_v3PrevPos = m_v3Position;  m_v3Position = Position; };
+		void set_position(glm::vec3 Position) { m_v3PrevPos = m_v3Position;  m_v3Position = Position; };
 		glm::vec3 get_position(){ return m_v3Position; };
-	glm::vec3 get_translation(){ return m_v3Position - m_v3PrevPos; };
+		glm::vec3 get_translation(){ return m_v3Position - m_v3PrevPos; };
 
 		void set_direction(glm::vec3 Direction) { m_v3Direction = Direction; };
 		glm::vec3 get_direction(){ return m_v3Direction; };
@@ -79,11 +79,11 @@ namespace SweepingBirds
 		void set_rotation_angle(float angle) { m_fRotationAngle = angle; }
 		float get_rotation_angle() { return m_fRotationAngle; }
 
-		
+
 		float * get_x_pos() { return &(m_v3Position.x); }
 		float * get_y_pos() { return &(m_v3Position.y); }
 		float * get_z_pos() { return &(m_v3Position.z); }
-  const float * get_y_pos() const { return &(m_v3Position.y); }
+		const float * get_y_pos() const { return &(m_v3Position.y); }
 
 		void set_radius_spacing(float spacing) { m_fSpacing = spacing; }
 		float * get_radius_spacing() { return &m_fSpacing; }
@@ -96,6 +96,9 @@ namespace SweepingBirds
 		void set_rotating(bool rot){ m_bRotating = rot; }
 		void set_rotating_start(double start){ m_dRotatingStartTime = start; }
 		double get_rotating_start(){ return m_dRotatingStartTime; }
+
+		void set_mock_pos(const glm::vec3& pose);
+		const glm::vec3& get_mock_pos() const{ return m_v3MockPos; }
 
 	private:
 		/// <summary>
@@ -124,7 +127,8 @@ namespace SweepingBirds
 
 		glm::vec3 m_v3Position;
 		glm::vec3 m_v3Direction;
-	glm::vec3 m_v3PrevPos;
+		glm::vec3 m_v3PrevPos;
+		glm::vec3 m_v3MockPos;
 
 		float m_fSize;
 		float m_fHeight;

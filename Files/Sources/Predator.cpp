@@ -1,6 +1,6 @@
 #include "Predator.h"
 #include "glm\geometric.hpp"
-#include "Bird.h"
+#include <Bird.h>
 
 using namespace SweepingBirds;
 

@@ -56,7 +56,8 @@ void Bird::update(const float deltaTime)
 
 const glm::vec3& Bird::getTranslation() const
 {
-	return m_v3Position - m_v3PrevPosition;
+	auto ret = m_v3Position - m_v3PrevPosition;
+	return ret;
 }
 
 const glm::vec3& Bird::getPosition() const

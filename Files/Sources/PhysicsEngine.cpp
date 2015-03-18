@@ -58,7 +58,7 @@ void PhysicsEngine::update(const float deltaTime)
 
   Textured3DObject* ground = m_wpSceneManager->getGround();
   Textured3DObject* bird = m_wpSceneManager->getBird();
-  float groundLevel = *(ground->get_height());
+  
   float freq = *ground->get_radius_spacing();
   if (freq == 0)
   {
@@ -66,17 +66,20 @@ void PhysicsEngine::update(const float deltaTime)
   }
  
   float MaxMountainHeight = *ground->get_height();
-  float birdHeight = MaxMountainHeight*cos(m_bird.getTranslation().z);
-  std::cerr << " birdHeight : " << birdHeight << std::endl;
+  
+  float birdHeight = MaxMountainHeight*cos(m_pProgramGUI->get_time());
+  
   /*float mountainX = m_bird.getPosition().x;
   float birdHeight = MaxMountainHeight*sin(mountainX / freq) + MaxMountainHeight*cos((tempz) / freq);
   birdHeight += MaxMountainHeight*cos(5 * mountainX / freq);
   birdHeight += MaxMountainHeight*sin(3 * tempz / freq);*/
-  if (birdHeight < 0.f)
-    birdHeight = 0.f;
-
+ /* if (birdHeight < 0.f)
+    birdHeight = 0.f;*/
+  std::cerr << " birdHeight : " << birdHeight << std::endl;
   birdHeight += BIRD_OFFSET;
+  
   m_bird.setHeight(birdHeight);
+  bird->set_mock_pos(m_bird.getTranslation());
 
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)

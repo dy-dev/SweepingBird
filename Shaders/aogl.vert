@@ -61,13 +61,16 @@ void main()
 		{
 			freq = 0.001;
 		}
-		float changedTime = Time*SpeedFactor;
-		float tempx = changePos.x - changedTime;
-		changePos.y = MaxMountainHeight*sin(tempx/freq) *sin(tempx/freq) + MaxMountainHeight*cos((changePos.z)/freq)*cos((changePos.z)/freq); 
+		
+		float tempx = changePos.x/freq - Time;
+		changePos.y = MaxMountainHeight*cos(tempx) + MaxMountainHeight*sin(changePos.z/freq);
+		
+		/*
+		changePos.y = 	MaxMountainHeight*sin(tempx/freq) *sin(tempx/freq) + MaxMountainHeight*cos((changePos.z)/freq)*cos((changePos.z)/freq); 
 		changePos.y += MaxMountainHeight*cos(5*changePos.z/freq)*cos(5*changePos.z/freq);
 		changePos.y += MaxMountainHeight*sin(10*changePos.z/freq)*sin(10*changePos.z/freq)*sin(4*tempx/freq)*sin(4*tempx/freq);
 		changePos.y += MaxMountainHeight*cos(15*changePos.z/freq)*cos(15*changePos.z/freq)*cos(8*tempx/freq)*cos(8*tempx/freq);
-		changePos.y /= 2;
+		changePos.y /= 2;*/	
 	}
 	else if(ObjectId == 1) // Bird
 	{

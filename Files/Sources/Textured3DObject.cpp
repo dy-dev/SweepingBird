@@ -193,3 +193,9 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 		m_vMeshes[mesh_index]->set_textures(textures);
 	}
 }
+
+
+void Textured3DObject::set_mock_pos(const glm::vec3& pose) 
+{
+	m_v3MockPos = pose; 
+}
