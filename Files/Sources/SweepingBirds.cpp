@@ -51,8 +51,8 @@ int main(int argc, char **argv)
 	MySceneManager.setup_frame_buffer();
 	MySceneManager.setup_objects();
 
-  PhysicsEngine MyPhysicsEngine(&MySceneManager);
-  MyPhysicsEngine.set_programGUI(&MainWindow);
+	PhysicsEngine MyPhysicsEngine(&MySceneManager);
+	MyPhysicsEngine.set_programGUI(&MainWindow);
 
 	if (bIsDemoProgram)
 	{
@@ -60,12 +60,12 @@ int main(int argc, char **argv)
 		std::thread demothread(MySceneManager.demo, &MySceneManager, MainWindow.get_time());
 	}
 
-  float elapsedTime = 0.f;
+	float elapsedTime = 0.f;
 	do
 	{
 		MainWindow.event_loop_management();
 
-    MyPhysicsEngine.update(elapsedTime);//must be called after event_loop_management because of time synchro
+		MyPhysicsEngine.update(elapsedTime);//must be called after event_loop_management because of time synchro
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
 		MySceneManager.display_scene(false);
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 
-    elapsedTime = static_cast<float>(glfwGetTime()) - elapsedTime;
+		elapsedTime = static_cast<float>(glfwGetTime()) - elapsedTime;
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 

@@ -40,8 +40,7 @@ public:
 	/// <returns></returns>
 	bool load_object(std::string path, bool own_format, TextureManager * texmgr= nullptr);
 	void bind_meshes();
-
-
+	
 	void set_name(std::string name) { m_sName = name; }
 	std::string get_name(){ return m_sName; }
 
@@ -57,8 +56,9 @@ public:
 	void set_height(float height) { m_fHeight = height; }
 
 	
-	void set_position(glm::vec3 Position) { m_v3Position = Position; };
+	void set_position(glm::vec3 Position) { m_v3PrevPos = m_v3Position;  m_v3Position = Position; };
 	glm::vec3 get_position(){ return m_v3Position; };
+	glm::vec3 get_translation(){ return m_v3Position - m_v3PrevPos; };
 
 	float * get_x_pos() { return &(m_v3Position.x); }
 	float * get_y_pos() { return &(m_v3Position.y); }
@@ -102,6 +102,7 @@ protected:
 	std::vector<std::string> m_vTexturePath;
 
 	glm::vec3 m_v3Position;
+	glm::vec3 m_v3PrevPos;
 
 
 	float m_fSize;

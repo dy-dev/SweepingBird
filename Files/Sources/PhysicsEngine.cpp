@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <PhysicsEngine.h>
 #include <SceneManager.h>
 #include <Textured3DObject.h>
@@ -60,14 +62,14 @@ void PhysicsEngine::update(const float deltaTime)
   {
     freq = 0.001;
   }
-  float Time = m_pProgramGUI->get_time();
-  float changedTime = Time * *ground->get_speed();
-  float tempz = m_bird.getPosition().z  - changedTime;
+ 
   float MaxMountainHeight = *ground->get_height();
-  float mountainX = m_bird.getPosition().x;
+  float birdHeight = MaxMountainHeight*cos(m_bird.getTranslation().z);
+  std::cerr << " birdHeight : " << birdHeight << std::endl;
+  /*float mountainX = m_bird.getPosition().x;
   float birdHeight = MaxMountainHeight*sin(mountainX / freq) + MaxMountainHeight*cos((tempz) / freq);
   birdHeight += MaxMountainHeight*cos(5 * mountainX / freq);
-  birdHeight += MaxMountainHeight*sin(3 * tempz / freq);
+  birdHeight += MaxMountainHeight*sin(3 * tempz / freq);*/
   if (birdHeight < 0.f)
     birdHeight = 0.f;
 
@@ -81,7 +83,7 @@ void PhysicsEngine::update(const float deltaTime)
   }
 
   /*------ UPDATE GRAPHICS ---------- */
-  *m_wpSceneManager->getBird()->get_y_pos() = birdHeight;
+ // *m_wpSceneManager->getBird()->get_y_pos() = birdHeight;
 
   m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
 

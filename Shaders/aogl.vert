@@ -13,6 +13,7 @@ uniform mat4 MV;
 
 uniform int InstanceNumber;
 uniform vec3 Translation;
+uniform vec3 BirdTranslation;
 
 uniform float Time;
 
@@ -54,7 +55,7 @@ void main()
 	changePos += Translation;
 	if(isBird)
 	{
-		
+		changePos = vec3(0.0);
 	}
 	else if(isPredator)
 	{
@@ -72,19 +73,10 @@ void main()
 		{
 			freq = 0.001;
 		}
-		float changedTime = Time*SpeedFactor;
-		float tempz = changePos.z - changedTime;
-		changePos.y = MaxMountainHeight*sin(changePos.x/freq) + MaxMountainHeight*cos((tempz)/freq); 
-		changePos.y += MaxMountainHeight*cos(5*changePos.x/freq);
-		changePos.y += MaxMountainHeight*sin(3*tempz/freq);
-
-	
-		//float radius = changePos.x*changePos.x + changePos.z*changePos.z;
-		//changePos.y *= sin(radius /  freq);
-		if(changePos.y<0)
-		{
-			changePos.y = 0;
-		}
+		changePos.x -= BirdTranslation.x;
+		changePos.z -= BirdTranslation.z;
+		
+		changePos.y = MaxMountainHeight*cos(changePos.z);
 	}
 	gl_Position = MVP * vec4(changePos, 1.0);
 	

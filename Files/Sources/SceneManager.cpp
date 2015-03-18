@@ -295,6 +295,7 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 mvp, glm::mat4 m
 	shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
 	shader->set_var_value("MVP", glm::value_ptr(mvp));
 	shader->set_var_value("MV", glm::value_ptr(mv));
+	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_translation()));
 
 	auto baseLight = m_vLights.at(0);
 	auto light = (DirectionalLight*)baseLight;
@@ -453,9 +454,10 @@ void SceneManager::demo(SceneManager * scn, double start)
 
 void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
 {
-	glm::mat4 model(1.f);
+	/*glm::mat4 model(1.f);
 	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
-
+	*/
+	m_pBird->set_position(birdPosition);
 	//Set uniform in shader TODO
 }
 

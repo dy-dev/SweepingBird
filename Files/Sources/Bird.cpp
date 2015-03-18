@@ -13,11 +13,12 @@ Bird::Bird()
 }
 
 Bird::Bird(float mass, const glm::vec3& initialPosition)
- : m_mass(mass),
+ : m_fMass(mass),
    m_v3Position (initialPosition),
+   m_v3PrevPosition(initialPosition),
    m_v3Velocity (glm::vec3(0,0,1.f)),
-   m_timeSinceDirectionChanged(0.0f),
-   m_angle(0.f)
+   m_fTimeSinceDirectionChanged(0.0f),
+   m_fAngle(0.f)
 {
 
 }
@@ -30,7 +31,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
 //direction and velocity each 10 seconds \o/
 void Bird::update(const float deltaTime)
 {
-  m_timeSinceDirectionChanged += deltaTime;
+  m_fTimeSinceDirectionChanged += deltaTime;
   /*
   if (m_timeSinceDirectionChanged > DIRECTION_TIMER_S)
   {
@@ -46,14 +47,19 @@ void Bird::update(const float deltaTime)
     m_v3Velocity = newDirection * glm::vec3(newVelocity.x, 0.0f, newVelocity.y);
   }
   */
-
-  m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
+  m_v3PrevPosition = m_v3Position;
+  m_v3Position = m_v3Position + (deltaTime * m_v3Velocity);
   //TO DO: add terrain height offset in y position
+}
+
+const glm::vec3& Bird::getTranslation() const
+{
+	return m_v3Position - m_v3PrevPosition;
 }
 
 const glm::vec3& Bird::getPosition() const
 {
-  return m_v3Position;
+	return m_v3Position;
 }
 
 const glm::vec3& Bird::getVelocity() const
@@ -63,7 +69,7 @@ const glm::vec3& Bird::getVelocity() const
 
 float Bird::getAngle() const
 {
-  return m_angle;
+  return m_fAngle;
 }
 
 void Bird::setHeight(float newHeight)
