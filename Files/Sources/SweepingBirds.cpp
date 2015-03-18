@@ -63,6 +63,7 @@ int main(int argc, char **argv)
 	MySceneManager.setup_objects();
 
 	PhysicsEngine MyPhysicsEngine(&MySceneManager);
+	MyPhysicsEngine.set_programGUI(&MainWindow);
 
 	if (bIsDemoProgram)
 	{
@@ -73,9 +74,9 @@ int main(int argc, char **argv)
 	float elapsedTime = 0.f;
 	do
 	{
-		MyPhysicsEngine.update(elapsedTime);
-
 		MainWindow.event_loop_management();
+
+		MyPhysicsEngine.update(elapsedTime);//must be called after event_loop_management because of time synchro
 	
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();

@@ -49,6 +49,8 @@ namespace SweepingBirds
 
 		void updateBird(const glm::vec3& birdPosition, float birdAngle);
 		void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
+  Textured3DObject* getGround();
+  Textured3DObject* getBird() { return m_pBird; }
 
 	protected:
 		Camera * m_pCamera;
@@ -60,6 +62,8 @@ namespace SweepingBirds
 		ShaderProgramManager* m_pShaderProgramManager;
 		ObjectManager* m_pAssimpObjectManager;
 		TextureManager * m_pTextureManager;
+  Textured3DObject* m_pGround;
+  Textured3DObject* m_pBird;
 
 		int m_iLockPositionX;
 		int m_iLockPositionY;

@@ -6,6 +6,8 @@ namespace SweepingBirds
 {
 
 	class SceneManager;
+class ProgramGUI;
+
 	class PhysicsEngine
 	{
 	public:
@@ -13,6 +15,7 @@ namespace SweepingBirds
 		~PhysicsEngine();
 
 		void update(const float deltaTime);
+  void set_programGUI(ProgramGUI * programGUI){ m_pProgramGUI = programGUI; }
 
 	private:
 		void launchPredators();
@@ -20,7 +23,7 @@ namespace SweepingBirds
 
 		//wp => weak pointer
 		SceneManager* m_wpSceneManager;
-
+  ProgramGUI* m_pProgramGUI;
 		Bird m_bird;
 		std::vector<Predator* > m_vPredators;
 		bool m_bPredatorsLaunched;

@@ -53,6 +53,10 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("isSkyBox", (int)false);
 
 	main_program->add_var("isBat");
+
+	main_program->add_var("BirdTranslation");
+	main_program->set_var_value("BirdTranslation", glm::value_ptr(glm::vec3(0)));
+
 	main_program->add_var("SizeFactor");
 	main_program->set_var_value("SizeFactor", 1.0f);
 	main_program->add_var("InstanceNumber");

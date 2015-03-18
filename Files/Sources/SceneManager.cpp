@@ -204,6 +204,8 @@ bool SceneManager::setup_objects()
 	m_pProgramGUI->add_gui_element("Birds", m_pAssimpObjectManager->generate_slider("PosZ", -5500.0f, 5500.0f, 1.f, birdy->get_z_pos()));
 	m_pAssimpObjectManager->bind_object(birdy, 1, 1);
 
+  m_pBird = birdy;
+
 	Textured3DObject* skyBox = new Textured3DObject();;
 	skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
 	skyBox->set_position(glm::vec3(0.0, 500.0, -4000.0));
@@ -343,6 +345,7 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 
 {
 	// Upload uniforms
 	shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
+	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_translation()));
 
 	auto baseLight = m_vLights.at(0);
 	auto light = (DirectionalLight*)baseLight;
@@ -551,13 +554,19 @@ void SceneManager::demo(SceneManager * scn, double start)
 
 void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
 {
-	glm::mat4 model(1.f);
+	/*glm::mat4 model(1.f);
 	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
-
+	*/
+	m_pBird->set_position(birdPosition);
 	//Set uniform in shader TODO
 }
 
 void SceneManager::updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections)
 {
 
+}
+
+Textured3DObject* SceneManager::getGround()
+{
+  return m_pGround;
 }

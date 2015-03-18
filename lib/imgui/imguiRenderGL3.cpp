@@ -577,11 +577,14 @@ static void drawText(float x, float y, const char *text, int align, unsigned int
                                       };
                         glBindVertexArray(g_vao);
                         glBindBuffer(GL_ARRAY_BUFFER, g_vbos[0]);
-                        glBufferData(GL_ARRAY_BUFFER, 12*sizeof(float), v, GL_STATIC_DRAW);
+                        //glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), v, GL_DYNAMIC_DRAW);
+                        glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(float), v);
                         glBindBuffer(GL_ARRAY_BUFFER, g_vbos[1]);
-                        glBufferData(GL_ARRAY_BUFFER, 12*sizeof(float), uv, GL_STATIC_DRAW);
+                        //glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), uv, GL_DYNAMIC_DRAW);
+                        glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(float), uv);
                         glBindBuffer(GL_ARRAY_BUFFER, g_vbos[2]);
-                        glBufferData(GL_ARRAY_BUFFER, 24*sizeof(float), c, GL_STATIC_DRAW);
+                        //glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), c, GL_DYNAMIC_DRAW);
+                        glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), c);
                         glDrawArrays(GL_TRIANGLES, 0, 6);
 
                 }

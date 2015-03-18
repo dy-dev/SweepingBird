@@ -1,8 +1,15 @@
-#include "PhysicsEngine.h"
-#include "SceneManager.h"
+#include <iostream>
+
+#include <PhysicsEngine.h>
+#include <SceneManager.h>
+#include <Textured3DObject.h>
+#include <GLFW/glfw3.h>
+#include <UtilityToolKit.h>
+#include <ProgramGUI.h>
 
 /// The threshold at wich predators start hunting the bird
 #define PREDATOR_THRESHOLD_M 15.f
+#define BIRD_OFFSET 2.f
 
 using namespace SweepingBirds;
 
@@ -39,6 +46,7 @@ void PhysicsEngine::update(const float deltaTime)
 {
   m_bird.update(deltaTime);
 
+
   if (m_bird.getPosition().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
   {
     launchPredators();
@@ -48,6 +56,28 @@ void PhysicsEngine::update(const float deltaTime)
     dismissPredators();
   }
 
+  Textured3DObject* ground = m_wpSceneManager->getGround();
+  Textured3DObject* bird = m_wpSceneManager->getBird();
+  float groundLevel = *(ground->get_height());
+  float freq = *ground->get_radius_spacing();
+  if (freq == 0)
+  {
+    freq = 0.001;
+  }
+ 
+  float MaxMountainHeight = *ground->get_height();
+  float birdHeight = MaxMountainHeight*cos(m_bird.getTranslation().z);
+  std::cerr << " birdHeight : " << birdHeight << std::endl;
+  /*float mountainX = m_bird.getPosition().x;
+  float birdHeight = MaxMountainHeight*sin(mountainX / freq) + MaxMountainHeight*cos((tempz) / freq);
+  birdHeight += MaxMountainHeight*cos(5 * mountainX / freq);
+  birdHeight += MaxMountainHeight*sin(3 * tempz / freq);*/
+  if (birdHeight < 0.f)
+    birdHeight = 0.f;
+
+  birdHeight += BIRD_OFFSET;
+  m_bird.setHeight(birdHeight);
+
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)
   {
@@ -55,6 +85,7 @@ void PhysicsEngine::update(const float deltaTime)
   }
 
   /*------ UPDATE GRAPHICS ---------- */
+ // *m_wpSceneManager->getBird()->get_y_pos() = birdHeight;
 
   m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
 

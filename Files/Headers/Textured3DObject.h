@@ -50,7 +50,6 @@ namespace SweepingBirds
 		bool load_object(std::string path, bool own_format, TextureManager * texmgr = nullptr);
 		void bind_meshes();
 
-
 		void set_name(std::string name) { m_sName = name; }
 		std::string get_name(){ return m_sName; }
 
@@ -70,8 +69,9 @@ namespace SweepingBirds
 		void set_height(float height) { m_fHeight = height; }
 
 
-		void set_position(glm::vec3 Position) { m_v3Position = Position; };
+	void set_position(glm::vec3 Position) { m_v3PrevPos = m_v3Position;  m_v3Position = Position; };
 		glm::vec3 get_position(){ return m_v3Position; };
+	glm::vec3 get_translation(){ return m_v3Position - m_v3PrevPos; };
 
 		void set_direction(glm::vec3 Direction) { m_v3Direction = Direction; };
 		glm::vec3 get_direction(){ return m_v3Direction; };
@@ -83,6 +83,7 @@ namespace SweepingBirds
 		float * get_x_pos() { return &(m_v3Position.x); }
 		float * get_y_pos() { return &(m_v3Position.y); }
 		float * get_z_pos() { return &(m_v3Position.z); }
+  const float * get_y_pos() const { return &(m_v3Position.y); }
 
 		void set_radius_spacing(float spacing) { m_fSpacing = spacing; }
 		float * get_radius_spacing() { return &m_fSpacing; }
@@ -123,6 +124,7 @@ namespace SweepingBirds
 
 		glm::vec3 m_v3Position;
 		glm::vec3 m_v3Direction;
+	glm::vec3 m_v3PrevPos;
 
 		float m_fSize;
 		float m_fHeight;

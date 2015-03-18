@@ -13,6 +13,7 @@ uniform mat4 MV;
 
 uniform int InstanceNumber;
 uniform vec3 Translation;
+uniform vec3 BirdTranslation;
 
 uniform float Time;
 
