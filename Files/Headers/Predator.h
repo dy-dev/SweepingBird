@@ -1,5 +1,6 @@
-#include "glm\common.hpp"
+#pragma once
 
+#include "glm\common.hpp"
 
 /* A Predator is a particle following a bird in
    a "Hook Style".
@@ -31,6 +32,7 @@ namespace SweepingBirds
 		float m_mass;
 		float m_scalarK;
 		float m_scalarL;
+
 	};
 
 }

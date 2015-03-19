@@ -5,14 +5,20 @@
 #define TEXCOORD	2
 #define FRAG_COLOR	0
 
+#define DIFFUSE_BINDING   0
+#define SPECULAR_BINDING  1
+#define AMBIANT_BINDING   2
+#define OPACITY_BINDING   3
+#define SHININESS_BINDING 4
+#define PREDATORS_BINDING 5	
+
 precision highp int;
 
-uniform sampler2D Diffuse;
-uniform sampler2D Specular;
-uniform sampler2D Ambiant;
-uniform sampler2D Opacity;
-uniform sampler2D Shininess;
-
+layout(binding=DIFFUSE_BINDING) uniform sampler2D Diffuse;
+layout(binding=SPECULAR_BINDING) uniform sampler2D Specular;
+layout(binding=AMBIANT_BINDING) uniform sampler2D Ambiant;
+layout(binding=OPACITY_BINDING) uniform sampler2D Opacity;
+layout(binding=PREDATORS_BINDING) uniform sampler2D Shininess;
 
 uniform bool isBird;
 uniform bool isPredator;

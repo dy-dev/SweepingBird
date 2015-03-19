@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Bird.h"
 #include "Predator.h"
 #include <vector>
@@ -23,7 +25,8 @@ class ProgramGUI;
 
 		//wp => weak pointer
 		SceneManager* m_wpSceneManager;
-  ProgramGUI* m_pProgramGUI;
+    ProgramGUI* m_pProgramGUI;
+
 		Bird m_bird;
 		std::vector<Predator* > m_vPredators;
 		bool m_bPredatorsLaunched;

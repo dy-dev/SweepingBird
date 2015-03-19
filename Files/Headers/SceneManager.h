@@ -5,6 +5,7 @@
 
 #include <ShaderProgram.h>
 #include <ogldev_math_3d.h>
+#include <GPUBuffer.h>
 
 class SkyBox;
 class OVGCamera;
@@ -36,6 +37,7 @@ namespace SweepingBirds
 		void setup_frame_buffer();
 		bool setup_objects();
 		bool setup_skybox();
+    void setup_predators(int maxPredators);
 
 		void draw_scene(ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
 		void draw_object(std::pair<Textured3DObject *, int*> object, ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
@@ -49,8 +51,8 @@ namespace SweepingBirds
 
 		void updateBird(const glm::vec3& birdPosition, float birdAngle);
 		void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
-  Textured3DObject* getGround();
-  Textured3DObject* getBird() { return m_pBird; }
+    Textured3DObject* getGround();
+    Textured3DObject* getBird() { return m_pBird; }
 
 	protected:
 		Camera * m_pCamera;
@@ -62,8 +64,9 @@ namespace SweepingBirds
 		ShaderProgramManager* m_pShaderProgramManager;
 		ObjectManager* m_pAssimpObjectManager;
 		TextureManager * m_pTextureManager;
-  Textured3DObject* m_pGround;
-  Textured3DObject* m_pBird;
+    Textured3DObject* m_pGround;
+    Textured3DObject* m_pBird;
+    GPUBuffer m_bPredatorsData;
 
 		int m_iLockPositionX;
 		int m_iLockPositionY;
@@ -83,6 +86,7 @@ namespace SweepingBirds
 		static const float MOUSE_PAN_SPEED;
 		static const float MOUSE_ZOOM_SPEED;
 		static const float MOUSE_TURN_SPEED;
+    static const GLuint PREDATORS_BINDING;
 
 		double m_dStartTime;
 		bool m_bDemoRunning;

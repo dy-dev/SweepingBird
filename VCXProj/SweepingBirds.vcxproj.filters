@@ -64,6 +64,9 @@
     <ClCompile Include="..\Files\Sources\OGLDevMesh.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\GPUBuffer.cpp">
+      <Filter>Sources\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\Files\Headers\OGLDevMesh.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\GPUBuffer.h">
+      <Filter>Headers\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

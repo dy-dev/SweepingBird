@@ -5,6 +5,14 @@
 #define TEXCOORD	2
 #define FRAG_COLOR	0
 
+#define DIFFUSE_BINDING   0
+#define SPECULAR_BINDING  1
+#define AMBIANT_BINDING   2
+#define OPACITY_BINDING   3
+#define SHININESS_BINDING 4
+#define PREDATORS_BINDING 5	
+
+
 precision highp float;
 precision highp int;
 
@@ -33,6 +41,8 @@ uniform float RadiusSpacing;
 uniform float ColorControl;
 uniform float MaxMountainHeight;
 uniform float MountainFrequence;
+
+layout(binding=PREDATORS_BINDING) uniform samplerBuffer PredatorData;
 
 layout(location = POSITION) in vec3 Position;
 layout(location = NORMAL) in vec3 Normal;
@@ -122,9 +132,12 @@ void main()
 	}
 	else if(ObjectId == 2) // Bats
 	{
+		changePos = texelFetch(PredatorData, gl_InstanceID).rgb;
+		/*
 		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
 		changePos.y += cos(gl_InstanceID) * gl_InstanceID;
 		changePos.z += tan(gl_InstanceID) * gl_InstanceID;
+		*/
 		//changePos = vec3( cos(1.5f)* changePos.x -sin(1.5f)* changePos.z, changePos.y  , sin(1.5f)* changePos.x + cos(1.5f)* changePos.z);
 	}
 	

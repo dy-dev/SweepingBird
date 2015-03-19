@@ -27,6 +27,9 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   m_vPredators.push_back(a);
   m_vPredators.push_back(b);
   m_vPredators.push_back(c);
+
+  const int MAX_PREDATORS = 20;
+  m_wpSceneManager->setup_predators(MAX_PREDATORS);
 }
 
 PhysicsEngine::~PhysicsEngine()
@@ -47,14 +50,14 @@ void PhysicsEngine::update(const float deltaTime)
   m_bird.update(deltaTime);
 
 
-  if (m_bird.getPosition().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
-  {
+ // if (m_bird.getPosition().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
+ // {
     launchPredators();
-  }
-  else if (m_bPredatorsLaunched && m_bird.getPosition().y < PREDATOR_THRESHOLD_M)
-  {
-    dismissPredators();
-  }
+ // }
+ // else if (m_bPredatorsLaunched && m_bird.getPosition().y < PREDATOR_THRESHOLD_M)
+ // {
+  //  dismissPredators();
+ // }
 
   Textured3DObject* ground = m_wpSceneManager->getGround();
   Textured3DObject* bird = m_wpSceneManager->getBird();
@@ -66,18 +69,8 @@ void PhysicsEngine::update(const float deltaTime)
   }
  
   float MaxMountainHeight = *ground->get_height();
-  
-    float birdHeight = MaxMountainHeight*(cos(m_pProgramGUI->get_time() + 1.5)*sin(m_pProgramGUI->get_time()*5.0));
+  float birdHeight = MaxMountainHeight*(cos(m_pProgramGUI->get_time() + 1.5)*sin(m_pProgramGUI->get_time()*5.0));
 
-
-  //float birdHeight = MaxMountainHeight*cos(m_pProgramGUI->get_time());
-  
-  /*float mountainX = m_bird.getPosition().x;
-  float birdHeight = MaxMountainHeight*sin(mountainX / freq) + MaxMountainHeight*cos((tempz) / freq);
-  birdHeight += MaxMountainHeight*cos(5 * mountainX / freq);
-  birdHeight += MaxMountainHeight*sin(3 * tempz / freq);*/
- /* if (birdHeight < 0.f)
-    birdHeight = 0.f;*/
   std::cerr << " birdHeight : " << birdHeight << std::endl;
   birdHeight += BIRD_OFFSET;
   
@@ -91,7 +84,6 @@ void PhysicsEngine::update(const float deltaTime)
   }
 
   /*------ UPDATE GRAPHICS ---------- */
- // *m_wpSceneManager->getBird()->get_y_pos() = birdHeight;
 
   m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
 

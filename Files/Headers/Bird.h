@@ -1,3 +1,5 @@
+#pragma once
+
 #include "glm\common.hpp"
 
 namespace SweepingBirds

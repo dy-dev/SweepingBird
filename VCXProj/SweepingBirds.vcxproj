@@ -217,6 +217,7 @@ exit 0</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Files\Sources\Bird.cpp" />
+    <ClCompile Include="..\Files\Sources\GPUBuffer.cpp" />
     <ClCompile Include="..\Files\Sources\OGLDevMesh.cpp" />
     <ClCompile Include="..\Files\Sources\PhysicsEngine.cpp" />
     <ClCompile Include="..\Files\Sources\Predator.cpp" />
@@ -264,6 +265,7 @@ exit 0</Command>
     <ClInclude Include="..\Files\Headers\Bird.h" />
     <ClInclude Include="..\Files\Headers\Camera.h" />
     <ClInclude Include="..\Files\Headers\DirectionalLight.h" />
+    <ClInclude Include="..\Files\Headers\GPUBuffer.h" />
     <ClInclude Include="..\Files\Headers\Light.h" />
     <ClInclude Include="..\Files\Headers\Mesh.h" />
     <ClInclude Include="..\Files\Headers\ObjectManager.h" />

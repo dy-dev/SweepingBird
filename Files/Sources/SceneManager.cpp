@@ -17,6 +17,7 @@
 #include <TextureManager.h>
 #include <ShaderProgramManager.h>
 #include <Mesh.h>
+#include <GPUBuffer.h>
 
 #define M_PI 3.14
 using namespace SweepingBirds;
@@ -24,7 +25,7 @@ using namespace SweepingBirds;
 const float SceneManager::MOUSE_PAN_SPEED = 1.f;
 const float SceneManager::MOUSE_ZOOM_SPEED = 0.05f;
 const float SceneManager::MOUSE_TURN_SPEED = 0.005f;
-
+const GLuint SceneManager::PREDATORS_BINDING = GL_TEXTURE5;
 
 SceneManager::SceneManager()
 	:m_iLockPositionX(0),
@@ -34,7 +35,8 @@ SceneManager::SceneManager()
 	m_bZoomLock(false),
 	m_pAssimpObjectManager(nullptr),
 	m_fGamma(0.15f),
-	m_pSkyBox(nullptr)
+	m_pSkyBox(nullptr),
+  m_bPredatorsData(GL_RGB32F)
 {
 	m_pCamera = new Camera();
 	m_pShaderProgramManager = new ShaderProgramManager();
@@ -242,6 +244,11 @@ void SceneManager::set_cam_states()
 		m_bPanLock = false;
 }
 
+void SceneManager::setup_predators(int maxPredators)
+{
+  m_bPredatorsData.setData(maxPredators * sizeof(glm::vec3), static_cast<GLvoid*>(NULL));
+}
+
 void SceneManager::manage_camera_movements()
 {
 	// Cameras movements
@@ -428,6 +435,8 @@ void SceneManager::draw_object(std::pair<Textured3DObject *, int*> object, Shade
 
 		else if (object.first->get_name() == "Bats")
 		{
+      m_bPredatorsData.activate(PREDATORS_BINDING);
+
 			shader->set_var_value("isPredator", (int)true);
 			shader->set_var_value("InstanceNumber", *object.second);
 			glDrawElementsInstanced(GL_TRIANGLES, (GLsizei)(mesh->get_triangles_count() * 3), GL_UNSIGNED_INT, (void*)0, (GLsizei)(*object.second));
@@ -436,6 +445,8 @@ void SceneManager::draw_object(std::pair<Textured3DObject *, int*> object, Shade
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			shader->set_var_value("isPredator", (int)false);
+
+      m_bPredatorsData.deactivate();
 		}
 		else if (object.first->get_name() == "SkyBox")
 		{
@@ -572,7 +583,7 @@ void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
 
 void SceneManager::updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections)
 {
-
+  m_bPredatorsData.updateData(predatorsPositions.data(), 0, predatorsPositions.size() * sizeof(glm::vec3));
 }
 
 Textured3DObject* SceneManager::getGround()

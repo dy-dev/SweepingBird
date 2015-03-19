@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 
 #include "ShaderProgram.h"
 
@@ -26,8 +27,11 @@ void ShaderProgram::compile()
 		glAttachShader(m_gluiProgramObject, shader.second.second);
 	}
 	glLinkProgram(m_gluiProgramObject);
-	if (check_link_error(m_gluiProgramObject) < 0)
-		exit(1);
+  if (check_link_error(m_gluiProgramObject) < 0)
+  {
+    assert(false && "Shaders compilation failed");
+    exit(1);
+  }
 }
 
 void ShaderProgram::add_var(std::string var_name)

@@ -10,7 +10,7 @@ using namespace SweepingBirds;
 bool UtilityToolKit::check_errors(const char* title)
 {
 	int error;
-	if ((error = glGetError()) != GL_NO_ERROR)
+	while ((error = glGetError()) != GL_NO_ERROR)
 	{
 		std::string errorString;
 		switch (error)
