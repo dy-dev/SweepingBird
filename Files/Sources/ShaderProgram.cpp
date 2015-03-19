@@ -74,7 +74,7 @@ int ShaderProgram::check_link_error(GLuint program)
 		char * log = new char[logLength];
 		glGetProgramInfoLog(program, logLength, &logLength, log);
 		fprintf(stderr, "Link : %s \n", log);
-		delete[] log;
+ 		delete[] log;
 	}
 	int status;
 	glGetProgramiv(program, GL_LINK_STATUS, &status);

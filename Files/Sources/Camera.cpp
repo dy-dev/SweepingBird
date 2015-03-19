@@ -37,11 +37,11 @@ void Camera::Camera_zoom(float factor)
 		radius = 10.f;
 		//o = eye + glm::normalize(o - eye) * radius;
 	}
-	else if (radius > 1000.0f)
+	else if (radius > 10000.0f)
 	{
-		radius = 1000.0f;
+		radius = 10000.0f;
 	}
-	while (cos(phi) * radius < 1.0f && radius > 100.0f)
+	while (cos(phi) * radius < -5.0f && radius > 100.0f)
 	{
 		phi -= 0.001;
 	}
