@@ -67,6 +67,7 @@ namespace SweepingBirds
     Textured3DObject* m_pGround;
     Textured3DObject* m_pBird;
     GPUBuffer m_bPredatorsData;
+    GLsizei m_siNbPredators;
 
 		int m_iLockPositionX;
 		int m_iLockPositionY;

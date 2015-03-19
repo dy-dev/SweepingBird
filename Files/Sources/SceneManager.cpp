@@ -36,7 +36,8 @@ SceneManager::SceneManager()
 	m_pAssimpObjectManager(nullptr),
 	m_fGamma(0.15f),
 	m_pSkyBox(nullptr),
-  m_bPredatorsData(GL_RGB32F)
+  m_bPredatorsData(GL_RGB32F),
+  m_siNbPredators(0)
 {
 	m_pCamera = new Camera();
 	m_pShaderProgramManager = new ShaderProgramManager();
@@ -439,7 +440,7 @@ void SceneManager::draw_object(std::pair<Textured3DObject *, int*> object, Shade
 
 			shader->set_var_value("isPredator", (int)true);
 			shader->set_var_value("InstanceNumber", *object.second);
-			glDrawElementsInstanced(GL_TRIANGLES, (GLsizei)(mesh->get_triangles_count() * 3), GL_UNSIGNED_INT, (void*)0, (GLsizei)(*object.second));
+      glDrawElementsInstanced(GL_TRIANGLES, (GLsizei)(mesh->get_triangles_count() * 3), GL_UNSIGNED_INT, (void*)0, (GLsizei)m_siNbPredators);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glActiveTexture(GL_TEXTURE1);
@@ -583,7 +584,8 @@ void SceneManager::updateBird(const glm::vec3& birdPosition, float birdAngle)
 
 void SceneManager::updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections)
 {
-  m_bPredatorsData.updateData(predatorsPositions.data(), 0, predatorsPositions.size() * sizeof(glm::vec3));
+  m_siNbPredators = predatorsPositions.size();
+  m_bPredatorsData.updateData(predatorsPositions.data(), 0, m_siNbPredators * sizeof(glm::vec3));
 }
 
 Textured3DObject* SceneManager::getGround()

@@ -132,7 +132,8 @@ void main()
 	}
 	else if(ObjectId == 2) // Bats
 	{
-		changePos = texelFetch(PredatorData, gl_InstanceID).rgb;
+		changePos *= 6;
+		changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
 		/*
 		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
 		changePos.y += cos(gl_InstanceID) * gl_InstanceID;

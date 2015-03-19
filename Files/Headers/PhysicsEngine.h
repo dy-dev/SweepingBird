@@ -17,7 +17,7 @@ class ProgramGUI;
 		~PhysicsEngine();
 
 		void update(const float deltaTime);
-  void set_programGUI(ProgramGUI * programGUI){ m_pProgramGUI = programGUI; }
+    void set_programGUI(ProgramGUI * programGUI); 
 
 	private:
 		void launchPredators();
@@ -30,6 +30,9 @@ class ProgramGUI;
 		Bird m_bird;
 		std::vector<Predator* > m_vPredators;
 		bool m_bPredatorsLaunched;
+
+    float m_fPredatorsSpringLength;
+    float m_fPredatorsSpringRigidity;
 
 	};
 }

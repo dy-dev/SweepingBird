@@ -20,6 +20,9 @@ namespace SweepingBirds
 		void update(const float deltaTime);
 		void makeFollow(const Bird * const bird);
 
+    void setSpringRigidity(const float rigidity);
+    void setSpringLength(const float length);
+
 		const glm::vec3& getPosition() const;
 		const glm::vec3& getDirection() const;
 
@@ -30,8 +33,8 @@ namespace SweepingBirds
 		glm::vec3 m_v3Direction;
 
 		float m_mass;
-		float m_scalarK;
-		float m_scalarL;
+		float m_fSpringRigidity;
+		float m_fSpringLength;
 
 	};
 
