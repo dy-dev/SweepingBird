@@ -40,6 +40,9 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->add_var("ColorControl");
 	main_program->set_var_value("ColorControl", 100.0f);
 
+	main_program->add_var("SquareSideLength");
+	main_program->set_var_value("SquareSideLength", 10);
+
 	main_program->add_var("ObjectId");
 	main_program->set_var_value("ObjectId", (int)0);
 	

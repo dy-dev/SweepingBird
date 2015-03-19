@@ -159,25 +159,27 @@ bool SceneManager::setup_objects()
 {
 	m_pAssimpObjectManager = new ObjectManager(4);
 
-	Textured3DObject* ground = new Textured3DObject();;
+	Textured3DObject* ground = new Textured3DObject();
 	ground->load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
-	ground->set_height(480.0F);
+	ground->set_height(400.0F);
 	ground->set_speed(0.f);
 	ground->set_size(1.3f);
-	ground->set_radius_spacing(280.0f);
-	ground->set_range(100.f);
+	ground->set_radius_spacing(300.0f);
+	ground->set_range(1000.f);
 	ground->set_position(glm::vec3(0.0, -500.0, 0.0));
 	ground->set_object_type(GROUND);
+	int maxGroundTiles = 900;
+	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider_nb_instances_infos(0, maxGroundTiles));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Speed", 0.0f, 1000.0f, 1.f, ground->get_speed()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Height", 300.0f, 1000.0f, 10.0f, ground->get_height()));
+	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Height", 100.0f, 1000.0f, 10.0f, ground->get_height()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Frequency", 1.0, 1000.0f, 10.0f, ground->get_radius_spacing()));
-	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Color", 1.0f, 500.0f, 10.0f, ground->get_range()));
+	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("Mountain Color", 1000.0f, 5000.0f, 10.0f, ground->get_range()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.01f, 3.0f, 0.1f, ground->get_size()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, ground->get_x_pos()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosY", -2500.0f, -500.0f, 1.f, ground->get_y_pos()));
 	m_pProgramGUI->add_gui_element("Ground", m_pAssimpObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, ground->get_z_pos()));
 
-	m_pAssimpObjectManager->bind_object(ground, 1, 2);
+	m_pAssimpObjectManager->bind_object(ground, maxGroundTiles, 2);
 	m_pGround = ground;
 
 	Textured3DObject* bats = new Textured3DObject();
@@ -187,7 +189,7 @@ bool SceneManager::setup_objects()
 	bats->set_rotation_angle(-M_PI / 2.0f);
 	bats->set_size(1.0f);
 	bats->set_object_type(BAT);
-	m_pProgramGUI->add_gui_element("Predators", m_pAssimpObjectManager->generate_slider_nb_instances_infos(0, (float)maxInstance));
+	m_pProgramGUI->add_gui_element("Predators", m_pAssimpObjectManager->generate_slider_nb_instances_infos(0, maxInstance));
 	m_pProgramGUI->add_gui_element("Predators", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.01f, 2.0f, 0.1f, bats->get_size()));
 	m_pProgramGUI->add_gui_element("Predators", m_pAssimpObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, bats->get_x_pos()));
 	m_pProgramGUI->add_gui_element("Predators", m_pAssimpObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, bats->get_y_pos()));
@@ -209,8 +211,8 @@ bool SceneManager::setup_objects()
 
 	Textured3DObject* skyBox = new Textured3DObject();;
 	skyBox->load_object(".\\Objects\\SkyBox\\SkyBox.obj", false, m_pTextureManager);
-	skyBox->set_position(glm::vec3(0.0, 500.0, -4000.0));
-	skyBox->set_size(0.40f);
+	skyBox->set_position(glm::vec3(0.0, 0.0, -5000.0));
+	skyBox->set_size(1.0f);
 	skyBox->set_object_type(SKYBOX);
 	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("SizeFactor", 0.001f, 2.0f, 0.1f, skyBox->get_size()));
 	m_pProgramGUI->add_gui_element("Skybox", m_pAssimpObjectManager->generate_slider("PosX", -1500.0f, 1500.0f, 1.f, skyBox->get_x_pos()));
@@ -368,7 +370,7 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 
 	}
 }
 
-void SceneManager::draw_object(std::pair<Textured3DObject *, float*> object, ShaderProgram * shader, glm::mat4 proj, glm::mat4 wtv)
+void SceneManager::draw_object(std::pair<Textured3DObject *, int*> object, ShaderProgram * shader, glm::mat4 proj, glm::mat4 wtv)
 {
 	/*auto posogl = glm::vec3(m_pGameCamera->GetPos().x, m_pGameCamera->GetPos().y, m_pGameCamera->GetPos().z);
 			auto targetogl = glm::vec3(m_pGameCamera->GetTarget().x, m_pGameCamera->GetTarget().y, m_pGameCamera->GetTarget().z);
@@ -409,11 +411,13 @@ void SceneManager::draw_object(std::pair<Textured3DObject *, float*> object, Sha
 		else if (object.first->get_name() == "Ground")
 		{
 			shader->set_var_value("isGround", (int)true);
+			shader->set_var_value("InstanceNumber", (int)*object.second);
+			shader->set_var_value("SquareSideLength", (int)sqrt(*object.second));
 			shader->set_var_value("MaxMountainHeight", *object.first->get_height());
 			shader->set_var_value("MountainFrequence", *object.first->get_radius_spacing());
 			shader->set_var_value("ColorControl", *object.first->get_range());
 			shader->set_var_value("SpeedFactor", *object.first->get_speed());
-			glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+			glDrawElementsInstanced(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0, (GLsizei)(*object.second));
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glActiveTexture(GL_TEXTURE1);

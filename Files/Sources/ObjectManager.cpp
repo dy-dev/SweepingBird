@@ -35,7 +35,7 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 	{
 		object->bind_meshes();
 
-		m_vObjectManaged.push_back(std::make_pair(object, new float((float)nb_instances)));
+		m_vObjectManaged.push_back(std::make_pair(object, new int(nb_instances)));
 		return true;
 	}
 	else
@@ -44,24 +44,24 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 	}
 }
 
-std::pair<Textured3DObject *, float *>& ObjectManager::get_object(int index)
+std::pair<Textured3DObject *, int *>& ObjectManager::get_object(int index)
 {
 	if (index < m_vObjectManaged.size())
 	{
 		return m_vObjectManaged.at(index);
 	}
 
-	return *(new std::pair<Textured3DObject *, float *>());
+	return *(new std::pair<Textured3DObject *, int *>());
 }
 
-GUIInfos * ObjectManager::generate_slider_nb_instances_infos(int index, float max)
+GUIInfos * ObjectManager::generate_slider_nb_instances_infos(int index, int max)
 {
 	if (index < m_vObjectManaged.size())
 	{
 		auto obj = m_vObjectManaged.at(index);
 
-		auto infos = new GUIInfos("NB instances", 0.0f, max, 1.0f);
-		infos->var.push_back(std::make_pair("NB instances", obj.second));
+		auto infos = new GUIInfos("NB instances", 0.0f, (float)max, 1.0f);
+		infos->var.push_back(std::make_pair("NB instances", (float*)obj.second));
 
 		return infos;
 	}

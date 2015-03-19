@@ -12,6 +12,7 @@ uniform mat4 MVP;
 uniform mat4 MV;
 
 uniform int InstanceNumber;
+uniform int SquareSideLength;
 uniform vec3 Translation;
 uniform vec3 BirdTranslation;
 
@@ -29,7 +30,7 @@ uniform float SizeFactor;
 uniform float SpeedFactor;
 uniform float RangeFactor;
 uniform float RadiusSpacing;
-
+uniform float ColorControl;
 uniform float MaxMountainHeight;
 uniform float MountainFrequence;
 
@@ -56,6 +57,10 @@ void main()
 	vec3 changePos = Position;
 	if(ObjectId == 0)
 	{	
+		
+		changePos.x += ColorControl * (gl_InstanceID%SquareSideLength) - ColorControl * SquareSideLength/2;
+		changePos.z += ColorControl * (gl_InstanceID/SquareSideLength) - ColorControl * SquareSideLength/2;
+		
 		float freq = MountainFrequence;
 		if(freq == 0)
 		{
@@ -63,9 +68,9 @@ void main()
 		}
 		
 		float tempx = changePos.x/freq - Time;
-		changePos.y = MaxMountainHeight*cos(tempx) + MaxMountainHeight*sin(changePos.z/freq);
-		
+		changePos.y = MaxMountainHeight*cos(tempx) + MaxMountainHeight*sin(changePos.z/freq + 1.5);
 		/*
+		
 		changePos.y = 	MaxMountainHeight*sin(tempx/freq) *sin(tempx/freq) + MaxMountainHeight*cos((changePos.z)/freq)*cos((changePos.z)/freq); 
 		changePos.y += MaxMountainHeight*cos(5*changePos.z/freq)*cos(5*changePos.z/freq);
 		changePos.y += MaxMountainHeight*sin(10*changePos.z/freq)*sin(10*changePos.z/freq)*sin(4*tempx/freq)*sin(4*tempx/freq);
