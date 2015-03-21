@@ -71,13 +71,13 @@ void PhysicsEngine::update(const float deltaTime)
   m_bird.update(deltaTime);
 
 
- // if (m_bird.getPosition().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
+ // if (m_bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
  // {
-    launchPredators();
+    launch_predators();
  // }
- // else if (m_bPredatorsLaunched && m_bird.getPosition().y < PREDATOR_THRESHOLD_M)
+ // else if (m_bPredatorsLaunched && m_bird.get_position().y < PREDATOR_THRESHOLD_M)
  // {
-  //  dismissPredators();
+  //  dismiss_predators();
  // }
 
   Textured3DObject* ground = m_wpSceneManager->getGround();
@@ -94,21 +94,21 @@ void PhysicsEngine::update(const float deltaTime)
 
   birdHeight += BIRD_OFFSET;
   
-  m_bird.setHeight(birdHeight);
-  bird->set_mock_pos(m_bird.getTranslation());
+  m_bird.set_height(birdHeight);
+  bird->set_mock_pos(m_bird.get_translation());
 
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)
   {
-    (*it)->setSpringLength(m_fPredatorsSpringLength);
-    (*it)->setSpringRigidity(m_fPredatorsSpringRigidity);
+    (*it)->set_spring_length(m_fPredatorsSpringLength);
+    (*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
 
     (*it)->update(deltaTime);
   }
 
   /*------ UPDATE GRAPHICS ---------- */
 
-  m_wpSceneManager->updateBird(m_bird.getPosition(), m_bird.getAngle());
+  m_wpSceneManager->updateBird(m_bird.get_position(), m_bird.get_angle());
 
   //May be optimized
   it = m_vPredators.begin();
@@ -117,7 +117,7 @@ void PhysicsEngine::update(const float deltaTime)
   for (it; it != m_vPredators.end(); ++it)
   {
     //tricks for position stuff
-    glm::vec3 finalPos = (*it)->getPosition();
+    glm::vec3 finalPos = (*it)->get_position();
     finalPos.x -= -bird->get_position().x;
     finalPos.z -= -bird->get_position().z;
 
@@ -125,29 +125,29 @@ void PhysicsEngine::update(const float deltaTime)
       finalPos = glm::vec3(0);
 
     predatorsPositions.push_back(finalPos);
-    predatorsDirections.push_back((*it)->getDirection());
+    predatorsDirections.push_back((*it)->get_direction());
   }
 
   m_wpSceneManager->updatePredators(predatorsPositions, predatorsDirections);
 
 }
 
-void PhysicsEngine::launchPredators()
+void PhysicsEngine::launch_predators()
 {
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)
   {
-    (*it)->makeFollow(&m_bird);
+    (*it)->make_follow(&m_bird);
   }
   m_bPredatorsLaunched = true;
 }
 
-void PhysicsEngine::dismissPredators()
+void PhysicsEngine::dismiss_predators()
 {
   auto it = m_vPredators.begin();
   for (it; it != m_vPredators.end(); ++it)
   {
-    (*it)->makeFollow(nullptr);
+    (*it)->make_follow(nullptr);
   }
   m_bPredatorsLaunched = false;
 }

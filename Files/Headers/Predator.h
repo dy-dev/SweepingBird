@@ -20,13 +20,13 @@ namespace SweepingBirds
 		Predator(const float mass, const glm::vec3& initialPosition, const glm::vec3& initialVelocity = glm::vec3(0));
 
 		void update(const float deltaTime);
-		void makeFollow(const Bird * const bird);
+		void make_follow(const Bird * const bird);
 
-    void setSpringRigidity(const float rigidity);
-    void setSpringLength(const float length);
+    void set_spring_rigidity(const float rigidity);
+    void set_spring_length(const float length);
 
-		const glm::vec3& getPosition() const;
-		const glm::vec3& getDirection() const;
+		const glm::vec3& get_position() const;
+		const glm::vec3& get_direction() const;
 
 	private:
 		const Bird * m_bird;

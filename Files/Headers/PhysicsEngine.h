@@ -20,8 +20,8 @@ class ProgramGUI;
     void set_programGUI(ProgramGUI * programGUI); 
 
 	private:
-		void launchPredators();
-		void dismissPredators();
+		void launch_predators();
+		void dismiss_predators();
 
 		//wp => weak pointer
 		SceneManager* m_wpSceneManager;

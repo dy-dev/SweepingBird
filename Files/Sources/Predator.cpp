@@ -32,7 +32,7 @@ void Predator::update(const float deltaTime)
   //If is following a bird
   if (m_bird != nullptr)
   {
-    const glm::vec3& birdPos = m_bird->getPosition();
+    const glm::vec3& birdPos = m_bird->get_position();
     float distance = glm::distance(m_v3Position, birdPos);
     glm::vec3 birdMinusPred = birdPos - m_v3Position;
     glm::vec3 forceToApply = m_fSpringRigidity * (1.0f - (m_fSpringLength / glm::max(distance, 0.1f))) * birdMinusPred;
@@ -48,26 +48,26 @@ void Predator::update(const float deltaTime)
   }
 }
 
-void Predator::makeFollow(const Bird* bird)
+void Predator::make_follow(const Bird* bird)
 {
   m_bird = bird;
 }
 
-void Predator::setSpringRigidity(const float rigidity)
+void Predator::set_spring_rigidity(const float rigidity)
 {
   m_fSpringRigidity = rigidity;
 }
-void Predator::setSpringLength(const float length)
+void Predator::set_spring_length(const float length)
 {
   m_fSpringLength = length;
 }
 
-const glm::vec3& Predator::getPosition() const
+const glm::vec3& Predator::get_position() const
 {
   return m_v3Position;
 }
 
-const glm::vec3& Predator::getDirection() const
+const glm::vec3& Predator::get_direction() const
 {
   return m_v3Direction;
 }
