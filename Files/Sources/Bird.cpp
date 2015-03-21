@@ -54,12 +54,6 @@ void Bird::update(const float deltaTime)
   //TO DO: add terrain height offset in y position
 }
 
-const glm::vec3& Bird::getTranslation() const
-{
-	auto ret = m_v3Position - m_v3PrevPosition;
-	return ret;
-}
-
 const glm::vec3& Bird::getPosition() const
 {
 	return m_v3Position;
@@ -78,4 +72,14 @@ float Bird::getAngle() const
 void Bird::setHeight(float newHeight)
 {
   m_v3Position.y = newHeight;
+}
+
+void Bird::update3DModel()
+{
+	m_Bird3D.set_mock_pos(m_v3Position - m_v3PrevPosition);
+	/*glm::mat4 model(1.f);
+	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
+	*/
+	//*m_pBird->get_y_pos() = (birdPosition.y);
+	//Set uniform in shader TODO
 }

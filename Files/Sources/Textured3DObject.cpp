@@ -23,17 +23,18 @@ Textured3DObject::Textured3DObject()
 	:m_sName(""),
 	m_sPath(""),
 	m_fSize(1.0),
-	m_fSpacing(1.5),
-	m_fRange(0.0),
-	m_fSpeed(0.0),
-	m_bRotating(false),
-	m_bWasRotating(false),
-	m_dRotatingStartTime(0.0),
-	m_fRotationAngle(0.0f)
+	m_pTextureManager(nullptr),
+	m_pProgramGUI(nullptr),
+	m_pImporter(nullptr)
 {
 	m_pImporter = new Assimp::Importer();
 }
 
+Textured3DObject::Textured3DObject(TextureManager* texMgr)
+	:Textured3DObject()
+{
+	m_pTextureManager = texMgr;
+}
 
 Textured3DObject::~Textured3DObject()
 {
@@ -57,6 +58,7 @@ bool Textured3DObject::load_object(std::string path, bool own_format, TextureMan
 
 bool Textured3DObject::load_object(std::string path, TextureManager * texmgr)
 {
+	assert(m_pImporter != nullptr);
 	//check if file exists
 	std::ifstream fin(path.c_str());
 	if (!fin.fail())
@@ -161,7 +163,8 @@ bool Textured3DObject::generate_textures(TextureManager * texmgr)
 			texFound = m_pScene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
 		}
 	}
-
+	assert(texmgr != nullptr);
+	
 	texmgr->generate_textures(m_vTexturePath);
 
 	return true;
@@ -176,15 +179,6 @@ void Textured3DObject::bind_meshes()
 
 }
 
-bool Textured3DObject::check_start_rotation()
-{
-	if (m_bWasRotating != m_bRotating)
-	{
-		m_bWasRotating = m_bRotating;
-		return m_bRotating;
-	}
-	return false;
-}
 
 void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& textures, int mesh_index)
 {
@@ -194,8 +188,3 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 	}
 }
 
-
-void Textured3DObject::set_mock_pos(const glm::vec3& pose) 
-{
-	m_v3MockPos = pose; 
-}

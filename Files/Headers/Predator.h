@@ -1,6 +1,7 @@
 #pragma once
 
-#include "glm\common.hpp"
+#include <glm\common.hpp>
+#include <Predators3D.h>
 
 /* A Predator is a particle following a bird in
    a "Hook Style".
@@ -22,6 +23,10 @@ namespace SweepingBirds
 
 		const glm::vec3& getPosition() const;
 		const glm::vec3& getDirection() const;
+	
+		const Predators3D & get_predator_3d() const { return m_Predator3D; };
+
+		void update3DModel();
 
 	private:
 		const Bird * m_bird;
@@ -33,6 +38,7 @@ namespace SweepingBirds
 		float m_scalarK;
 		float m_scalarL;
 
+		Predators3D m_Predator3D;
 	};
 
 }

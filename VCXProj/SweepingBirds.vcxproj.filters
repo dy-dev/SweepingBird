@@ -67,6 +67,21 @@
     <ClCompile Include="..\Files\Sources\GPUBuffer.cpp">
       <Filter>Sources\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Files\Sources\Bird3D.cpp">
+      <Filter>Sources\Graphics\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Predators3D.cpp">
+      <Filter>Sources\Graphics\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\SkyBoxSweepingBird.cpp">
+      <Filter>Sources\Graphics\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Ground3D.cpp">
+      <Filter>Sources\Graphics\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Files\Sources\Ground.cpp">
+      <Filter>Sources\Physic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Camera.h">
@@ -132,6 +147,21 @@
     <ClInclude Include="..\Files\Headers\GPUBuffer.h">
       <Filter>Headers\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Files\Headers\Bird3D.h">
+      <Filter>Headers\Graphics\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Predators3D.h">
+      <Filter>Headers\Graphics\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\SkyBoxSweepingBird.h">
+      <Filter>Headers\Graphics\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Ground3D.h">
+      <Filter>Headers\Graphics\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Files\Headers\Ground.h">
+      <Filter>Headers\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -163,6 +193,12 @@
     </Filter>
     <Filter Include="Sources\Shaders">
       <UniqueIdentifier>{f4a0b6be-35dd-462c-9fee-1e8201d5b293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Graphics\Assets">
+      <UniqueIdentifier>{e9a2cf17-4044-4632-802e-7efb7aaf3317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Graphics\Assets">
+      <UniqueIdentifier>{d9dfd19a-115a-4333-a407-1ee3fbdc1a9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -217,12 +217,17 @@ exit 0</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Files\Sources\Bird.cpp" />
+    <ClCompile Include="..\Files\Sources\Bird3D.cpp" />
     <ClCompile Include="..\Files\Sources\GPUBuffer.cpp" />
+    <ClCompile Include="..\Files\Sources\Ground.cpp" />
+    <ClCompile Include="..\Files\Sources\Ground3D.cpp" />
     <ClCompile Include="..\Files\Sources\OGLDevMesh.cpp" />
     <ClCompile Include="..\Files\Sources\PhysicsEngine.cpp" />
     <ClCompile Include="..\Files\Sources\Predator.cpp" />
     <ClCompile Include="..\Files\Sources\Mesh.cpp" />
+    <ClCompile Include="..\Files\Sources\Predators3D.cpp" />
     <ClCompile Include="..\Files\Sources\Skybox.cpp" />
+    <ClCompile Include="..\Files\Sources\SkyBoxSweepingBird.cpp" />
     <ClCompile Include="..\Files\Sources\SkyboxTechnique.cpp" />
     <ClCompile Include="..\Files\Sources\SpotLight.cpp" />
     <ClCompile Include="..\Files\Sources\SweepingBirds.cpp">
@@ -263,20 +268,25 @@ exit 0</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Files\Headers\Bird.h" />
+    <ClInclude Include="..\Files\Headers\Bird3D.h" />
     <ClInclude Include="..\Files\Headers\Camera.h" />
     <ClInclude Include="..\Files\Headers\DirectionalLight.h" />
     <ClInclude Include="..\Files\Headers\GPUBuffer.h" />
+    <ClInclude Include="..\Files\Headers\Ground.h" />
+    <ClInclude Include="..\Files\Headers\Ground3D.h" />
     <ClInclude Include="..\Files\Headers\Light.h" />
     <ClInclude Include="..\Files\Headers\Mesh.h" />
     <ClInclude Include="..\Files\Headers\ObjectManager.h" />
     <ClInclude Include="..\Files\Headers\OGLDevMesh.h" />
     <ClInclude Include="..\Files\Headers\PhysicsEngine.h" />
     <ClInclude Include="..\Files\Headers\Predator.h" />
+    <ClInclude Include="..\Files\Headers\Predators3D.h" />
     <ClInclude Include="..\Files\Headers\ProgramGUI.h" />
     <ClInclude Include="..\Files\Headers\SceneManager.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgram.h" />
     <ClInclude Include="..\Files\Headers\ShaderProgramManager.h" />
     <ClInclude Include="..\Files\Headers\Skybox.h" />
+    <ClInclude Include="..\Files\Headers\SkyBoxSweepingBird.h" />
     <ClInclude Include="..\Files\Headers\SkyboxTechnique.h" />
     <ClInclude Include="..\Files\Headers\SpotLight.h" />
     <ClInclude Include="..\Files\Headers\Technique.h" />

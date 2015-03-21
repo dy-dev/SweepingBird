@@ -1,4 +1,4 @@
-#version 410 core
+#version 420 core
 
 #define POSITION	0
 #define NORMAL		1
@@ -132,7 +132,7 @@ void main()
 	}
 	else if(ObjectId == 2) // Bats
 	{
-		changePos = texelFetch(PredatorData, gl_InstanceID).rgb;
+		//changePos = texelFetch(PredatorData, gl_InstanceID).rgb;
 		/*
 		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
 		changePos.y += cos(gl_InstanceID) * gl_InstanceID;

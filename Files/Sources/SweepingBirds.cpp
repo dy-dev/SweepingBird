@@ -56,12 +56,6 @@ int main(int argc, char **argv)
 
 	MySceneManager.init();
 
-	MySceneManager.setup_lights();
-	MySceneManager.setup_shader_programs();
-	MySceneManager.setup_frame_buffer();
-	//MySceneManager.setup_skybox();
-	MySceneManager.setup_objects();
-
 	PhysicsEngine MyPhysicsEngine(&MySceneManager);
 	MyPhysicsEngine.set_programGUI(&MainWindow);
 

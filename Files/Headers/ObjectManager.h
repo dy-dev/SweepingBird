@@ -5,31 +5,41 @@
 namespace SweepingBirds
 {
 	class Camera;
+	class Bird3D;
+	class Predators3D;
+	class Ground3D;
+	class SkyBoxSweepingBird;
 	struct GUIInfos;
 
 	class ObjectManager
 	{
 	public:
 		ObjectManager();
-		ObjectManager(int nb_objects_to_create);
+		ObjectManager(TextureManager * texMgr, ProgramGUI * gui);
 		~ObjectManager();
 
-		void createAILogger();
+		bool create_scene_assets();
+		bool bind_object(Textured3DObject* object, int nb_instances);
 
-		bool bind_object(Textured3DObject* object, int nb_instances, int index);
-		const std::vector<std::pair<Textured3DObject*, int*> >& get_objects() { return m_vObjectManaged; };
-		std::pair<Textured3DObject *, int *>& get_object(int index);
-		GUIInfos * generate_slider_nb_instances_infos(int index, int max);
-		GUIInfos * generate_slider_cube_size(int index);
-		GUIInfos * generate_slider_cube_radius_spacing(int index);
-		GUIInfos * generate_slider_cube_speed(int index);
-		GUIInfos * generate_slider_cube_range(int index);
-		GUIInfos * generate_check_cube_rotation(int index);
+		const std::map<std::string, std::pair<Textured3DObject*, int*> >& get_objects() { return m_mObjectManaged; };
+		std::pair<Textured3DObject *, int *>& get_object(std::string name);
+		
+		const TextureManager* get_TexManager() const{ return m_pTexMgr; }
+		const ProgramGUI* get_Gui() const{ return m_pGUI; }
+
+		GUIInfos * generate_slider_nb_instances_infos(std::string name, int max);
 		GUIInfos * generate_slider(std::string name, float min, float max, float step, float * value_to_change);
-	private:
-		int m_iNbObjectManaged;
-		std::vector<std::pair<Textured3DObject*, int*> > m_vObjectManaged;
+		void add_gui_controller(std::string param1, GUIInfos * param2);
 
+	private:
+		std::map<std::string , std::pair<Textured3DObject*, int*> > m_mObjectManaged;
+		Bird3D * m_pBird3D;
+		Predators3D * m_pPredators3D;
+		SkyBoxSweepingBird* m_pSkyBox;
+		Ground3D* m_pGround3D;
+
+		TextureManager * m_pTexMgr;
+		ProgramGUI * m_pGUI;
 	};
 
 }

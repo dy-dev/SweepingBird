@@ -9,61 +9,61 @@ using namespace SweepingBirds;
 const GLenum GPUBuffer::BUFFER_TARGET = GL_TEXTURE_BUFFER;
 
 GPUBuffer::GPUBuffer(GLenum format)
-  : m_eFormat(format), 
-    m_siSize(0)
+	: m_eFormat(format),
+	m_siSize(0)
 {
-  glGenBuffers(1, &m_uiBufferId);
+	glGenBuffers(1, &m_uiBufferId);
 }
 
 GPUBuffer::~GPUBuffer()
 {
-  glDeleteBuffers(1, &m_uiBufferId);
+	glDeleteBuffers(1, &m_uiBufferId);
 }
 
 void GPUBuffer::activate(GLenum textureUnit) const
 {
-  glActiveTexture(textureUnit);
-  bind();
-  glTexBuffer(BUFFER_TARGET, m_eFormat, m_uiBufferId);
-  UtilityToolKit::check_errors("GPUBuffer::activate");
+	glActiveTexture(textureUnit);
+	bind();
+	glTexBuffer(BUFFER_TARGET, m_eFormat, m_uiBufferId);
+	UtilityToolKit::check_errors("GPUBuffer::activate");
 }
 
 void GPUBuffer::deactivate() const
 {
-  unbind();
+	unbind();
 }
 
 GLsizeiptr GPUBuffer::getSize() const
 {
-  return m_siSize;
+	return m_siSize;
 }
 
 void GPUBuffer::setData(GLsizeiptr size, const GLvoid* data)
 {
-  bind();
-  glBufferStorage(BUFFER_TARGET, size, data, GL_MAP_WRITE_BIT | GL_DYNAMIC_STORAGE_BIT);
-  unbind();
-  assert(UtilityToolKit::check_errors("GPUBuffer::setData"));
-  m_siSize = size;
+	bind();
+	glBufferStorage(BUFFER_TARGET, size, NULL, GL_MAP_WRITE_BIT | GL_DYNAMIC_STORAGE_BIT);
+	unbind();
+	assert(UtilityToolKit::check_errors("GPUBuffer::setData"));
+	m_siSize = size;
 }
 
 void GPUBuffer::updateData(const GLvoid* data, GLintptr offset, GLsizeiptr dataSize)
 {
-  assert((offset+dataSize) <= m_siSize);
+	assert((offset + dataSize) <= m_siSize);
 
-  bind();
-  glBufferSubData(BUFFER_TARGET, offset, dataSize, data);
-  unbind();
-  assert(UtilityToolKit::check_errors("GPUBuffer::updateData"));
+	bind();
+	glBufferSubData(BUFFER_TARGET, offset, dataSize, data);
+	unbind();
+	assert(UtilityToolKit::check_errors("GPUBuffer::updateData"));
 }
 
 
 void GPUBuffer::bind() const
 {
-  glBindBuffer(BUFFER_TARGET, m_uiBufferId);
+	glBindBuffer(BUFFER_TARGET, m_uiBufferId);
 }
 
 void GPUBuffer::unbind() const
 {
-  glBindBuffer(BUFFER_TARGET, 0);
+	glBindBuffer(BUFFER_TARGET, 0);
 }
