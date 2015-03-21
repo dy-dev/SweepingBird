@@ -17,8 +17,8 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   : m_wpSceneManager(sceneManager),
   m_bird(2.0f, glm::vec3(0, 0, 0)),
   m_bPredatorsLaunched(false),
-  m_fPredatorsSpringLength(100.0f),
-  m_fPredatorsSpringRigidity(0.4f),
+  m_fPredatorsSpringLength(50.0f),
+  m_fPredatorsSpringRigidity(3.f),
   m_pbResetPredatorsPos(false)
   
 {
@@ -118,8 +118,8 @@ void PhysicsEngine::update(const float deltaTime)
   {
     //tricks for position stuff
     glm::vec3 finalPos = (*it)->get_position();
-    finalPos.x -= -bird->get_position().x;
-    finalPos.z -= -bird->get_position().z;
+    finalPos.x -= m_bird.get_position().x;
+    finalPos.z -= m_bird.get_position().z;
 
     if (m_pbResetPredatorsPos)
       finalPos = glm::vec3(0);
