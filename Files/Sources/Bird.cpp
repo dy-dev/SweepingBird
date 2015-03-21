@@ -54,22 +54,22 @@ void Bird::update(const float deltaTime)
   //TO DO: add terrain height offset in y position
 }
 
-const glm::vec3& Bird::getPosition() const
+const glm::vec3& Bird::get_position() const
 {
 	return m_v3Position;
 }
 
-const glm::vec3& Bird::getVelocity() const
+const glm::vec3& Bird::get_velocity() const
 {
   return m_v3Velocity;
 }
 
-float Bird::getAngle() const
+float Bird::get_angle() const
 {
   return m_fAngle;
 }
 
-void Bird::setHeight(float newHeight)
+void Bird::set_height(float newHeight)
 {
   m_v3Position.y = newHeight;
 }

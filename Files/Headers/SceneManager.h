@@ -36,8 +36,10 @@ namespace SweepingBirds
 		bool setup_objects();
 		void setup_predators(int maxPredators);
 
+		void set_time(double time){ m_dTime = time; }
+		double get_time(){ return m_dTime; }
+
 		void draw_scene(ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
-		void draw_object(std::pair<Textured3DObject *, int*> object, ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
 		void gamma_management(glm::mat4 mvp, glm::mat4 mv);
 		void debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map, bool activate_sobel_map);
 
@@ -47,18 +49,25 @@ namespace SweepingBirds
 		void setupdemo();
 
 		void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
-		
+
+		double get_framerate(){ return m_dFPS; }
+		void update_time(double newTime);
 
 	protected:
-		Camera * m_pCamera;
 		ProgramGUI * m_pProgramGUI;
-		std::vector<Light*> m_vLights;
-		PersProjInfo m_persProjInfo;
+		Camera * m_pCamera;
 		ShaderProgramManager* m_pShaderProgramManager;
-		ObjectManager* m_pAssimpObjectManager;
 		TextureManager * m_pTextureManager;
-		GPUBuffer m_bPredatorsData;
 
+		ObjectManager* m_pAssimpObjectManager;
+		std::vector<Light*> m_vLights;
+		GPUBuffer m_bPredatorsData;
+		GLsizei m_siNbPredators;
+
+		double m_dFPS;
+		double m_dTime;
+		double m_dPrevTime;
+		
 		int m_iLockPositionX;
 		int m_iLockPositionY;
 

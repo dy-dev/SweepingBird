@@ -36,11 +36,13 @@ SceneManager::SceneManager()
 	m_pAssimpObjectManager(nullptr),
 	m_fGamma(0.15f),
 	//m_pSkyBox(nullptr),
-  m_bPredatorsData(GL_RGB32F)
+	m_bPredatorsData(GL_RGB32F),
+	m_siNbPredators(0),
+	m_dFPS(0.0),
+	m_dPrevTime(0.0)
 {
 	m_pCamera = new Camera();
 	m_pShaderProgramManager = new ShaderProgramManager();
-
 }
 
 
@@ -151,9 +153,17 @@ void SceneManager::set_cam_states()
 		m_bPanLock = false;
 }
 
+void SceneManager::update_time(double newTime)
+{
+	m_dPrevTime = m_dTime;
+	m_dTime = newTime;
+	assert(m_dTime - m_dPrevTime != 0);
+	m_dFPS = 1.f / (m_dTime - m_dPrevTime);
+}
+
 void SceneManager::setup_predators(int maxPredators)
 {
- // m_bPredatorsData.setData(maxPredators * sizeof(glm::vec3), static_cast<GLvoid*>(nullptr));
+	// m_bPredatorsData.setData(maxPredators * sizeof(glm::vec3), static_cast<GLvoid*>(nullptr));
 }
 
 void SceneManager::manage_camera_movements()
@@ -193,7 +203,7 @@ void SceneManager::manage_camera_movements()
 			if (m_bTurnLock)
 			{
 				m_pCamera->Camera_turn(diffLockPositionY * MOUSE_TURN_SPEED, diffLockPositionX * MOUSE_TURN_SPEED);
-//				m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
+				//				m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 				//m_pGameCamera->OnMouseMove(mousex, mousey);
 			}
 			else
@@ -201,7 +211,7 @@ void SceneManager::manage_camera_movements()
 				if (m_bPanLock)
 				{
 					m_pCamera->Camera_pan(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
-			//		m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
+					//		m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 					//
 				}
 			}
@@ -219,13 +229,13 @@ void SceneManager::display_scene(bool activate_gamma)
 	glEnable(GL_DEPTH_TEST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-//	m_pGameCamera->OnRender();
+	//	m_pGameCamera->OnRender();
 	// Clear the front buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-/*	if (m_pSkyBox != nullptr)
-	{
+	/*	if (m_pSkyBox != nullptr)
+		{
 		m_pSkyBox->Render();
-	}*/
+		}*/
 
 	// Get camera matrices
 	glm::mat4 projection = glm::perspective(70.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 100000.0f);
@@ -263,7 +273,7 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 
 {
 	// Upload uniforms
 	shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
-//	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_mock_pos()));
+	//	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_mock_pos()));
 
 	auto baseLight = m_vLights.at(0);
 	auto light = (DirectionalLight*)baseLight;
@@ -278,106 +288,12 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 
 		{
 			if (object.second.first != nullptr)
 			{
-				draw_object(object.second, shader, proj, wtv);
+				object.second.first->draw(*shader, proj, wtv, m_dTime);
+				//draw_object(object.second, shader, proj, wtv);
 			}
 		}
 	}
 }
-
-void SceneManager::draw_object(std::pair<Textured3DObject *, int*> object, ShaderProgram * shader, glm::mat4 proj, glm::mat4 wtv)
-{
-	/*auto posogl = glm::vec3(m_pGameCamera->GetPos().x, m_pGameCamera->GetPos().y, m_pGameCamera->GetPos().z);
-			auto targetogl = glm::vec3(m_pGameCamera->GetTarget().x, m_pGameCamera->GetTarget().y, m_pGameCamera->GetTarget().z);
-			auto upogl = glm::vec3(m_pGameCamera->GetUp().x, m_pGameCamera->GetUp().y, m_pGameCamera->GetUp().z);
-			//glm::mat4 worldToView = glm::lokAt(posogl, targetogl, upogl);*/
-
-
-	for each (auto mesh in object.first->get_meshes())
-	{
-		glBindVertexArray(mesh->get_vao());
-		m_pTextureManager->apply_material(mesh->get_material());
-		//shader->set_var_value("Translation", glm::value_ptr(object.first->get_position()));
-		shader->set_var_value("Time", (float)m_pProgramGUI->get_time());
-		shader->set_var_value("SizeFactor", *object.first->get_size());
-
-		glm::mat4 Model;
-		/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
-		auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
-		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
-
-		auto ModelTranslated = glm::translate(Model, object.first->get_position());
-		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));
-		glm::mat4 mv = wtv * ModelScaled;
-		glm::mat4 mvp = proj * mv;
-		shader->set_var_value("MVP", glm::value_ptr(mvp));
-		shader->set_var_value("MV", glm::value_ptr(mv));
-	//	shader->set_var_value("ObjectId", (int)object.first->get_object_type());
-
-		if (object.first->get_name() == "BeeBird")
-		{
-			shader->set_var_value("isBird", (int)true);
-			glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			shader->set_var_value("isBird", (int)false);
-		}
-		else if (object.first->get_name() == "Ground")
-		{
-			shader->set_var_value("isGround", (int)true);
-			shader->set_var_value("InstanceNumber", (int)*object.second);
-			shader->set_var_value("SquareSideLength", (int)sqrt(*object.second));
-			/*shader->set_var_value("MaxMountainHeight", *object.first->get_height());
-			shader->set_var_value("MountainFrequence", *object.first->get_radius_spacing());
-			shader->set_var_value("ColorControl", *object.first->get_range());
-			shader->set_var_value("SpeedFactor", *object.first->get_speed());*/
-			glDrawElementsInstanced(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0, (GLsizei)(*object.second));
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			shader->set_var_value("isGround", (int)false);
-		}
-
-		else if (object.first->get_name() == "Bats")
-		{
-      m_bPredatorsData.activate(PREDATORS_BINDING);
-
-			shader->set_var_value("isPredator", (int)true);
-			shader->set_var_value("InstanceNumber", *object.second);
-			glDrawElementsInstanced(GL_TRIANGLES, (GLsizei)(mesh->get_triangles_count() * 3), GL_UNSIGNED_INT, (void*)0, (GLsizei)(*object.second));
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			shader->set_var_value("isPredator", (int)false);
-
-      m_bPredatorsData.deactivate();
-		}
-		else if (object.first->get_name() == "SkyBox")
-		{
-			GLint OldCullFaceMode;
-			glGetIntegerv(GL_CULL_FACE_MODE, &OldCullFaceMode);
-			GLint OldDepthFuncMode;
-			glGetIntegerv(GL_DEPTH_FUNC, &OldDepthFuncMode);
-
-			glCullFace(GL_FRONT);
-			glDepthFunc(GL_LEQUAL);
-
-			shader->set_var_value("isSkyBox", (int)true);
-			glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
-			shader->set_var_value("isSkyBox", (int)false);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glCullFace(OldCullFaceMode);
-			glDepthFunc(OldDepthFuncMode);
-		}
-	}
-}
-
 
 void SceneManager::gamma_management(glm::mat4 mvp, glm::mat4 mv)
 {

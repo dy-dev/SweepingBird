@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	if (bIsDemoProgram)
 	{
 		MySceneManager.setupdemo();
-		std::thread demothread(MySceneManager.demo, &MySceneManager, MainWindow.get_time());
+		std::thread demothread(MySceneManager.demo, &MySceneManager, glfwGetTime());
 	}
 
 	float elapsedTime = 0.f;
@@ -71,12 +71,13 @@ int main(int argc, char **argv)
 		MainWindow.event_loop_management();
 
 		MyPhysicsEngine.update(elapsedTime);//must be called after event_loop_management because of time synchro
+		MySceneManager.update_time(static_cast<float>(glfwGetTime()));//must be called after event_loop_management because of time synchro
 	
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
 		MySceneManager.display_scene(false);
 		
-		MainWindow.display_gui(bIsDemoProgram);
+		MainWindow.display_gui(bIsDemoProgram, MySceneManager.get_framerate());
 
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");

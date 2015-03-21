@@ -17,11 +17,11 @@ namespace SweepingBirds
 		~PhysicsEngine();
 
 		void update(const float deltaTime);
-		void set_programGUI(ProgramGUI * programGUI){ m_pProgramGUI = programGUI; }
+    void set_programGUI(ProgramGUI * programGUI); 
 
 	private:
-		void launchPredators();
-		void dismissPredators();
+		void launch_predators();
+		void dismiss_predators();
 
 		//wp => weak pointer
 		SceneManager* m_wpSceneManager;
@@ -31,6 +31,10 @@ namespace SweepingBirds
 		std::vector<Predator* > m_vPredators;
 		Ground m_Ground;
 		bool m_bPredatorsLaunched;
+    bool m_pbResetPredatorsPos;//For debugging purposes
+
+    float m_fPredatorsSpringLength;
+    float m_fPredatorsSpringRigidity;
 
 	};
 }

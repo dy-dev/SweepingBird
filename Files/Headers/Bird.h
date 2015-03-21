@@ -19,12 +19,12 @@ namespace SweepingBirds
 		Bird(float mass, const glm::vec3& initialPosition);
 
 		void update(const float deltaTime);
-		void setHeight(float newHeight);
+		void set_height(float newHeight);
 
-		const glm::vec3& getPosition() const;
-		const glm::vec3& getVelocity() const;
+		const glm::vec3& get_position() const;
+		const glm::vec3& get_velocity() const;
 
-		float getAngle() const;
+		float get_angle() const;
 
 		const Bird3D & get_bird_3d() const { return m_Bird3D;};
 		void update3DModel();

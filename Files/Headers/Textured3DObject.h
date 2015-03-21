@@ -25,6 +25,7 @@ namespace SweepingBirds
 	class Mesh;
 	class TextureManager;
 	class ProgramGUI;
+	class ShaderProgram;
 	class Textured3DObject
 	{
 	public:
@@ -67,7 +68,7 @@ namespace SweepingBirds
 		void set_mock_pos(const glm::vec3& newPos){m_v3MockPos = newPos;}
 		const glm::vec3& get_mock_pos() const{ return m_v3MockPos; }
 
-		virtual void draw() = 0;
+		virtual void draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time);
 
 	private:
 		/// <summary>

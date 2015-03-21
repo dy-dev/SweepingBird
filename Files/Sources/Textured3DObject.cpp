@@ -3,6 +3,7 @@
 
 #include <stb/stb_image.h>
 #include <glew/glew.h>
+#include <glm/mat4x4.hpp> // glm::mat4
 
 #include <assimp/Importer.hpp>	//OO version Header!
 #include <assimp/postprocess.h>
@@ -15,6 +16,7 @@
 #include <Textured3DObject.h>
 #include <TextureManager.h>
 #include <UtilityToolKit.h>
+#include <ShaderProgram.h>
 
 using namespace SweepingBirds;
 
@@ -188,3 +190,27 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 	}
 }
 
+void Textured3DObject::draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time)
+{
+	for each (auto mesh in m_vMeshes)
+	{
+		glBindVertexArray(mesh->get_vao());
+		m_pTextureManager->apply_material(mesh->get_material());
+		//shader->set_var_value("Translation", glm::value_ptr(object.first->get_position()));
+		shader.set_var_value("Time", (float)time);
+		shader.set_var_value("SizeFactor", m_fSize);
+
+		glm::mat4 Model;
+		/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
+		auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
+		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
+
+		auto ModelTranslated = glm::translate(Model, m_v3Position);
+		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
+		glm::mat4 mv = wtv * ModelScaled;
+		glm::mat4 mvp = proj * mv;
+		shader.set_var_value("MVP", glm::value_ptr(mvp));
+		shader.set_var_value("MV", glm::value_ptr(mv));
+		//	shader->set_var_value("ObjectId", (int)object.first->get_object_type());
+	}
+}
