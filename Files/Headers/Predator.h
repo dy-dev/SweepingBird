@@ -14,6 +14,8 @@ namespace SweepingBirds
 	class Predator
 	{
 	public:
+    static const glm::vec3 GRAVITY;
+
 		Predator();
 		Predator(const float mass, const glm::vec3& initialPosition, const glm::vec3& initialVelocity = glm::vec3(0));
 

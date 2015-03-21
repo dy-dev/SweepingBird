@@ -17,8 +17,9 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   : m_wpSceneManager(sceneManager),
   m_bird(2.0f, glm::vec3(0, 0, 0)),
   m_bPredatorsLaunched(false),
-  m_fPredatorsSpringLength(5.0f),
-  m_fPredatorsSpringRigidity(1.0f)
+  m_fPredatorsSpringLength(100.0f),
+  m_fPredatorsSpringRigidity(0.4f),
+  m_pbResetPredatorsPos(false)
   
 {
   //Basic predator generation for testing purposes
@@ -50,6 +51,7 @@ PhysicsEngine::~PhysicsEngine()
 void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 {
   m_pProgramGUI = programGUI; 
+
   std::string name = "Predators";
   auto infos = new GUIInfos(name, -50.0f, 50.0f, 0.1f);
   infos->min = 0.1f;
@@ -57,8 +59,11 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
   infos->step = 0.5f;
   infos->var.push_back(std::make_pair("Spring length", &(m_fPredatorsSpringLength)));
   infos->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
-
   m_pProgramGUI->add_gui_element(name, infos);
+
+  auto infos2 = new GUIInfos(name);
+  infos2->check_adress = &m_pbResetPredatorsPos;
+  m_pProgramGUI->add_gui_element(name, infos2);
 }
 
 void PhysicsEngine::update(const float deltaTime)
@@ -115,6 +120,9 @@ void PhysicsEngine::update(const float deltaTime)
     glm::vec3 finalPos = (*it)->getPosition();
     finalPos.x -= -bird->get_position().x;
     finalPos.z -= -bird->get_position().z;
+
+    if (m_pbResetPredatorsPos)
+      finalPos = glm::vec3(0);
 
     predatorsPositions.push_back(finalPos);
     predatorsDirections.push_back((*it)->getDirection());
