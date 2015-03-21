@@ -23,9 +23,9 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   
 {
   //Basic predator generation for testing purposes
-  Predator* a = new Predator(3.f, glm::vec3(0, 0, 0));
-  Predator* b = new Predator(2.f, glm::vec3(3, 0, 0));
-  Predator* c = new Predator(3.f, glm::vec3(-3, 0, 0));
+  Predator* a = new Predator(3.f, glm::vec3(0, 0, 50));
+  Predator* b = new Predator(2.f, glm::vec3(30, 0, 0));
+  Predator* c = new Predator(3.f, glm::vec3(-30, 0, 0));
   
   m_vPredators.push_back(a);
   m_vPredators.push_back(b);
