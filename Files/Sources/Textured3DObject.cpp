@@ -17,6 +17,8 @@
 #include <TextureManager.h>
 #include <UtilityToolKit.h>
 #include <ShaderProgram.h>
+#include <ShaderProgramManager.h>
+#include <Camera.h>
 
 using namespace SweepingBirds;
 
@@ -29,6 +31,7 @@ Textured3DObject::Textured3DObject()
 	m_pProgramGUI(nullptr),
 	m_pImporter(nullptr)
 {
+	m_eShaderType = MAIN;
 	m_pImporter = new Assimp::Importer();
 }
 
@@ -189,25 +192,35 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 	}
 }
 
-void Textured3DObject::setup_drawing_space(ShaderProgram& shader, Mesh* mesh, glm::mat4 proj, glm::mat4 wtv, float time)
+ShaderProgram* Textured3DObject::setup_drawing_space(ShaderProgramManager& shaderMgr, Mesh* mesh, Camera * cam, glm::mat4 proj, float time)
 {
-	glBindVertexArray(mesh->get_vao());
-	m_pTextureManager->apply_material(mesh->get_material());
-	shader.set_var_value("Time", (float)time);
-	shader.set_var_value("SizeFactor", m_fSize);
+	auto shader = shaderMgr.get_shader(m_eShaderType);
+	if (shader != nullptr)
+	{
+		glUseProgram(shader->get_program());
+		//	shader->set_var_value("Time", (float)time);
+		//	shader->set_var_value("SizeFactor", m_fSize);
 
-	glm::mat4 Model;
-	/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
-	auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
-	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
+		glm::mat4 Model;
+		//	/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
+		//	auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
+		//	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
+		glm::mat4 worldToView = glm::lookAt(cam->GetEye(), cam->GetO(), cam->GetUp());
 
-	auto ModelTranslated = glm::translate(Model, m_v3Position);
-	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
-	glm::mat4 mv = wtv * ModelScaled;
-	glm::mat4 mvp = proj * mv;
-	shader.set_var_value("MVP", glm::value_ptr(mvp));
-	shader.set_var_value("MV", glm::value_ptr(mv));
-	//	shader->set_var_value("ObjectId", (int)object.first->get_object_type());
+		auto ModelTranslated = glm::translate(Model, m_v3Position);
+		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
+		glm::mat4 mv = worldToView * ModelScaled;
+		glm::mat4 mvp = proj * mv;
+		shader->set_var_value("MVP", glm::value_ptr(mvp));
+		shader->set_var_value("MV", glm::value_ptr(mv));
+
+		if (mesh != nullptr)
+		{
+			glBindVertexArray(mesh->get_vao());
+			m_pTextureManager->apply_material(mesh->get_material());
+		}
+	}
+	return shader;
 }
 
 void Textured3DObject::clean_bindings()

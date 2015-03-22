@@ -2,6 +2,7 @@
 #include <Textured3DObject.h>
 namespace SweepingBirds
 {
+	class Camera;
 	class ObjectManager;
 	class Bird3D : public Textured3DObject
 	{
@@ -16,7 +17,7 @@ namespace SweepingBirds
 		void set_direction(glm::vec3 Direction) { m_v3Direction = Direction; };
 		glm::vec3 get_direction(){ return m_v3Direction; };
 
-		virtual void draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time, int nbInstance) override;
+		virtual void draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance) override;
 
 	private:
 		float m_fSpeed;

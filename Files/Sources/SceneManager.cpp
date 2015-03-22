@@ -87,6 +87,10 @@ void SceneManager::setup_lights()
 void SceneManager::setup_shader_programs()
 {
 	m_pShaderProgramManager->create_main_shader_program();
+	m_pShaderProgramManager->create_bird_shader_program();
+	m_pShaderProgramManager->create_predator_shader_program();
+	m_pShaderProgramManager->create_ground_shader_program();
+	m_pShaderProgramManager->create_skybox_shader_program();
 	m_pShaderProgramManager->create_lighting_shader_program();
 	m_pShaderProgramManager->create_gamma_program();
 }
@@ -248,14 +252,9 @@ void SceneManager::display_scene(bool activate_gamma)
 	glEnable(GL_DEPTH_TEST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	//	m_pGameCamera->OnRender();
-	// Clear the front buffer
+		// Clear the front buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	/*	if (m_pSkyBox != nullptr)
-		{
-		m_pSkyBox->Render();
-		}*/
-
+	
 	// Get camera matrices
 	glm::mat4 projection = glm::perspective(70.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 1000000.0f);
 	glm::mat4 worldToView = glm::lookAt(m_pCamera->GetEye(), m_pCamera->GetO(), m_pCamera->GetUp());
@@ -263,22 +262,39 @@ void SceneManager::display_scene(bool activate_gamma)
 
 
 	// Select shader
-	auto shader = m_pShaderProgramManager->get_shader(MAIN);
+	/*auto shader = m_pShaderProgramManager->get_shader(MAIN);
 	if (shader != nullptr)
 	{
 		glUseProgram(shader->get_program());
 
 		glm::mat4 Model;
-		
+
 		auto ModelTranslated = glm::translate(Model, m_pCamera->GetEye());
 		shader->set_var_value("GroundTranslation", glm::value_ptr(ModelTranslated));
-		//Failed test to draw only ground tiles in front of the camera
-		//auto dir = m_pCamera->GetO() - m_pCamera->GetEye();
-		//dir.y = 0.0f;
-		//shader->set_var_value("LookDirection", glm::value_ptr(glm::normalize(dir)));
+		
+		*/
+		
+		// Upload uniforms
+		/*shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
+		//	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_mock_pos()));
 
-		draw_scene(shader, projection, worldToView);
-
+		auto baseLight = m_vLights.at(0);
+		auto light = (DirectionalLight*)baseLight;
+		shader->set_var_value("DirLightPosition", glm::value_ptr(light->get_position()));
+		shader->set_var_value("DirLightDirection", glm::value_ptr(light->get_direction()));
+		shader->set_var_value("DirLightColor", glm::value_ptr(light->get_color()));
+		shader->set_var_value("DirLightSpecularPower", light->get_specular_power());
+		shader->set_var_value("DirLightUse", (int)light->get_is_in_use());*/
+		if (m_pAssimpObjectManager != nullptr)
+		{
+			for each (auto object in m_pAssimpObjectManager->get_objects())
+			{
+				if (object.second.first != nullptr)
+				{
+					object.second.first->draw(*m_pShaderProgramManager, m_pCamera, projection, m_dTime, *object.second.second);
+				}
+			}
+		}
 		if (activate_gamma)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, m_gluiFxFbo);
@@ -295,33 +311,7 @@ void SceneManager::display_scene(bool activate_gamma)
 		{
 			//gamma_management(mvp, mv);
 		}
-	}
-}
-
-void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 wtv)
-{
-	// Upload uniforms
-	shader->set_var_value("CamPos", glm::value_ptr(m_pCamera->GetEye()));
-	//	shader->set_var_value("BirdTranslation", glm::value_ptr(m_pBird->get_mock_pos()));
-
-	auto baseLight = m_vLights.at(0);
-	auto light = (DirectionalLight*)baseLight;
-	shader->set_var_value("DirLightPosition", glm::value_ptr(light->get_position()));
-	shader->set_var_value("DirLightDirection", glm::value_ptr(light->get_direction()));
-	shader->set_var_value("DirLightColor", glm::value_ptr(light->get_color()));
-	shader->set_var_value("DirLightSpecularPower", light->get_specular_power());
-	shader->set_var_value("DirLightUse", (int)light->get_is_in_use());
-	if (m_pAssimpObjectManager != nullptr)
-	{
-		for each (auto object in m_pAssimpObjectManager->get_objects())
-		{
-			if (object.second.first != nullptr)
-			{
-				object.second.first->draw(*shader, proj, wtv, m_dTime, *object.second.second);
-				//draw_object(object.second, shader, proj, wtv);
-			}
-		}
-	}
+	//}
 }
 
 void SceneManager::gamma_management(glm::mat4 mvp, glm::mat4 mv)

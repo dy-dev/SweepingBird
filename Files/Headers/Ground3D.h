@@ -2,6 +2,7 @@
 #include <Textured3DObject.h>
 namespace SweepingBirds
 {
+	class Camera;
 	class ObjectManager;
 	class Ground3D : public Textured3DObject
 	{
@@ -13,7 +14,7 @@ namespace SweepingBirds
 		float * get_height() { return &m_fHeight; }
 		void set_height(float height) { m_fHeight = height; }
 
-		virtual void draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time, int nbInstance) override;
+		virtual void draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance) override;
 
 	private:
 		float m_fHeight;

@@ -4,6 +4,7 @@
 #include <Mesh.h>
 #include <ProgramGUI.h>
 #include <ShaderProgram.h>
+#include <ShaderProgramManager.h>
 
 using namespace SweepingBirds;
 
@@ -14,6 +15,7 @@ Bird3D::Bird3D()
 Bird3D::Bird3D(ObjectManager* manager, TextureManager * texMgr)
 	:Textured3DObject(texMgr)
 {
+	m_eShaderType = BIRD;
 	m_pObjectManager = manager;
 	load_object(".\\Objects\\Bird\\BeeBird.obj", false, m_pTextureManager);
 	set_position(glm::vec3(-0.0f, 0.0f, 0.0f));
@@ -32,15 +34,16 @@ Bird3D::~Bird3D()
 }
 
 
-void Bird3D::draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time, int nbInstance)
+void Bird3D::draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance)
 {
 	for each (auto mesh in m_vMeshes)
 	{
-		Textured3DObject::setup_drawing_space(shader, mesh, proj, wtv, time);
+		auto shader = setup_drawing_space(shaderMgr, mesh, cam, proj, time);
+		if (shader != nullptr)
+		{
 
-		shader.set_var_value("isBird", (int)true);
-		glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
-		Textured3DObject::clean_bindings();
-		shader.set_var_value("isBird", (int)false);
+			glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
+			clean_bindings();
+		}
 	}
 }

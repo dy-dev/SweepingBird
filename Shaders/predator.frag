@@ -16,19 +16,10 @@ precision highp int;
 
 layout(binding=DIFFUSE_BINDING) uniform sampler2D Diffuse;
 layout(binding=SPECULAR_BINDING) uniform sampler2D Specular;
-layout(binding=AMBIANT_BINDING) uniform sampler2D Ambiant;
-layout(binding=OPACITY_BINDING) uniform sampler2D Opacity;
-layout(binding=SHININESS_BINDING) uniform sampler2D Shininess;
 
 layout(location = FRAG_COLOR, index = 0) out vec4 FragColor;
 
-// Write in GL_COLOR_ATTACHMENT0
-layout(location = 0 ) out vec4 Color;
-// Write in GL_COLOR_ATTACHMENT1
-layout(location = 1) out vec4 Normal;
-
 uniform float Time;
-uniform float MaxMountainHeight;
 
 in block
 {
@@ -40,7 +31,7 @@ in block
 
 void main()
 {
-	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;	
-	FragColor = vec4(diffuse,1.0);
+	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;
+	FragColor = vec4(diffuse ,1.0);
 }
 

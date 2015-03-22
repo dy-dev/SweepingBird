@@ -26,7 +26,10 @@ namespace SweepingBirds
 	class TextureManager;
 	class ProgramGUI;
 	class ShaderProgram;
+	class ShaderProgramManager;
 	class ObjectManager;
+	enum ShaderProgramType;
+	class Camera;
 	class Textured3DObject
 	{
 	public:
@@ -69,8 +72,8 @@ namespace SweepingBirds
 		void set_mock_pos(const glm::vec3& newPos){m_v3MockPos = newPos;}
 		const glm::vec3& get_mock_pos() const{ return m_v3MockPos; }
 
-		virtual void draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time, int nbInstance) = 0;
-		void setup_drawing_space(ShaderProgram& shader, Mesh* mesh, glm::mat4 proj, glm::mat4 wtv, float time);
+		virtual void draw(ShaderProgramManager& shader, Camera * cam, glm::mat4 proj, float time, int nbInstance) = 0;
+		ShaderProgram* setup_drawing_space(ShaderProgramManager& shader, Mesh* mesh, Camera * cam, glm::mat4 proj, float time);
 		void clean_bindings();
 
 	private:
@@ -113,5 +116,7 @@ namespace SweepingBirds
 		TextureManager * m_pTextureManager;
 		ProgramGUI * m_pProgramGUI;
 		ObjectManager* m_pObjectManager;
+
+		ShaderProgramType m_eShaderType;
 	};
 }

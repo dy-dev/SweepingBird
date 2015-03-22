@@ -124,6 +124,114 @@ bool ShaderProgramManager::create_main_shader_program()
 	return true;
 }
 
+bool ShaderProgramManager::create_bird_shader_program()
+{
+	ShaderProgram *bird_program = new ShaderProgram();
+	bird_program->add_shader(GL_VERTEX_SHADER, "Shaders/bird.vert");
+	bird_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/bird.frag");
+
+	bird_program->compile();
+
+	bird_program->add_var("MVP");
+	bird_program->add_var("SizeFactor");
+	bird_program->set_var_value("SizeFactor", 1.0f);
+
+
+	bird_program->add_var("Diffuse");
+	bird_program->set_var_value("Diffuse", 0);
+
+
+	m_mAvailableShaders[BIRD] = bird_program;
+
+	return true;
+}
+
+bool ShaderProgramManager::create_predator_shader_program()
+{
+	ShaderProgram *pred_program = new ShaderProgram();
+	pred_program->add_shader(GL_VERTEX_SHADER, "Shaders/predator.vert");
+	pred_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/predator.frag");
+
+	pred_program->compile();
+
+	pred_program->add_var("MVP");
+	pred_program->add_var("SizeFactor");
+	pred_program->set_var_value("SizeFactor", 1.0f);
+
+	
+	pred_program->add_var("Diffuse");
+	pred_program->set_var_value("Diffuse", 0);
+
+
+	m_mAvailableShaders[PREDATOR] = pred_program;
+
+	return true;
+}
+
+bool ShaderProgramManager::create_skybox_shader_program()
+{
+	ShaderProgram *skybox_program = new ShaderProgram();
+	skybox_program->add_shader(GL_VERTEX_SHADER, "Shaders/skybox.vert");
+	skybox_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/skybox.frag");
+
+	skybox_program->compile();
+
+	skybox_program->add_var("MVP");
+	skybox_program->add_var("SizeFactor");
+	skybox_program->set_var_value("SizeFactor", 1.0f);
+	skybox_program->add_var("GroundTranslation");
+
+
+	skybox_program->add_var("Diffuse");
+	skybox_program->set_var_value("Diffuse", 0);
+
+
+	m_mAvailableShaders[SKYBOX] = skybox_program;
+
+	return true;
+}
+
+bool ShaderProgramManager::create_ground_shader_program()
+{
+	ShaderProgram *ground_program = new ShaderProgram();
+	ground_program->add_shader(GL_VERTEX_SHADER, "Shaders/ground.vert");
+	ground_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/ground.frag");
+
+	ground_program->compile();
+
+	ground_program->add_var("MVP");
+	ground_program->add_var("SizeFactor");
+	ground_program->set_var_value("SizeFactor", 1.0f);
+	ground_program->add_var("GroundTranslation");
+
+	ground_program->add_var("MaxMountainHeight");
+	ground_program->set_var_value("MaxMountainHeight", 300.0f);
+	ground_program->add_var("MountainFrequence");
+	ground_program->set_var_value("MountainFrequence", 250.0f);
+	ground_program->add_var("InstanceNumber");
+	ground_program->set_var_value("InstanceNumber", 1);
+	ground_program->add_var("SquareSideLength");
+	ground_program->set_var_value("SquareSideLength", 10);
+	ground_program->add_var("PatchControl");
+	ground_program->set_var_value("PatchControl", 100.0f);
+	
+	ground_program->add_var("Diffuse");
+	ground_program->set_var_value("Diffuse", 0);
+	ground_program->add_var("Specular");
+	ground_program->set_var_value("Specular", 1);
+	ground_program->add_var("Ambiant");
+	ground_program->set_var_value("Ambiant", 2);
+	ground_program->add_var("Opacity");
+	ground_program->set_var_value("Opacity", 3);
+	ground_program->add_var("Shininess");
+	ground_program->set_var_value("Shininess", 4);
+
+
+	m_mAvailableShaders[GROUND] = ground_program;
+
+	return true; 
+}
+
 bool ShaderProgramManager::create_lighting_shader_program()
 {
 	ShaderProgram* lighting_shader_Program = new ShaderProgram();
