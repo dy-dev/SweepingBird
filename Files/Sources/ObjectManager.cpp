@@ -4,6 +4,10 @@
 #include <glew/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <Bird3D.h>
+#include <Predators3D.h>
+#include <Ground.h>
+#include <SkyBoxSweepingBird.h>
 #include <Camera.h>
 #include <ObjectManager.h>
 #include <ProgramGUI.h>
@@ -12,30 +16,52 @@
 using namespace SweepingBirds;
 
 ObjectManager::ObjectManager()
+	:m_pBird3D(nullptr),
+	m_pPredators3D(nullptr),
+	m_pGround3D(nullptr),
+	m_pSkyBox(nullptr),
+	m_pGUI(nullptr),
+	m_pTexMgr(nullptr)
 {
 }
 
-ObjectManager::ObjectManager(int nb_objects_to_create)
-	:m_iNbObjectManaged(nb_objects_to_create)
+ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui)
+	:ObjectManager()
 {
+	m_pTexMgr = texMgr;
+	m_pGUI = gui;
 }
 
 ObjectManager::~ObjectManager()
 {
-	for each (auto object in m_vObjectManaged)
+	for each (auto object in m_mObjectManaged)
 	{
-		delete object.first;
-		delete object.second;
+		delete object.second.first;
+		delete object.second.second;
 	}
 }
 
-bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int index)
+bool ObjectManager::create_scene_assets()
 {
-	if (index < m_iNbObjectManaged)
+	m_pBird3D = new Bird3D(this, m_pTexMgr);
+	m_pPredators3D = new Predators3D(this, m_pTexMgr,50);
+	m_pGround3D = new Ground3D(this, m_pTexMgr,5000);
+	m_pSkyBox = new SkyBoxSweepingBird(this, m_pTexMgr);
+	return true;
+}
+
+void ObjectManager::add_gui_controller(std::string name, GUIInfos * infos)
+{
+	m_pGUI->add_gui_element(name, infos);
+}
+
+bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances)
+{
+	if (object != nullptr)
 	{
 		object->bind_meshes();
 
-		m_vObjectManaged.push_back(std::make_pair(object, new int(nb_instances)));
+		m_mObjectManaged[object->get_name()] = std::make_pair(object, new float(nb_instances));
 		return true;
 	}
 	else
@@ -44,94 +70,24 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances, int 
 	}
 }
 
-std::pair<Textured3DObject *, int *>& ObjectManager::get_object(int index)
+std::pair<Textured3DObject *, float *>& ObjectManager::get_object(std::string name)
 {
-	if (index < m_vObjectManaged.size())
+	auto toRet = m_mObjectManaged.find(name);
+	if (toRet != m_mObjectManaged.end())
 	{
-		return m_vObjectManaged.at(index);
+		return toRet->second;
 	}
 
-	return *(new std::pair<Textured3DObject *, int *>());
+	return *(new std::pair<Textured3DObject *, float *>(nullptr,nullptr));
 }
 
-GUIInfos * ObjectManager::generate_slider_nb_instances_infos(int index, int max)
+GUIInfos * ObjectManager::generate_slider_nb_instances_infos(std::string name, int max)
 {
-	if (index < m_vObjectManaged.size())
+	auto toRet = m_mObjectManaged.find(name);
+	if (toRet != m_mObjectManaged.end())
 	{
-		auto obj = m_vObjectManaged.at(index);
-
 		auto infos = new GUIInfos("NB instances", 0.0f, (float)max, 1.0f);
-		infos->var.push_back(std::make_pair("NB instances", (float*)obj.second));
-
-		return infos;
-	}
-	return nullptr;
-}
-
-GUIInfos * ObjectManager::generate_slider_cube_size(int index)
-{
-	if (index < m_vObjectManaged.size())
-	{
-		auto obj = m_vObjectManaged.at(index);
-
-		auto infos = new GUIInfos("Cube Size", 0.10f, 5.0f, 0.01f);
-		infos->var.push_back(std::make_pair("Cube Size", obj.first->get_size()));
-
-		return infos;
-	}
-	return nullptr;
-}
-
-GUIInfos * ObjectManager::generate_slider_cube_radius_spacing(int index)
-{
-	if (index < m_vObjectManaged.size())
-	{
-		auto obj = m_vObjectManaged.at(index);
-
-		auto infos = new GUIInfos("Radius Spacing", 0.1f, 2.0f, 0.10f);
-		infos->var.push_back(std::make_pair("Radius Spacing", obj.first->get_radius_spacing()));
-
-		return infos;
-	}
-	return nullptr;
-}
-
-GUIInfos * ObjectManager::generate_slider_cube_range(int index)
-{
-	if (index < m_vObjectManaged.size())
-	{
-		auto obj = m_vObjectManaged.at(index);
-
-		auto infos = new GUIInfos("Range", 0.0f, 5.0, 0.10f);
-		infos->var.push_back(std::make_pair(infos->name, obj.first->get_range()));
-
-		return infos;
-	}
-	return nullptr;
-}
-
-GUIInfos * ObjectManager::generate_slider_cube_speed(int index)
-{
-	if (index < m_vObjectManaged.size())
-	{
-		auto obj = m_vObjectManaged.at(index);
-
-		auto infos = new GUIInfos("Speed", 0.0f, 100.0, 0.10f);
-		infos->var.push_back(std::make_pair(infos->name, obj.first->get_speed()));
-
-		return infos;
-	}
-	return nullptr;
-}
-
-GUIInfos * ObjectManager::generate_check_cube_rotation(int index)
-{
-	if (index < m_vObjectManaged.size())
-	{
-		auto obj = m_vObjectManaged.at(index);
-
-		auto infos = new GUIInfos("Rotate Cubes");
-		infos->check_adress = obj.first->is_rotating();
+		infos->var.push_back(std::make_pair("NB instances", (float*)(toRet->second.second)));
 
 		return infos;
 	}
@@ -145,6 +101,3 @@ GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max
 
 	return infos;
 }
-
-
-

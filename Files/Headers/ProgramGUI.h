@@ -56,10 +56,9 @@ namespace SweepingBirds
 		int get_right_button_state() const { return m_iRightMouseButton; }
 
 		void event_loop_management();
-		void display_gui(bool isDemo);
+		void display_gui(bool isDemo, double fps);
 		bool is_still_running() const { return m_bIsStillRunning; }
-		double get_time() { return m_dPrevTime; }
-
+	
 		void add_gui_element(std::string varName, GUIInfos* infos);
 
 	protected:
@@ -79,9 +78,6 @@ namespace SweepingBirds
 
 		int Cameras;
 		bool playing;
-
-		double m_dFPS;
-		double m_dPrevTime;
 
 		int m_iLeftMouseButton;
 		int m_iMiddleMouseButton;

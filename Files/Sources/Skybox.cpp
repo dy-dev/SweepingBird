@@ -78,9 +78,9 @@ bool SkyBox::Init(const std::string& Directory,
 	}
 
 	//m_pMesh = new OGLDevMesh();
-	m_pTexturedObject = new Textured3DObject();
+/*	m_pTexturedObject = new Textured3DObject();
 	m_pTexturedObject->load_object("./Objects/SkyBox/sphere.obj", false, m_pTextureMgr);
-	m_pTexturedObject->bind_meshes();
+	m_pTexturedObject->bind_meshes();*/
 
 	return true;
 	//return m_pMesh->LoadMesh("./Objects/SkyBox/sphere.obj");

@@ -1,4 +1,4 @@
-#version 410 core
+#version 420 core
 
 #define POSITION	0
 #define NORMAL		1
@@ -18,7 +18,7 @@ layout(binding=DIFFUSE_BINDING) uniform sampler2D Diffuse;
 layout(binding=SPECULAR_BINDING) uniform sampler2D Specular;
 layout(binding=AMBIANT_BINDING) uniform sampler2D Ambiant;
 layout(binding=OPACITY_BINDING) uniform sampler2D Opacity;
-layout(binding=PREDATORS_BINDING) uniform sampler2D Shininess;
+layout(binding=SHININESS_BINDING) uniform sampler2D Shininess;
 
 uniform bool isBird;
 uniform bool isPredator;
@@ -77,7 +77,7 @@ void main()
 {
 	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;
 	vec3 color = diffuse;
-	if(ObjectId == 0)
+	if(isGround == true)
 	{
 		vec3 specular = texture(Specular, In.TexCoord).rgb;
 		vec3 ambiant = texture(Ambiant, In.TexCoord).rgb;

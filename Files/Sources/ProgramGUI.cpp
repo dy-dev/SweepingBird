@@ -24,9 +24,7 @@ ProgramGUI::ProgramGUI()
 	m_bIsStillRunning(true),
 	m_iWidth(0),
 	m_iHeight(0),
-	m_iDPI(1),
-	m_dFPS(0.0),
-	m_dPrevTime(0.0)
+	m_iDPI(1)
 {
 
 
@@ -36,9 +34,7 @@ ProgramGUI::ProgramGUI(int width, int height)
 	m_bIsStillRunning(true),
 	m_iWidth(width),
 	m_iHeight(height),
-	m_iDPI(1),
-	m_dFPS(0.0),
-	m_dPrevTime(0.0)
+	m_iDPI(1)
 {
 }
 
@@ -101,7 +97,7 @@ void ProgramGUI::init_Glew()
 		}
 
 		// Ensure we can capture the escape key being pressed below
-		glfwSetInputMode(m_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
+		glfwSetInputMode(m_pWindow, GLFW_CURSOR, GL_TRUE);
 
 		// Enable vertical sync (on cards that support it)
 		glfwSwapInterval(1);
@@ -129,13 +125,10 @@ void ProgramGUI::init_gui_states()
 
 void ProgramGUI::event_loop_management()
 {
-	m_dPrevTime = glfwGetTime();
-
 	// Mouse states
 	m_iLeftMouseButton = glfwGetMouseButton(m_pWindow, GLFW_MOUSE_BUTTON_LEFT);
 	m_iRightMouseButton = glfwGetMouseButton(m_pWindow, GLFW_MOUSE_BUTTON_RIGHT);
 	m_iMiddleMouseButton = glfwGetMouseButton(m_pWindow, GLFW_MOUSE_BUTTON_MIDDLE);
-
 
 	if (glfwGetKey(m_pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
@@ -158,7 +151,7 @@ void ProgramGUI::add_gui_element(std::string varName, GUIInfos* infos)
 	}
 }
 
-void ProgramGUI::display_gui(bool isDemo)
+void ProgramGUI::display_gui(bool isDemo, double fps)
 {
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -183,7 +176,7 @@ void ProgramGUI::display_gui(bool isDemo)
 			
 		char lineBuffer[512];
 		imguiBeginScrollArea("SweepingBird", m_iWidth - 210, m_iHeight - 810, 200, 800, &mscroll);
-		sprintf_s(lineBuffer, "FPS %f", m_dFPS);
+		sprintf_s(lineBuffer, "FPS %f", fps);
 
 		imguiLabel(lineBuffer);
 		for each (auto infos in m_mGUIElements)
@@ -211,9 +204,6 @@ void ProgramGUI::display_gui(bool isDemo)
 				}
 				imguiUnindent();
 			}
-
-
-
 			if (toggle)
 				*infos.second.second = !(*infos.second.second);
 		}
@@ -222,11 +212,6 @@ void ProgramGUI::display_gui(bool isDemo)
 		imguiRenderGLDraw(m_iWidth, m_iHeight);
 	}
 	glDisable(GL_BLEND);
-
-	double newTime = glfwGetTime();
-	m_dFPS = 1.f / (newTime - m_dPrevTime);
-
-
 	glfwSwapBuffers(m_pWindow);
 	glfwPollEvents();
 }

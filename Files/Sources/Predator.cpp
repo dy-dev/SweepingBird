@@ -71,3 +71,8 @@ const glm::vec3& Predator::get_direction() const
 {
   return m_v3Direction;
 }
+
+void Predator::update3DModel()
+{
+	//m_bPredatorsData.updateData(predatorsPositions.data(), 0, predatorsPositions.size() * sizeof(glm::vec3));
+}

@@ -3,6 +3,7 @@
 
 #include <stb/stb_image.h>
 #include <glew/glew.h>
+#include <glm/mat4x4.hpp> // glm::mat4
 
 #include <assimp/Importer.hpp>	//OO version Header!
 #include <assimp/postprocess.h>
@@ -15,6 +16,7 @@
 #include <Textured3DObject.h>
 #include <TextureManager.h>
 #include <UtilityToolKit.h>
+#include <ShaderProgram.h>
 
 using namespace SweepingBirds;
 
@@ -23,17 +25,18 @@ Textured3DObject::Textured3DObject()
 	:m_sName(""),
 	m_sPath(""),
 	m_fSize(1.0),
-	m_fSpacing(1.5),
-	m_fRange(0.0),
-	m_fSpeed(0.0),
-	m_bRotating(false),
-	m_bWasRotating(false),
-	m_dRotatingStartTime(0.0),
-	m_fRotationAngle(0.0f)
+	m_pTextureManager(nullptr),
+	m_pProgramGUI(nullptr),
+	m_pImporter(nullptr)
 {
 	m_pImporter = new Assimp::Importer();
 }
 
+Textured3DObject::Textured3DObject(TextureManager* texMgr)
+	:Textured3DObject()
+{
+	m_pTextureManager = texMgr;
+}
 
 Textured3DObject::~Textured3DObject()
 {
@@ -57,6 +60,7 @@ bool Textured3DObject::load_object(std::string path, bool own_format, TextureMan
 
 bool Textured3DObject::load_object(std::string path, TextureManager * texmgr)
 {
+	assert(m_pImporter != nullptr);
 	//check if file exists
 	std::ifstream fin(path.c_str());
 	if (!fin.fail())
@@ -161,6 +165,7 @@ bool Textured3DObject::generate_textures(TextureManager * texmgr)
 			texFound = m_pScene->mMaterials[m]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
 		}
 	}
+	assert(texmgr != nullptr);
 
 	texmgr->generate_textures(m_vTexturePath);
 
@@ -176,16 +181,6 @@ void Textured3DObject::bind_meshes()
 
 }
 
-bool Textured3DObject::check_start_rotation()
-{
-	if (m_bWasRotating != m_bRotating)
-	{
-		m_bWasRotating = m_bRotating;
-		return m_bRotating;
-	}
-	return false;
-}
-
 void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& textures, int mesh_index)
 {
 	if (mesh_index < m_vMeshes.size())
@@ -194,8 +189,31 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 	}
 }
 
-
-void Textured3DObject::set_mock_pos(const glm::vec3& pose) 
+void Textured3DObject::setup_drawing_space(ShaderProgram& shader, Mesh* mesh, glm::mat4 proj, glm::mat4 wtv, float time)
 {
-	m_v3MockPos = pose; 
+	glBindVertexArray(mesh->get_vao());
+	m_pTextureManager->apply_material(mesh->get_material());
+	shader.set_var_value("Time", (float)time);
+	shader.set_var_value("SizeFactor", m_fSize);
+
+	glm::mat4 Model;
+	/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
+	auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
+	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
+
+	auto ModelTranslated = glm::translate(Model, m_v3Position);
+	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
+	glm::mat4 mv = wtv * ModelScaled;
+	glm::mat4 mvp = proj * mv;
+	shader.set_var_value("MVP", glm::value_ptr(mvp));
+	shader.set_var_value("MV", glm::value_ptr(mv));
+	//	shader->set_var_value("ObjectId", (int)object.first->get_object_type());
+}
+
+void Textured3DObject::clean_bindings()
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

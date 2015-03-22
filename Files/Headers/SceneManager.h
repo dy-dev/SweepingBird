@@ -7,8 +7,6 @@
 #include <ogldev_math_3d.h>
 #include <GPUBuffer.h>
 
-class SkyBox;
-class OVGCamera;
 namespace SweepingBirds
 {
 	class Camera;
@@ -36,11 +34,12 @@ namespace SweepingBirds
 		void setup_shader_programs();
 		void setup_frame_buffer();
 		bool setup_objects();
-		bool setup_skybox();
-    void setup_predators(int maxPredators);
+		void setup_predators(int maxPredators);
+
+		void set_time(double time){ m_dTime = time; }
+		double get_time(){ return m_dTime; }
 
 		void draw_scene(ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
-		void draw_object(std::pair<Textured3DObject *, int*> object, ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
 		void gamma_management(glm::mat4 mvp, glm::mat4 mv);
 		void debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map, bool activate_sobel_map);
 
@@ -49,27 +48,28 @@ namespace SweepingBirds
 		static void demo(SceneManager * scn, double start);
 		void setupdemo();
 
-		void updateBird(const glm::vec3& birdPosition, float birdAngle);
 		void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
-    Textured3DObject* getGround();
-    Textured3DObject* getBird() { return m_pBird; }
+
+		double get_framerate(){ return m_dFPS; }
+		void update_time(double newTime);
 
 	protected:
-		Camera * m_pCamera;
 		ProgramGUI * m_pProgramGUI;
-		std::vector<Light*> m_vLights;
-		OVGCamera* m_pGameCamera;
-		PersProjInfo m_persProjInfo;
-		SkyBox * m_pSkyBox;
+		Camera * m_pCamera;
 		ShaderProgramManager* m_pShaderProgramManager;
-		ObjectManager* m_pAssimpObjectManager;
 		TextureManager * m_pTextureManager;
-    Textured3DObject* m_pGround;
-    Textured3DObject* m_pBird;
-    GPUBuffer m_bPredatorsData;
-    GLsizei m_siNbPredators;
 
+		ObjectManager* m_pAssimpObjectManager;
+		std::vector<Light*> m_vLights;
+		GPUBuffer m_bPredatorsData;
+		GLsizei m_siNbPredators;
+
+		double m_dFPS;
+		double m_dTime;
+		double m_dPrevTime;
+		
 		int m_iLockPositionX;
+		int m_iLockTurnPositionX;
 		int m_iLockPositionY;
 
 		bool m_bPanLock;
@@ -87,7 +87,7 @@ namespace SweepingBirds
 		static const float MOUSE_PAN_SPEED;
 		static const float MOUSE_ZOOM_SPEED;
 		static const float MOUSE_TURN_SPEED;
-    static const GLuint PREDATORS_BINDING;
+		static const GLuint PREDATORS_BINDING;
 
 		double m_dStartTime;
 		bool m_bDemoRunning;

@@ -56,40 +56,35 @@ int main(int argc, char **argv)
 
 	MySceneManager.init();
 
-	MySceneManager.setup_lights();
-	MySceneManager.setup_shader_programs();
-	MySceneManager.setup_frame_buffer();
-	//MySceneManager.setup_skybox();
-	MySceneManager.setup_objects();
-
 	PhysicsEngine MyPhysicsEngine(&MySceneManager);
 	MyPhysicsEngine.set_programGUI(&MainWindow);
 
 	if (bIsDemoProgram)
 	{
 		MySceneManager.setupdemo();
-		std::thread demothread(MySceneManager.demo, &MySceneManager, MainWindow.get_time());
+		std::thread demothread(MySceneManager.demo, &MySceneManager, glfwGetTime());
 	}
 
-  float startTime;
-  float elapsedTime = 0.f;
+	float startTime;
+	float elapsedTime = 0.f;
 	do
 	{
-    startTime = glfwGetTime();
+		startTime = glfwGetTime();
 		MainWindow.event_loop_management();
 
 		MyPhysicsEngine.update(elapsedTime);//must be called after event_loop_management because of time synchro
-	
+		MySceneManager.update_time(static_cast<float>(glfwGetTime()));//must be called after event_loop_management because of time synchro
+
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
 		MySceneManager.display_scene(false);
-		
-		MainWindow.display_gui(bIsDemoProgram);
+
+		MainWindow.display_gui(bIsDemoProgram, MySceneManager.get_framerate());
 
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 
-    elapsedTime = startTime - glfwGetTime();
+		elapsedTime = startTime - glfwGetTime();
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 

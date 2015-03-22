@@ -1,6 +1,7 @@
 #pragma once
 
-#include "glm\common.hpp"
+#include <glm\common.hpp>
+#include <Bird3D.h>
 
 namespace SweepingBirds
 {
@@ -20,12 +21,13 @@ namespace SweepingBirds
 		void update(const float deltaTime);
 		void set_height(float newHeight);
 
-		const glm::vec3& get_translation() const;
 		const glm::vec3& get_position() const;
 		const glm::vec3& get_velocity() const;
 
 		float get_angle() const;
 
+		const Bird3D & get_bird_3d() const { return m_Bird3D;};
+		void update3DModel();
 	private:
 		glm::vec3 m_v3Position;
 		glm::vec3 m_v3PrevPosition;
@@ -34,6 +36,8 @@ namespace SweepingBirds
 		float m_fMass;
 		float m_fTimeSinceDirectionChanged;
 		float m_fAngle;
+
+		Bird3D m_Bird3D;
 	};
 
 }

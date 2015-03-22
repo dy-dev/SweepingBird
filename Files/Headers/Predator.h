@@ -1,6 +1,7 @@
 #pragma once
 
-#include "glm\common.hpp"
+#include <glm\common.hpp>
+#include <Predators3D.h>
 
 /* A Predator is a particle following a bird in
    a "Hook Style".
@@ -14,7 +15,7 @@ namespace SweepingBirds
 	class Predator
 	{
 	public:
-    static const glm::vec3 GRAVITY;
+		static const glm::vec3 GRAVITY;
 
 		Predator();
 		Predator(const float mass, const glm::vec3& initialPosition, const glm::vec3& initialVelocity = glm::vec3(0));
@@ -22,11 +23,14 @@ namespace SweepingBirds
 		void update(const float deltaTime);
 		void make_follow(const Bird * const bird);
 
-    void set_spring_rigidity(const float rigidity);
-    void set_spring_length(const float length);
-
 		const glm::vec3& get_position() const;
 		const glm::vec3& get_direction() const;
+		void set_spring_rigidity(const float rigidity);
+		void set_spring_length(const float length);
+
+		const Predators3D & get_predator_3d() const { return m_Predator3D; };
+
+		void update3DModel();
 
 	private:
 		const Bird * m_bird;
@@ -38,6 +42,7 @@ namespace SweepingBirds
 		float m_fSpringRigidity;
 		float m_fSpringLength;
 
+		Predators3D m_Predator3D;
 	};
 
 }

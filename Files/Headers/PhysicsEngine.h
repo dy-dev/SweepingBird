@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Bird.h"
-#include "Predator.h"
+#include <Bird.h>
+#include <Ground.h>
 #include <vector>
 
 namespace SweepingBirds
 {
-
+	class Predator;
 	class SceneManager;
-class ProgramGUI;
+	class ProgramGUI;
 
 	class PhysicsEngine
 	{
@@ -25,10 +25,11 @@ class ProgramGUI;
 
 		//wp => weak pointer
 		SceneManager* m_wpSceneManager;
-    ProgramGUI* m_pProgramGUI;
+		ProgramGUI* m_pProgramGUI;
 
-		Bird m_bird;
+		Bird m_Bird;
 		std::vector<Predator* > m_vPredators;
+		Ground m_Ground;
 		bool m_bPredatorsLaunched;
     bool m_pbResetPredatorsPos;//For debugging purposes
 

@@ -46,7 +46,8 @@ void TextureManager::generate_textures(std::vector<std::pair< std::string, aiTex
 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		texs[path.second] = textures[index];
-		m_mTextures[UtilityToolKit::getFileName(path.first)] = texs;
+		auto key = UtilityToolKit::getFileName(path.first) ;
+		m_mTextures[key] = texs;
 		index++;
 	}
 }
@@ -209,7 +210,7 @@ void  TextureManager::apply_material(const aiMaterial *mtl/*, std::map<std::stri
 
 	int texIndex = 0;
 	aiString texPath;	//contains filename of texture
-
+	
 	if (AI_SUCCESS == mtl->GetTexture(aiTextureType_DIFFUSE, texIndex, &texPath))
 	{
 		//bind texture	
