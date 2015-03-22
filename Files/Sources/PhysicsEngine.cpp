@@ -20,7 +20,7 @@ const unsigned int PhysicsEngine::NB_PREDATORS = 3;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
-	m_Bird(2.0f, glm::vec3(0, 0, 0)),
+	m_Bird(2.0f, glm::vec3(0, 0, -500)),
 	m_bPredatorsLaunched(false),
 	m_fPredatorsSpringLength(50.0f),
 	m_fPredatorsSpringRigidity(3.f),
@@ -73,10 +73,16 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	infos->max = 100.f;
 	infos->step = 0.5f;
 	infos->var.push_back(std::make_pair("Spring length", &(m_fPredatorsSpringLength)));
-	infos->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
 	m_pProgramGUI->add_gui_element(name, infos);
 
-	auto infos2 = new GUIInfos(name);
+  auto infos3 = new GUIInfos(name, -50.0f, 50.0f, 0.1f);
+  infos->min = 0.f;
+  infos->max = 5.f;
+  infos->step = 0.1f;
+  infos->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
+  m_pProgramGUI->add_gui_element(name, infos3);
+
+	auto infos2 = new GUIInfos(name, CHECKBOX);
 	infos2->check_adress = &m_pbResetPredatorsPos;
 	m_pProgramGUI->add_gui_element(name, infos2);
 }
@@ -95,14 +101,20 @@ void PhysicsEngine::update(const float deltaTime)
 	//  dismiss_predators();
 	// }
 
-	float freq = m_Ground.getMountainFrequency();
-	if (freq == 0)
-	{
-		freq = 0.001;
-	}
+  float MountainFrequence = m_Ground.getMountainFrequency();
+  float MaxMountainHeight = m_Ground.getGroundHeight();
+  int freq = int(MountainFrequence);
+  if (freq == 0)
+    freq = 1;
 
-	float MaxMountainHeight = m_Ground.getGroundHeight();
-	float birdHeight = MaxMountainHeight*(cos(m_wpSceneManager->get_time() + 1.5)*sin(m_wpSceneManager->get_time()*5.0));
+  glm::vec3 birdPos = m_Bird.get_position();
+  float tempx = birdPos.x / (10 * freq);// - Time;
+  float tempz = birdPos.z / (10 * freq);
+  float birdHeight = 0;
+
+  birdHeight = MaxMountainHeight*(cos(tempx)*cos(2.0*tempx)*sin(4.0*tempz) + sin(tempz + 1.5)*sin(2.0*tempz)*cos(tempx*8.0));
+  birdHeight += MaxMountainHeight*(sin(tempz / 5.0)*cos(3.0*tempx) + sin(tempx)*sin(5 * tempz));
+  birdHeight += MaxMountainHeight*(cos(tempz + 1.5)*sin(tempz)*cos(9.0*tempx) + cos(tempx + 1.5)*cos(tempz / 5.0)*sin(tempx*5.0));
 
 	birdHeight += BIRD_OFFSET;
 
@@ -135,6 +147,9 @@ void PhysicsEngine::update(const float deltaTime)
 
 void PhysicsEngine::launch_predators()
 {
+  if (m_bPredatorsLaunched)
+    return;
+
 	for each (auto predator in m_vPredators)
 	{
 		predator->make_follow(&m_Bird);
@@ -145,6 +160,9 @@ void PhysicsEngine::launch_predators()
 
 void PhysicsEngine::dismiss_predators()
 {
+  if (!m_bPredatorsLaunched)
+    return;
+
 	for each (auto predator in m_vPredators)
 	{
 		predator->make_follow(nullptr);

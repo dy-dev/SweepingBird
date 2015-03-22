@@ -41,7 +41,7 @@ GLsizeiptr GPUBuffer::getSize() const
 void GPUBuffer::setData(GLsizeiptr size, const GLvoid* data)
 {
 	bind();
-	glBufferStorage(BUFFER_TARGET, size, NULL, GL_MAP_WRITE_BIT | GL_DYNAMIC_STORAGE_BIT);
+  glBufferData(BUFFER_TARGET, size, data, GL_DYNAMIC_DRAW);
 	unbind();
 	assert(UtilityToolKit::check_errors("GPUBuffer::setData"));
 	m_siSize = size;

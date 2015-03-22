@@ -23,7 +23,7 @@ ObjectManager::ObjectManager()
   
 }
 
-ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui)
+ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam)
 	:ObjectManager()
 {
 	m_pTexMgr = texMgr;
@@ -33,6 +33,8 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui)
   new Bird3D(this, texMgr);
   new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
   new Ground3D(this, texMgr, 5000);
+
+	m_pCamera = cam;
 }
 
 ObjectManager::~ObjectManager()
@@ -93,4 +95,18 @@ GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max
 	infos->var.push_back(std::make_pair(infos->name, value_to_change));
 
 	return infos;
+}
+
+GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(void*)> function_to_call, void *obj)
+{
+	auto infos = new GUIInfos(name, BUTTON);
+	infos->var.push_back(std::make_pair(infos->name, new float(0)));
+	infos->button_action = function_to_call;
+	infos->obj = obj;
+	return infos;
+}
+
+void SweepingBirds::ObjectManager::stick_cam(Textured3DObject* obj)
+{
+	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction());
 }

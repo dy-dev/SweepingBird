@@ -4,7 +4,7 @@
 #include "glm/gtx/rotate_vector.hpp"
 
 #define M_PI_4 3.14159265359f / 4.0f
-#define DIRECTION_TIMER_S 10.0f
+#define DIRECTION_TIMER_S 3.0f
 #define VERTICAL glm::vec3(0.f, 1.f, 0.f)
 
 using namespace SweepingBirds;
@@ -79,9 +79,4 @@ void Bird::update_3D_model()
 {
 	m_wpBird3D->set_position(m_v3Position);
   m_wpBird3D->set_direction(glm::normalize(m_v3Velocity));
-	/*glm::mat4 model(1.f);
-	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
-	*/
-	//*m_pBird->get_y_pos() = (birdPosition.y);
-	//Set uniform in shader TODO
 }

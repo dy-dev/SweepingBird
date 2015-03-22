@@ -15,6 +15,7 @@ namespace SweepingBirds
 		~Camera();
 
 		void Camera_compute();
+		void Camera_compute_angles();
 		void Camera_defaults();
 		void Camera_zoom(float factor);
 		void Camera_turn(float phi, float theta);
@@ -23,6 +24,7 @@ namespace SweepingBirds
 		glm::vec3 GetO() const { return o; };
 		glm::vec3 GetEye() const { return eye; };
 		glm::vec3 GetUp() const { return up; };
+		void jump_to_pos(glm::vec3 position, glm::vec3 direction);
 
 	protected:
 		float radius;

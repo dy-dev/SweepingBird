@@ -44,14 +44,15 @@ Ground3D::~Ground3D()
 {
 }
 
-void Ground3D::draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance)
+void Ground3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance)
 {
 	for each (auto mesh in m_vMeshes)
 	{
-		auto shader = setup_drawing_space(shaderMgr, mesh, cam, proj, time);
+		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{	
 			glm::mat4 Model;
+			auto cam = m_pObjectManager->get_Camera();
 			auto ModelTranslated = glm::translate(Model, cam->GetEye());
 			shader->set_var_value("GroundTranslation", glm::value_ptr(ModelTranslated));
 			shader->set_var_value("InstanceNumber", nbInstance);

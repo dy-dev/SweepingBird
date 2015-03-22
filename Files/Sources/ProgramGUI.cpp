@@ -47,8 +47,6 @@ void ProgramGUI::init()
 {
 	init_GLFW();
 	init_Glew();
-	// Init viewer structures
-	init_gui_states();
 }
 
 void ProgramGUI::init_GLFW()
@@ -117,11 +115,6 @@ void ProgramGUI::init_Glew()
 	}
 }
 
-void ProgramGUI::init_gui_states()
-{
-	Cameras = 0;
-	playing = false;
-}
 
 void ProgramGUI::event_loop_management()
 {
@@ -199,6 +192,12 @@ void ProgramGUI::display_gui(bool isDemo, double fps)
 						auto toggleChk = imguiCheck(elementInfo->name.c_str(), *elementInfo->check_adress);
 						if (toggleChk)
 							*elementInfo->check_adress = !(*elementInfo->check_adress);
+					}
+					else if (elementInfo != nullptr && elementInfo->type == BUTTON)
+					{
+						auto toggleChk = imguiButton(elementInfo->name.c_str());
+						if (toggleChk)
+							elementInfo->button_action(elementInfo->obj);
 					}
 
 				}

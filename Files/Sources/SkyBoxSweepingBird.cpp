@@ -31,11 +31,11 @@ SkyBoxSweepingBird::~SkyBoxSweepingBird()
 }
 
 
-void SkyBoxSweepingBird::draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance)
+void SkyBoxSweepingBird::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance)
 {
 	for each (auto mesh in m_vMeshes)
 	{
-		auto shader = setup_drawing_space(shaderMgr, mesh, cam, proj, time);
+		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{
 			GLint OldCullFaceMode;
@@ -46,6 +46,7 @@ void SkyBoxSweepingBird::draw(ShaderProgramManager& shaderMgr, Camera * cam, glm
 			glCullFace(GL_FRONT);
 			glDepthFunc(GL_LEQUAL);
 
+			auto cam = m_pObjectManager->get_Camera(); 
 			glm::mat4 Model;
 			auto ModelTranslated = glm::translate(Model, cam->GetEye());
 			shader->set_var_value("GroundTranslation", glm::value_ptr(ModelTranslated));

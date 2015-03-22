@@ -73,18 +73,19 @@ namespace SweepingBirds
 		void set_position(glm::vec3 Position) { m_v3PrevPos = m_v3Position;  m_v3Position = Position; };
 		glm::vec3 get_position(){ return m_v3Position; };
 		glm::vec3 get_translation(){ return m_v3Position - m_v3PrevPos; };
+		void set_direction(glm::vec3 direction) { m_v3Direction = direction;};
+		glm::vec3 get_direction(){ return m_v3Direction; };
 		
 		float * get_x_pos() { return &(m_v3Position.x); }
 		float * get_y_pos() { return &(m_v3Position.y); }
 		float * get_z_pos() { return &(m_v3Position.z); }
 		const float * get_y_pos() const { return &(m_v3Position.y); }
 
-
 		void set_mock_pos(const glm::vec3& newPos){m_v3MockPos = newPos;}
 		const glm::vec3& get_mock_pos() const{ return m_v3MockPos; }
 
-		virtual void draw(ShaderProgramManager& shader, Camera * cam, glm::mat4 proj, float time, int nbInstance) = 0;
-		ShaderProgram* setup_drawing_space(ShaderProgramManager& shader, Mesh* mesh, Camera * cam, glm::mat4 proj, float time);
+		virtual void draw(ShaderProgramManager& shader, glm::mat4 proj, float time, int nbInstance) = 0;
+		ShaderProgram* setup_drawing_space(ShaderProgramManager& shader, Mesh* mesh, glm::mat4 proj, float time);
 		void clean_bindings();
 
 	private:
@@ -125,7 +126,6 @@ namespace SweepingBirds
 		 *	
 		 */
 		TextureManager * m_pTextureManager;
-		ProgramGUI * m_pProgramGUI;
 		ObjectManager* m_pObjectManager;
 
 		ShaderProgramType m_eShaderType;

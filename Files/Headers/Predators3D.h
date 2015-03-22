@@ -14,7 +14,7 @@ namespace SweepingBirds
 		Predators3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance);
 		~Predators3D();
 
-		virtual void draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance) override;
+		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
 
     void update_positions(const std::vector<glm::vec3>& newPositions);
 

@@ -10,6 +10,6 @@ namespace SweepingBirds
 		SkyBoxSweepingBird(ObjectManager* manager, TextureManager * texMgr);
 		~SkyBoxSweepingBird();
 
-		virtual void draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance) override;
+		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
 	};
 }
