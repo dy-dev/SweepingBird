@@ -125,16 +125,8 @@ void PhysicsEngine::update(const float deltaTime)
 	std::vector<glm::vec3> predatorsDirections;
 	for each (auto pred in m_vPredators)
 	{
-		//tricks for position stuff
-		glm::vec3 finalPos = pred->get_position();
-		finalPos.x -= m_Bird.get_position().x;
-		finalPos.z -= m_Bird.get_position().z;
-
-		if (m_pbResetPredatorsPos)
-			finalPos = glm::vec3(0);
-
-		predatorsPositions.push_back(finalPos);
-		predatorsDirections.push_back((*it)->get_direction());
+		predatorsPositions.push_back(pred->get_position());
+		predatorsDirections.push_back(pred->get_direction());
 	}
   m_wpPredators3D->update_positions(predatorsPositions);
 }
