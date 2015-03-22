@@ -26,7 +26,8 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, get_y_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, get_z_pos()));
-	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_button("Jump Cam To Bird", stick_cam, (void*)this));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_button("Jump Cam To Predators", jump_cam, (void*)this));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_checkbox("Stick Cam To Predators", &m_bCamSticked));
 
 	auto tmp = new char[nbInstance * sizeof(glm::vec3)];
 	m_bufPredatorsData.setData(nbInstance * sizeof(glm::vec3), tmp);

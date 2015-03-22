@@ -31,7 +31,8 @@ Textured3DObject::Textured3DObject()
 	m_pTextureManager(nullptr),
 	m_pImporter(nullptr),
 	m_v3Direction(0.0,0.0,1.0),
-	m_v3Position(0)
+	m_v3Position(0),
+	m_bCamSticked(false)
 {
 	m_eShaderType = MAIN;
 	m_pImporter = new Assimp::Importer();
@@ -211,6 +212,10 @@ ShaderProgram* Textured3DObject::setup_drawing_space(ShaderProgramManager& shade
 		//	auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
 		//	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
 		auto cam = m_pObjectManager->get_Camera();
+		if (m_bCamSticked)
+		{
+			m_pObjectManager->jump_cam(this);
+		}
 		glm::mat4 worldToView = glm::lookAt(cam->GetEye(), cam->GetO(), cam->GetUp());
 
 		auto ModelTranslated = glm::translate(Model, m_v3Position);
@@ -237,11 +242,17 @@ void Textured3DObject::clean_bindings()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Textured3DObject::stick_cam(void * obj)
+void Textured3DObject::jump_cam(void * obj, bool stick)
 {
 	auto view_obj = reinterpret_cast<Textured3DObject*> (obj);
 	if (view_obj != nullptr)
 	{
-		view_obj->m_pObjectManager->stick_cam(view_obj);
+		view_obj->m_pObjectManager->jump_cam(view_obj);
+		view_obj->m_bCamSticked = stick;
 	}
+}
+
+void Textured3DObject::stick_cam(void * obj)
+{
+	jump_cam(obj, true);
 }

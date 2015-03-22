@@ -98,7 +98,7 @@ GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max
 	return infos;
 }
 
-GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(void*)> function_to_call, void *obj)
+GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(void*, bool)> function_to_call, void *obj)
 {
 	auto infos = new GUIInfos(name, BUTTON);
 	infos->var.push_back(std::make_pair(infos->name, new float(0)));
@@ -107,7 +107,15 @@ GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(v
 	return infos;
 }
 
-void SweepingBirds::ObjectManager::stick_cam(Textured3DObject* obj)
+GUIInfos * ObjectManager::generate_checkbox(std::string name, bool * is_used)
+{
+	auto infos = new GUIInfos(name, CHECKBOX);
+	infos->check_adress = is_used;
+
+	return infos;
+}
+
+void ObjectManager::jump_cam(Textured3DObject* obj)
 {
 	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction());
 }

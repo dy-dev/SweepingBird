@@ -27,7 +27,7 @@ namespace SweepingBirds
 		float min;
 		float max;
 		float step;
-		std::function<void(void*)> button_action;
+		std::function<void(void*, bool)> button_action;
 		void * obj;
 		GUIInfos(std::string n, float mn, float mx, float stp)
 		{
