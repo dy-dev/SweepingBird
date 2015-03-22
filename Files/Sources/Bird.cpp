@@ -35,21 +35,21 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
 void Bird::update(const float deltaTime)
 {
   m_fTimeSinceDirectionChanged += deltaTime;
-  /*
-  if (m_timeSinceDirectionChanged > DIRECTION_TIMER_S)
+  
+  if (m_fTimeSinceDirectionChanged > DIRECTION_TIMER_S)
   {
-    m_timeSinceDirectionChanged = 0.0f;
+    m_fTimeSinceDirectionChanged = 0.0f;
     const glm::vec3 currentDirection = glm::normalize(m_v3Velocity);
 
     //To avoid hard turns  we limit the range
-    m_angle = glm::linearRand(-M_PI_4, M_PI_4);
-    glm::vec3 newDirection = glm::rotate(currentDirection, m_angle, VERTICAL);
+    m_fAngle = glm::linearRand(-M_PI_4, M_PI_4);
+    glm::vec3 newDirection = glm::rotate(currentDirection, m_fAngle, VERTICAL);
 
     //Compute final velocity. Bird never moves on Y Axis
     glm::vec2 newVelocity = glm::linearRand(glm::vec2(1.f), glm::vec2(4.f));//Magic numbers to be tested
     m_v3Velocity = newDirection * glm::vec3(newVelocity.x, 0.0f, newVelocity.y);
   }
-  */
+  
   m_v3PrevPosition = m_v3Position;
   m_v3Position = m_v3Position + (deltaTime * m_v3Velocity);
   //TO DO: add terrain height offset in y position
@@ -78,6 +78,7 @@ void Bird::set_height(float newHeight)
 void Bird::update_3D_model()
 {
 	m_wpBird3D->set_position(m_v3Position);
+  m_wpBird3D->set_direction(glm::normalize(m_v3Velocity));
 	/*glm::mat4 model(1.f);
 	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
 	*/
