@@ -7,6 +7,7 @@ namespace SweepingBirds
 	class Bird3D : public Textured3DObject
 	{
 	public:
+    
 		Bird3D();
 		Bird3D(ObjectManager* manager, TextureManager * texMgr);
 		~Bird3D();

@@ -12,17 +12,15 @@
 #include <ObjectManager.h>
 #include <ProgramGUI.h>
 #include <assimp/DefaultLogger.hpp>
+#include <PhysicsEngine.h>
 
 using namespace SweepingBirds;
 
 ObjectManager::ObjectManager()
-	:m_pBird3D(nullptr),
-	m_pPredators3D(nullptr),
-	m_pGround3D(nullptr),
-	m_pSkyBox(nullptr),
-	m_pGUI(nullptr),
+	: m_pGUI(nullptr),
 	m_pTexMgr(nullptr)
 {
+  
 }
 
 ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui)
@@ -30,6 +28,11 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui)
 {
 	m_pTexMgr = texMgr;
 	m_pGUI = gui;
+
+  //These objects register themselve to the ObjectManager (this object)
+  new Bird3D(this, texMgr);
+  new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
+  new Ground3D(this, texMgr, 5000);
 }
 
 ObjectManager::~ObjectManager()
@@ -39,15 +42,6 @@ ObjectManager::~ObjectManager()
 		delete object.second.first;
 		delete object.second.second;
 	}
-}
-
-bool ObjectManager::create_scene_assets()
-{
-	m_pBird3D = new Bird3D(this, m_pTexMgr);
-	m_pPredators3D = new Predators3D(this, m_pTexMgr,50);
-	m_pGround3D = new Ground3D(this, m_pTexMgr,5000);
-	m_pSkyBox = new SkyBoxSweepingBird(this, m_pTexMgr);
-	return true;
 }
 
 void ObjectManager::add_gui_controller(std::string name, GUIInfos * infos)
@@ -60,8 +54,7 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances)
 	if (object != nullptr)
 	{
 		object->bind_meshes();
-
-		m_mObjectManaged[object->get_name()] = std::make_pair(object, new float(nb_instances));
+		m_mObjectManaged.emplace(std::string(typeid(*object).name()),std::make_pair(object, new float(nb_instances)));
 		return true;
 	}
 	else

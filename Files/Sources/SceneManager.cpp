@@ -25,7 +25,6 @@ using namespace SweepingBirds;
 const float SceneManager::MOUSE_PAN_SPEED = 1.f;
 const float SceneManager::MOUSE_ZOOM_SPEED = 0.05f;
 const float SceneManager::MOUSE_TURN_SPEED = 0.0005f;
-const GLuint SceneManager::PREDATORS_BINDING = GL_TEXTURE5;
 
 SceneManager::SceneManager()
 	:m_iLockPositionX(0),
@@ -37,7 +36,6 @@ SceneManager::SceneManager()
 	m_pAssimpObjectManager(nullptr),
 	m_fGamma(0.15f),
 	//m_pSkyBox(nullptr),
-	m_bPredatorsData(GL_RGB32F),
 	m_siNbPredators(0),
 	m_dFPS(0.0),
 	m_dPrevTime(0.0)
@@ -137,7 +135,7 @@ bool SceneManager::setup_objects()
 {
 	assert(m_pProgramGUI != nullptr && m_pTextureManager != nullptr);
 	m_pAssimpObjectManager = new ObjectManager(m_pTextureManager, m_pProgramGUI);
-	return m_pAssimpObjectManager->create_scene_assets();
+	return true;
 }
 
 void SceneManager::set_cam_states()
@@ -164,11 +162,6 @@ void SceneManager::update_time(double newTime)
 	m_dTime = newTime;
 	assert(m_dTime - m_dPrevTime != 0);
 	m_dFPS = 1.f / (m_dTime - m_dPrevTime);
-}
-
-void SceneManager::setup_predators(int maxPredators)
-{
-	// m_bPredatorsData.setData(maxPredators * sizeof(glm::vec3), static_cast<GLvoid*>(nullptr));
 }
 
 void SceneManager::manage_camera_movements()

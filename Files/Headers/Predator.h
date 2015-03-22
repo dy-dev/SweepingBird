@@ -28,9 +28,8 @@ namespace SweepingBirds
 		void set_spring_rigidity(const float rigidity);
 		void set_spring_length(const float length);
 
-		const Predators3D & get_predator_3d() const { return m_Predator3D; };
-
-		void update3DModel();
+    const Predators3D & get_predator_3d() const { assert(m_wpPredator3D);  return *m_wpPredator3D; };
+    void set_predators_3D(const Predators3D* newPredators){ m_wpPredator3D = newPredators; }
 
 	private:
 		const Bird * m_bird;
@@ -42,7 +41,7 @@ namespace SweepingBirds
 		float m_fSpringRigidity;
 		float m_fSpringLength;
 
-		Predators3D m_Predator3D;
+    const Predators3D* m_wpPredator3D;
 	};
 
 }

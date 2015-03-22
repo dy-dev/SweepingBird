@@ -18,10 +18,9 @@ namespace SweepingBirds
 		ObjectManager(TextureManager * texMgr, ProgramGUI * gui);
 		~ObjectManager();
 
-		bool create_scene_assets();
 		bool bind_object(Textured3DObject* object, int nb_instances);
 
-		const std::map<std::string, std::pair<Textured3DObject*, float*> >& get_objects() { return m_mObjectManaged; };
+		const std::multimap<std::string, std::pair<Textured3DObject*, float*> >& get_objects() { return m_mObjectManaged; };
 		std::pair<Textured3DObject *, float *>& get_object(std::string name);
 		
 		const TextureManager* get_TexManager() const{ return m_pTexMgr; }
@@ -33,11 +32,7 @@ namespace SweepingBirds
 
 	private:
 		//need a float as nbInstance not an int because of GUI limitation
-		std::map<std::string , std::pair<Textured3DObject*, float*> > m_mObjectManaged;
-		Bird3D * m_pBird3D;
-		Predators3D * m_pPredators3D;
-		SkyBoxSweepingBird* m_pSkyBox;
-		Ground3D* m_pGround3D;
+		std::multimap<std::string , std::pair<Textured3DObject*, float*> > m_mObjectManaged;
 
 		TextureManager * m_pTexMgr;
 		ProgramGUI * m_pGUI;
