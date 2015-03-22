@@ -11,7 +11,7 @@
 
 
 /// The threshold at wich predators start hunting the bird
-#define PREDATOR_THRESHOLD_M 15.f
+#define PREDATOR_THRESHOLD_M 150.f
 #define BIRD_OFFSET 10.f
 
 using namespace SweepingBirds;
@@ -22,12 +22,12 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
 	m_Bird(2.0f, glm::vec3(0, 0, -500)),
 	m_bPredatorsLaunched(false),
-	m_fPredatorsSpringLength(50.0f),
-	m_fPredatorsSpringRigidity(3.f),
+	m_fPredatorsSpringLength(40.0f),
+	m_fPredatorsSpringRigidity(0.4f),
 	m_pbResetPredatorsPos(false)
 
 {
-  //Predators generation using pseudo random spread function
+  //Predators generation using random spread function
   for (int i = 0; i < NB_PREDATORS; ++i)
   {
     glm::vec3 initialPosition = glm::vec3(0);
@@ -36,9 +36,9 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
       random = -random;
     initialPosition.x = i * 10 * cos(m_wpSceneManager->get_time()) + random;
     initialPosition.z = i * 14 * sin(m_wpSceneManager->get_time()-i) + (std::rand() % 200);
-    
+    glm::vec3 initialVelocity = glm::vec3(-100, 0, 20);
     float mass = std::rand() % 10;
-    Predator* p = new Predator(mass, initialPosition);
+    Predator* p = new Predator(mass, initialPosition, initialVelocity);
     m_vPredators.push_back(p);
   }
 
@@ -102,14 +102,11 @@ void PhysicsEngine::update(const float deltaTime)
 	m_Bird.update(deltaTime);
 
 
-	// if (m_bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
-	// {
-	launch_predators();
-	// }
-	// else if (m_bPredatorsLaunched && m_bird.get_position().y < PREDATOR_THRESHOLD_M)
-	// {
-	//  dismiss_predators();
-	// }
+	 if (m_Bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
+	  launch_predators();
+   else if (m_bPredatorsLaunched && m_Bird.get_position().y < PREDATOR_THRESHOLD_M)
+	  dismiss_predators();
+	 
 
   float MountainFrequence = m_Ground.get_mountain_frequency();
   float MaxMountainHeight = m_Ground.get_ground_height();
