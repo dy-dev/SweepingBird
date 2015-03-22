@@ -63,7 +63,7 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	infos->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
 	m_pProgramGUI->add_gui_element(name, infos);
 
-	auto infos2 = new GUIInfos(name);
+	auto infos2 = new GUIInfos(name, CHECKBOX);
 	infos2->check_adress = &m_pbResetPredatorsPos;
 	m_pProgramGUI->add_gui_element(name, infos2);
 }

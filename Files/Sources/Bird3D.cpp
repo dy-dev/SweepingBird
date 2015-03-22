@@ -25,6 +25,7 @@ Bird3D::Bird3D(ObjectManager* manager, TextureManager * texMgr)
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_slider("PosX", -5500.0f, 5500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_slider("PosY", -5500.0f, 5500.0f, 1.f, get_y_pos()));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_slider("PosZ", -5500.0f, 5500.0f, 1.f, get_z_pos()));
+	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_button("Jump Cam To Bird",stick_cam, (void*)this));
 	m_pObjectManager->bind_object(this, 1);
 }
 
@@ -33,12 +34,20 @@ Bird3D::~Bird3D()
 {
 }
 
+void Bird3D::stick_cam(void * obj)
+{
+	auto bird = reinterpret_cast<Bird3D*> (obj);
+	if (bird != nullptr)
+	{
+		bird->m_pObjectManager->stick_cam(bird);
+	}
+}
 
-void Bird3D::draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance)
+void Bird3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance)
 {
 	for each (auto mesh in m_vMeshes)
 	{
-		auto shader = setup_drawing_space(shaderMgr, mesh, cam, proj, time);
+		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{
 

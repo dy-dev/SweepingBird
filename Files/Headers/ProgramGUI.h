@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <functional>
 
 #include <GLFW/glfw3.h>
 
@@ -12,8 +13,10 @@ namespace SweepingBirds
 	enum GUIType
 	{
 		SLIDER,
-		CHECKBOX
+		CHECKBOX,
+		BUTTON
 	};
+	
 	struct GUIInfos
 	{
 		class Camera;
@@ -24,7 +27,8 @@ namespace SweepingBirds
 		float min;
 		float max;
 		float step;
-
+		std::function<void(void*)> button_action;
+		void * obj;
 		GUIInfos(std::string n, float mn, float mx, float stp)
 		{
 			name = n;
@@ -33,10 +37,10 @@ namespace SweepingBirds
 			max = mx;
 			step = stp;
 		}
-		GUIInfos(std::string n)
+		GUIInfos(std::string n, GUIType ty)
 		{
 			name = n;
-			type = CHECKBOX;
+			type = ty;
 		}
 	};
 	class ProgramGUI
@@ -64,28 +68,22 @@ namespace SweepingBirds
 	protected:
 		void init_GLFW();
 		void init_Glew();
-		void init_gui_states();
-
+		
+		
 		GLFWwindow * m_pWindow;
 		int m_iWidth;
 		int m_iHeight;
 
 		bool m_bIsStillRunning;
-
+		
 		bool panLock;
 		bool turnLock;
 		bool zoomLock;
 
-		int Cameras;
-		bool playing;
 
 		int m_iLeftMouseButton;
 		int m_iMiddleMouseButton;
 		int m_iRightMouseButton;
-
-		float light1XPos;
-		float light1YPos;
-		float light1ZPos;
 
 		int m_iDPI;
 

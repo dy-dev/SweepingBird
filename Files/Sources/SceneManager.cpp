@@ -136,7 +136,7 @@ void SceneManager::setup_frame_buffer()
 bool SceneManager::setup_objects()
 {
 	assert(m_pProgramGUI != nullptr && m_pTextureManager != nullptr);
-	m_pAssimpObjectManager = new ObjectManager(m_pTextureManager, m_pProgramGUI);
+	m_pAssimpObjectManager = new ObjectManager(m_pTextureManager, m_pProgramGUI, m_pCamera);
 	return m_pAssimpObjectManager->create_scene_assets();
 }
 
@@ -291,7 +291,7 @@ void SceneManager::display_scene(bool activate_gamma)
 			{
 				if (object.second.first != nullptr)
 				{
-					object.second.first->draw(*m_pShaderProgramManager, m_pCamera, projection, m_dTime, *object.second.second);
+					object.second.first->draw(*m_pShaderProgramManager, projection, m_dTime, *object.second.second);
 				}
 			}
 		}

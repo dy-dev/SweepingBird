@@ -35,11 +35,11 @@ Predators3D::~Predators3D()
 {
 }
 
-void Predators3D::draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance)
+void Predators3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance)
 {
 	for each (auto mesh in m_vMeshes)
 	{
-		auto shader = setup_drawing_space(shaderMgr, mesh, cam, proj, time);
+		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{
 			//m_bPredatorsData.activate(PREDATORS_BINDING);

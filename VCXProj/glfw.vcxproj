@@ -130,6 +130,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ProgramDataBaseFileName>$(OutDir)glfw.pdb</ProgramDataBaseFileName>
       <CompileAs>CompileAsC</CompileAs>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_GLFW_WGL;_GLFW_WIN32;_GLFW_USE_OPENGL;_GLFW_HAS_PTHREAD;_GLFW_HAS_SCHED_YIELD;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -143,6 +144,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

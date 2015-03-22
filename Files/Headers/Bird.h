@@ -28,6 +28,7 @@ namespace SweepingBirds
 
 		const Bird3D & get_bird_3d() const { return m_Bird3D;};
 		void update3DModel();
+	
 	private:
 		glm::vec3 m_v3Position;
 		glm::vec3 m_v3PrevPosition;

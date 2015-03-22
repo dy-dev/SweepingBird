@@ -41,7 +41,7 @@ GUIInfos * Light::generate_slider_specular_power_infos(std::string name)
 
 GUIInfos * Light::generate_use_light_checkbox(std::string name)
 {
-	auto infos = new GUIInfos(name);
+	auto infos = new GUIInfos(name, CHECKBOX);
 	infos->check_adress = &m_bIsUsed;
 
 	return infos;

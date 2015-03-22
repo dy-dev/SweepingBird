@@ -1,4 +1,6 @@
-#include "Camera.h"
+#include <Camera.h>
+#include <glm/vec3.hpp> // glm::mat4
+
 #define M_PI 3.14f
 
 using namespace SweepingBirds;
@@ -100,4 +102,41 @@ void Camera::Camera_pan(float x, float y)
 		phi += mul*acos(yvar);
 	}*/
 	Camera_compute();
+}
+
+void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
+{
+	o = position;
+	
+	radius = 200;
+
+	eye = o - direction;
+
+	Camera_compute_angles();
+}
+
+void Camera::Camera_compute_angles()
+{
+	if (eye.y != 0)
+	{
+		auto val = glm::dot(glm::normalize(glm::vec3(0.0, eye.y, 0.0)), glm::vec3(0.0, 1.0, 0.0));
+		phi = acos(val);
+	}
+	else
+	{
+		phi = M_PI/2;
+	}
+	if (sin(phi) != 0)
+	{
+		auto tmp = glm::normalize(eye);
+		theta = acos(tmp.x / sin(phi));
+	}
+	else
+	{
+		theta = 0;
+	}
+
+	eye.x = cos(theta) * sin(phi) * radius + o.x;
+	eye.y = cos(phi) * radius + o.y;
+	eye.z = sin(theta) * sin(phi) * radius + o.z;
 }

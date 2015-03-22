@@ -21,15 +21,17 @@ ObjectManager::ObjectManager()
 	m_pGround3D(nullptr),
 	m_pSkyBox(nullptr),
 	m_pGUI(nullptr),
-	m_pTexMgr(nullptr)
+	m_pTexMgr(nullptr),
+	m_pCamera(nullptr)
 {
 }
 
-ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui)
+ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam)
 	:ObjectManager()
 {
 	m_pTexMgr = texMgr;
 	m_pGUI = gui;
+	m_pCamera = cam;
 }
 
 ObjectManager::~ObjectManager()
@@ -100,4 +102,18 @@ GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max
 	infos->var.push_back(std::make_pair(infos->name, value_to_change));
 
 	return infos;
+}
+
+GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(void*)> function_to_call, void *obj)
+{
+	auto infos = new GUIInfos(name, BUTTON);
+	infos->var.push_back(std::make_pair(infos->name, new float(0)));
+	infos->button_action = function_to_call;
+	infos->obj = obj;
+	return infos;
+}
+
+void SweepingBirds::ObjectManager::stick_cam(Textured3DObject* obj)
+{
+	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction());
 }
