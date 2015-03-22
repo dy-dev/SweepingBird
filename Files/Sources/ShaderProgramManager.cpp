@@ -31,14 +31,16 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->add_shader(GL_FRAGMENT_SHADER, "Shaders/aogl.frag");
 
 	main_program->compile();
+
+
 	main_program->add_var("isGround");
 	main_program->set_var_value("isGround", (int)false);
 	main_program->add_var("MaxMountainHeight");
 	main_program->set_var_value("MaxMountainHeight", 300.0f);
 	main_program->add_var("MountainFrequence");
 	main_program->set_var_value("MountainFrequence", 250.0f);
-	main_program->add_var("ColorControl");
-	main_program->set_var_value("ColorControl", 100.0f);
+	main_program->add_var("PatchControl");
+	main_program->set_var_value("PatchControl", 100.0f);
 
 	main_program->add_var("SquareSideLength");
 	main_program->set_var_value("SquareSideLength", 10);
@@ -52,8 +54,8 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->add_var("isPredator");
 	main_program->set_var_value("isPredator", (int)false);
 	
-	main_program->add_var("isSkyBox");
-	main_program->set_var_value("isSkyBox", (int)false);
+	main_program->add_var("isSkybox");
+	main_program->set_var_value("isSkybox", (int)false);
 
 	main_program->add_var("isBat");
 
@@ -64,9 +66,8 @@ bool ShaderProgramManager::create_main_shader_program()
 	main_program->set_var_value("SizeFactor", 1.0f);
 	main_program->add_var("InstanceNumber");
 	main_program->set_var_value("InstanceNumber",1);
-	main_program->add_var("Translation");
-	main_program->set_var_value("Translation", glm::value_ptr(glm::vec3(1)));
-
+	main_program->add_var("GroundTranslation");
+		
 	main_program->add_var("MVP");
 	
 	main_program->add_var("InstanceNumber");

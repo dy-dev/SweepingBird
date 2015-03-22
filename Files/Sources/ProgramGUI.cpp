@@ -97,7 +97,7 @@ void ProgramGUI::init_Glew()
 		}
 
 		// Ensure we can capture the escape key being pressed below
-		glfwSetInputMode(m_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
+		glfwSetInputMode(m_pWindow, GLFW_CURSOR, GL_TRUE);
 
 		// Enable vertical sync (on cards that support it)
 		glfwSwapInterval(1);

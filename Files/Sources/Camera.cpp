@@ -25,7 +25,7 @@ void Camera::Camera_defaults()
 {
 	phi = 1.1405f;
 	theta = 0.0f;
-	radius = 200;
+	radius = 500;
 	Camera_compute();
 }
 
@@ -57,7 +57,7 @@ void Camera::Camera_turn(float ph, float th)
 	else
 		if (phi <= 0)
 			phi = 0.001f;
-
+	
 	while (cos(phi) * radius < 1.0f && radius > 100.0f)
 	{
 		phi -= 0.001;
@@ -70,14 +70,15 @@ void Camera::Camera_pan(float x, float y)
 	glm::vec3 up(0.f, phi < M_PI ? 1.f : -1.f, 0.f);
 	glm::vec3 fwd = glm::normalize(o - eye);
 	glm::vec3 side = glm::normalize(glm::cross(fwd, up));
-	//up = glm::normalize(glm::cross(side, fwd));
-	/*o[0] += up[0] * y * radius * 2;
-	o[1] += up[1] * y * radius * 2;
-	o[2] += up[2] * y * radius * 2;
-	o[0] -= side[0] * x * radius * 2;
-	o[1] -= side[1] * x * radius * 2;
-	o[2] -= side[2] * x * radius * 2;*/
+	up = glm::normalize(glm::cross(side, fwd));
 	
+	o[0] -= fwd[0] * y * 2;
+	//o[1] += fwd[1] * y * 2;
+	o[2] -= fwd[2] * y * 2;
+	o[0] += side[0] * x * 2;
+	//o[1] -= side[1] * x * 2;
+	o[2] += side[2] * x * 2;
+	/*
 	auto tmptranseyex = eye + x*side;
 	auto tmptranseyey = eye + y*up;
 	auto xvar = glm::dot(eye, tmptranseyex);
@@ -97,6 +98,6 @@ void Camera::Camera_pan(float x, float y)
 		auto mul = y < 0.0f ? 1.f : -1.f;
 		radius = glm::length(tmptranseyey);
 		phi += mul*acos(yvar);
-	}
+	}*/
 	Camera_compute();
 }

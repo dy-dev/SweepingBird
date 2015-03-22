@@ -24,11 +24,12 @@ using namespace SweepingBirds;
 
 const float SceneManager::MOUSE_PAN_SPEED = 1.f;
 const float SceneManager::MOUSE_ZOOM_SPEED = 0.05f;
-const float SceneManager::MOUSE_TURN_SPEED = 0.005f;
+const float SceneManager::MOUSE_TURN_SPEED = 0.0005f;
 const GLuint SceneManager::PREDATORS_BINDING = GL_TEXTURE5;
 
 SceneManager::SceneManager()
 	:m_iLockPositionX(0),
+	m_iLockTurnPositionX(0),
 	m_iLockPositionY(0),
 	m_bPanLock(false),
 	m_bTurnLock(false),
@@ -169,8 +170,9 @@ void SceneManager::setup_predators(int maxPredators)
 void SceneManager::manage_camera_movements()
 {
 	// Cameras movements
-	int altPressed = glfwGetKey(m_pProgramGUI->get_window(), GLFW_KEY_LEFT_SHIFT);
-	if (!altPressed &&
+	int shiftPressed = glfwGetKey(m_pProgramGUI->get_window(), GLFW_KEY_LEFT_SHIFT);
+	int ctrlPressed = glfwGetKey(m_pProgramGUI->get_window(), GLFW_KEY_LEFT_CONTROL);
+	if (!shiftPressed &&
 		(m_pProgramGUI->get_left_button_state() == GLFW_PRESS ||
 		m_pProgramGUI->get_right_button_state() == GLFW_PRESS ||
 		m_pProgramGUI->get_middle_button_state() == GLFW_PRESS))
@@ -181,7 +183,14 @@ void SceneManager::manage_camera_movements()
 		m_iLockPositionX = (int)x;
 		m_iLockPositionY = (int)y;
 	}
-	if (altPressed == GLFW_PRESS)
+	if (!ctrlPressed)
+	{
+		double x;
+		double y;
+		glfwGetCursorPos(m_pProgramGUI->get_window(), &x, &y);
+		m_iLockTurnPositionX = (int)x;
+	}
+	if (shiftPressed == GLFW_PRESS)
 	{
 		double mousex;
 		double mousey;
@@ -203,6 +212,7 @@ void SceneManager::manage_camera_movements()
 			if (m_bTurnLock)
 			{
 				m_pCamera->Camera_turn(diffLockPositionY * MOUSE_TURN_SPEED, diffLockPositionX * MOUSE_TURN_SPEED);
+
 				//				m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 				//m_pGameCamera->OnMouseMove(mousex, mousey);
 			}
@@ -211,13 +221,22 @@ void SceneManager::manage_camera_movements()
 				if (m_bPanLock)
 				{
 					m_pCamera->Camera_pan(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
+					if (ctrlPressed)
+					{
+						int diffLockTurnPositionX = (int)mousex - m_iLockTurnPositionX;
+						m_pCamera->Camera_turn(0, diffLockTurnPositionX * MOUSE_TURN_SPEED);
+					}
 					//		m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 					//
 				}
 			}
+
 		}
-		m_iLockPositionX = (int)mousex;
-		m_iLockPositionY = (int)mousey;
+		if (!m_bPanLock)
+		{
+			m_iLockPositionX = (int)mousex;
+			m_iLockPositionY = (int)mousey;
+		}
 	}
 
 }
@@ -238,15 +257,25 @@ void SceneManager::display_scene(bool activate_gamma)
 		}*/
 
 	// Get camera matrices
-	glm::mat4 projection = glm::perspective(70.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 100000.0f);
+	glm::mat4 projection = glm::perspective(70.0f, (float)m_pProgramGUI->get_width() / (float)m_pProgramGUI->get_height(), 0.1f, 1000000.0f);
 	glm::mat4 worldToView = glm::lookAt(m_pCamera->GetEye(), m_pCamera->GetO(), m_pCamera->GetUp());
 	glm::vec4 light = worldToView * glm::vec4(m_vLights.at(0)->get_position(), 1.0f);
+
 
 	// Select shader
 	auto shader = m_pShaderProgramManager->get_shader(MAIN);
 	if (shader != nullptr)
 	{
 		glUseProgram(shader->get_program());
+
+		glm::mat4 Model;
+		
+		auto ModelTranslated = glm::translate(Model, m_pCamera->GetEye());
+		shader->set_var_value("GroundTranslation", glm::value_ptr(ModelTranslated));
+		//Failed test to draw only ground tiles in front of the camera
+		//auto dir = m_pCamera->GetO() - m_pCamera->GetEye();
+		//dir.y = 0.0f;
+		//shader->set_var_value("LookDirection", glm::value_ptr(glm::normalize(dir)));
 
 		draw_scene(shader, projection, worldToView);
 
@@ -288,7 +317,7 @@ void SceneManager::draw_scene(ShaderProgram * shader, glm::mat4 proj, glm::mat4 
 		{
 			if (object.second.first != nullptr)
 			{
-				object.second.first->draw(*shader, proj, wtv, m_dTime);
+				object.second.first->draw(*shader, proj, wtv, m_dTime, *object.second.second);
 				//draw_object(object.second, shader, proj, wtv);
 			}
 		}

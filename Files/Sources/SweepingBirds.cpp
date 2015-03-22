@@ -65,24 +65,26 @@ int main(int argc, char **argv)
 		std::thread demothread(MySceneManager.demo, &MySceneManager, glfwGetTime());
 	}
 
+	float startTime;
 	float elapsedTime = 0.f;
 	do
 	{
+		startTime = glfwGetTime();
 		MainWindow.event_loop_management();
 
 		MyPhysicsEngine.update(elapsedTime);//must be called after event_loop_management because of time synchro
 		MySceneManager.update_time(static_cast<float>(glfwGetTime()));//must be called after event_loop_management because of time synchro
-	
+
 		MySceneManager.set_cam_states();
 		MySceneManager.manage_camera_movements();
 		MySceneManager.display_scene(false);
-		
+
 		MainWindow.display_gui(bIsDemoProgram, MySceneManager.get_framerate());
 
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 
-		elapsedTime = static_cast<float>(glfwGetTime()) - elapsedTime;
+		elapsedTime = startTime - glfwGetTime();
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 

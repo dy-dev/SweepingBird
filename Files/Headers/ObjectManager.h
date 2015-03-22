@@ -21,8 +21,8 @@ namespace SweepingBirds
 		bool create_scene_assets();
 		bool bind_object(Textured3DObject* object, int nb_instances);
 
-		const std::map<std::string, std::pair<Textured3DObject*, int*> >& get_objects() { return m_mObjectManaged; };
-		std::pair<Textured3DObject *, int *>& get_object(std::string name);
+		const std::map<std::string, std::pair<Textured3DObject*, float*> >& get_objects() { return m_mObjectManaged; };
+		std::pair<Textured3DObject *, float *>& get_object(std::string name);
 		
 		const TextureManager* get_TexManager() const{ return m_pTexMgr; }
 		const ProgramGUI* get_Gui() const{ return m_pGUI; }
@@ -32,7 +32,8 @@ namespace SweepingBirds
 		void add_gui_controller(std::string param1, GUIInfos * param2);
 
 	private:
-		std::map<std::string , std::pair<Textured3DObject*, int*> > m_mObjectManaged;
+		//need a float as nbInstance not an int because of GUI limitation
+		std::map<std::string , std::pair<Textured3DObject*, float*> > m_mObjectManaged;
 		Bird3D * m_pBird3D;
 		Predators3D * m_pPredators3D;
 		SkyBoxSweepingBird* m_pSkyBox;

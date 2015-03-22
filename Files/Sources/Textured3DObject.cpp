@@ -166,7 +166,7 @@ bool Textured3DObject::generate_textures(TextureManager * texmgr)
 		}
 	}
 	assert(texmgr != nullptr);
-	
+
 	texmgr->generate_textures(m_vTexturePath);
 
 	return true;
@@ -181,7 +181,6 @@ void Textured3DObject::bind_meshes()
 
 }
 
-
 void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& textures, int mesh_index)
 {
 	if (mesh_index < m_vMeshes.size())
@@ -190,27 +189,31 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 	}
 }
 
-void Textured3DObject::draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time)
+void Textured3DObject::setup_drawing_space(ShaderProgram& shader, Mesh* mesh, glm::mat4 proj, glm::mat4 wtv, float time)
 {
-	for each (auto mesh in m_vMeshes)
-	{
-		glBindVertexArray(mesh->get_vao());
-		m_pTextureManager->apply_material(mesh->get_material());
-		//shader->set_var_value("Translation", glm::value_ptr(object.first->get_position()));
-		shader.set_var_value("Time", (float)time);
-		shader.set_var_value("SizeFactor", m_fSize);
+	glBindVertexArray(mesh->get_vao());
+	m_pTextureManager->apply_material(mesh->get_material());
+	shader.set_var_value("Time", (float)time);
+	shader.set_var_value("SizeFactor", m_fSize);
 
-		glm::mat4 Model;
-		/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
-		auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
-		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
+	glm::mat4 Model;
+	/*auto ModelRotateY = glm::rotate(Model, object.first->get_rotation_angle(), glm::vec3(0.0f, 1.0f, 0.0f));
+	auto ModelTranslated = glm::translate(ModelRotateY, object.first->get_position());
+	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(*object.first->get_size()));*/
 
-		auto ModelTranslated = glm::translate(Model, m_v3Position);
-		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
-		glm::mat4 mv = wtv * ModelScaled;
-		glm::mat4 mvp = proj * mv;
-		shader.set_var_value("MVP", glm::value_ptr(mvp));
-		shader.set_var_value("MV", glm::value_ptr(mv));
-		//	shader->set_var_value("ObjectId", (int)object.first->get_object_type());
-	}
+	auto ModelTranslated = glm::translate(Model, m_v3Position);
+	glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
+	glm::mat4 mv = wtv * ModelScaled;
+	glm::mat4 mvp = proj * mv;
+	shader.set_var_value("MVP", glm::value_ptr(mvp));
+	shader.set_var_value("MV", glm::value_ptr(mv));
+	//	shader->set_var_value("ObjectId", (int)object.first->get_object_type());
+}
+
+void Textured3DObject::clean_bindings()
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -18,10 +18,10 @@ precision highp int;
 
 uniform mat4 MVP;
 uniform mat4 MV;
+uniform mat4 GroundTranslation;
 
 uniform int InstanceNumber;
 uniform int SquareSideLength;
-uniform vec3 Translation;
 uniform vec3 BirdTranslation;
 
 uniform float Time;
@@ -38,7 +38,7 @@ uniform float SizeFactor;
 uniform float SpeedFactor;
 uniform float RangeFactor;
 uniform float RadiusSpacing;
-uniform float ColorControl;
+uniform float PatchControl;
 uniform float MaxMountainHeight;
 uniform float MountainFrequence;
 
@@ -97,14 +97,22 @@ float noise(float x,float y)
 void main()
 {	
 	vec3 changePos = Position;
-	if(ObjectId == 0)
+	if(isGround == true)
 	{	
-		float xGridCood = ColorControl * (gl_InstanceID%SquareSideLength) - ColorControl * SquareSideLength/2;
-		float zGridCood = ColorControl * (gl_InstanceID/SquareSideLength) - ColorControl * SquareSideLength/2;
+		int divider = SquareSideLength;
+		if(SquareSideLength == 0)
+		{
+			divider = 1;
+		}
+		float xGridCood = (PatchControl * (gl_InstanceID%divider) - PatchControl * divider/2) ;
+		float zGridCood = (PatchControl * (gl_InstanceID/divider) - PatchControl* divider/2);
 		float tmpNoise = 0.0;
+		
 		
 		changePos.x += xGridCood;
 		changePos.z += zGridCood;
+		vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
+		changePos = tmp.xyz;
 		
 		int freq = int(MountainFrequence);
 		if(freq == 0)
@@ -112,13 +120,13 @@ void main()
 			freq = 1;
 		}
 		
-		float tempx = changePos.x/(5*freq) - Time;
-		float tempz = changePos.z/(5*freq);
+		float tempx = changePos.x/(10*freq);// - Time;
+		float tempz = changePos.z/(10*freq);
 		
 		changePos.y = MaxMountainHeight*(cos(tempx)*cos(2.0*tempx)*sin(4.0*tempz) + sin(tempz + 1.5)*sin(2.0*tempz)*cos(tempx*8.0));
 		changePos.y += MaxMountainHeight*(sin(tempz/5.0)*cos(3.0*tempx) + sin(tempx)*sin(5*tempz));
 		changePos.y += MaxMountainHeight*(cos(tempz+1.5)*sin(tempz)*cos(9.0*tempx) + cos(tempx+1.5)*cos(tempz/5.0)*sin(tempx*5.0));
-
+		
 		/*
 		
 		changePos.y = 	MaxMountainHeight*sin(tempx/freq) *sin(tempx/freq) + MaxMountainHeight*cos((changePos.z)/freq)*cos((changePos.z)/freq); 
@@ -130,7 +138,7 @@ void main()
 	else if(ObjectId == 1) // Bird
 	{
 	}
-	else if(ObjectId == 2) // Bats
+	else if(isPredator == true) // Bats
 	{
 		changePos *= 20;
 		changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
@@ -144,8 +152,10 @@ void main()
 	
 	
 	gl_Position = MVP * vec4(changePos, 1.0);
-	if(ObjectId == 3) //Skybox
+	if(isSkybox == true) //Skybox
 	{
+		vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
+		changePos = tmp.xyz;
 		vec4 WVP_Pos = MVP * vec4(changePos, 1.0);
 		gl_Position = WVP_Pos.xyww;                   
 	}

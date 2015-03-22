@@ -69,6 +69,7 @@ namespace SweepingBirds
 		double m_dPrevTime;
 		
 		int m_iLockPositionX;
+		int m_iLockTurnPositionX;
 		int m_iLockPositionY;
 
 		bool m_bPanLock;

@@ -77,7 +77,7 @@ void main()
 {
 	vec3 diffuse = texture(Diffuse, In.TexCoord).rgb;
 	vec3 color = diffuse;
-	if(ObjectId == 0)
+	if(isGround == true)
 	{
 		vec3 specular = texture(Specular, In.TexCoord).rgb;
 		vec3 ambiant = texture(Ambiant, In.TexCoord).rgb;

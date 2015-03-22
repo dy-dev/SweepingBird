@@ -210,7 +210,7 @@ void  TextureManager::apply_material(const aiMaterial *mtl/*, std::map<std::stri
 
 	int texIndex = 0;
 	aiString texPath;	//contains filename of texture
-
+	
 	if (AI_SUCCESS == mtl->GetTexture(aiTextureType_DIFFUSE, texIndex, &texPath))
 	{
 		//bind texture	
