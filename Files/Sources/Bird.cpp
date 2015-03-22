@@ -2,6 +2,7 @@
 #include "glm\geometric.hpp"
 #include "glm\gtc\random.hpp"
 #include "glm/gtx/rotate_vector.hpp"
+#include <iostream>
 
 #define M_PI_4 3.14159265359f / 4.0f
 #define DIRECTION_TIMER_S 3.0f
@@ -18,7 +19,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
  : m_fMass(mass),
    m_v3Position (initialPosition),
    m_v3PrevPosition(initialPosition),
-   m_v3Velocity (glm::vec3(100.0,0,0.f)),
+   m_v3Velocity (glm::vec3(-400.0,0,0.f)),
    m_fTimeSinceDirectionChanged(0.0f),
    m_fAngle(0.f),
    m_wpBird3D(nullptr)
@@ -35,7 +36,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
 void Bird::update(const float deltaTime)
 {
   m_fTimeSinceDirectionChanged += deltaTime;
-  
+  /*
   if (m_fTimeSinceDirectionChanged > DIRECTION_TIMER_S)
   {
     m_fTimeSinceDirectionChanged = 0.0f;
@@ -46,13 +47,13 @@ void Bird::update(const float deltaTime)
     glm::vec3 newDirection = glm::rotate(currentDirection, m_fAngle, VERTICAL);
 
     //Compute final velocity. Bird never moves on Y Axis
-    glm::vec2 newVelocity = glm::linearRand(glm::vec2(1.f), glm::vec2(4.f));//Magic numbers to be tested
+    glm::vec2 newVelocity = glm::linearRand(glm::vec2(50.f), glm::vec2(200.f));//Magic numbers to be tested
     m_v3Velocity = newDirection * glm::vec3(newVelocity.x, 0.0f, newVelocity.y);
+    std::cout << "New direction with angle: " << m_fAngle << ". Vector: " << m_v3Velocity.x << ";" << m_v3Velocity.y << ";" << m_v3Velocity.z << std::endl;
   }
-  
+  */
   m_v3PrevPosition = m_v3Position;
   m_v3Position = m_v3Position + (deltaTime * m_v3Velocity);
-  //TO DO: add terrain height offset in y position
 }
 
 const glm::vec3& Bird::get_position() const

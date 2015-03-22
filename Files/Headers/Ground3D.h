@@ -11,8 +11,9 @@ namespace SweepingBirds
 		Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance);
 		~Ground3D();
 
-		float * get_height() { return &m_fHeight; }
+		const float& get_height() const { return m_fHeight; }
 		void set_height(float height) { m_fHeight = height; }
+    const float& get_frequency() const { return m_fMountainFrequency; }
 
 		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
 

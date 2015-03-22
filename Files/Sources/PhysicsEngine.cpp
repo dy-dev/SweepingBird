@@ -12,7 +12,7 @@
 
 /// The threshold at wich predators start hunting the bird
 #define PREDATOR_THRESHOLD_M 15.f
-#define BIRD_OFFSET 2.f
+#define BIRD_OFFSET 10.f
 
 using namespace SweepingBirds;
 
@@ -48,6 +48,11 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
   ClassName<Predators3D> predatorsName;
   m_wpPredators3D = dynamic_cast<Predators3D*>(objectManager.get_object(predatorsName.Name()).first);
   assert(m_wpPredators3D);
+
+  ClassName<Ground3D> groundName;
+  Ground3D* ground3D = dynamic_cast<Ground3D*>(objectManager.get_object(groundName.Name()).first);
+  assert(ground3D);
+  m_Ground.set_ground_3d(ground3D);
 }
 
 PhysicsEngine::~PhysicsEngine()
@@ -101,8 +106,8 @@ void PhysicsEngine::update(const float deltaTime)
 	//  dismiss_predators();
 	// }
 
-  float MountainFrequence = m_Ground.getMountainFrequency();
-  float MaxMountainHeight = m_Ground.getGroundHeight();
+  float MountainFrequence = m_Ground.get_mountain_frequency();
+  float MaxMountainHeight = m_Ground.get_ground_height();
   int freq = int(MountainFrequence);
   if (freq == 0)
     freq = 1;
