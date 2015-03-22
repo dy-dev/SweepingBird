@@ -10,19 +10,23 @@ enum openGLVarType
 	FV3
 };
 
-enum ShaderProgramType
-{
-	MAIN,
-	BLIT,
-	LIGHT,
-	BLIT_POINT_LIGHT,
-	SHADOW_MAP,
-	GAMMA,
-	SOBEL
-};
 namespace SweepingBirds
 {
 
+	enum ShaderProgramType
+	{
+		MAIN,
+		BLIT,
+		LIGHT,
+		BLIT_POINT_LIGHT,
+		SHADOW_MAP,
+		GAMMA,
+		SOBEL,
+		GROUND,
+		BIRD,
+		PREDATOR,
+		SKYBOX
+	};
 	class ShaderProgram
 	{
 	public:

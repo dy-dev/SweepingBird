@@ -12,12 +12,17 @@
 #define SHININESS_BINDING 4
 #define PREDATORS_BINDING 5	
 
+
 precision highp float;
 precision highp int;
 
 uniform mat4 MVP;
 uniform mat4 MV;
-uniform mat4 GroundTranslation;
+
+uniform int InstanceNumber;
+uniform vec3 BirdTranslation;
+
+uniform float Time;
 
 layout(binding=PREDATORS_BINDING) uniform samplerBuffer PredatorData;
 
@@ -35,14 +40,21 @@ out block
 
 void main()
 {	
-	vec3 changePos = Position;	
-
+	vec3 changePos = Position;
+	
+	
+		changePos *= 20;
+		changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
+		/*
+		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
+		changePos.y += cos(gl_InstanceID) * gl_InstanceID;
+		changePos.z += tan(gl_InstanceID) * gl_InstanceID;
+		*/
+		//changePos = vec3( cos(1.5f)* changePos.x -sin(1.5f)* changePos.z, changePos.y  , sin(1.5f)* changePos.x + cos(1.5f)* changePos.z);
+	
 	gl_Position = MVP * vec4(changePos, 1.0);
-	vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
-	changePos = tmp.xyz;
-	vec4 WVP_Pos = MVP * vec4(changePos, 1.0);
-	gl_Position = WVP_Pos.xyww;                   
+	
 	Out.TexCoord = TexCoord;
-	Out.Position = changePos;
+	Out.Position = Position;
 	Out.Normal = Normal;
 }

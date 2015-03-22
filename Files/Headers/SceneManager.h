@@ -39,7 +39,6 @@ namespace SweepingBirds
 		void set_time(double time){ m_dTime = time; }
 		double get_time(){ return m_dTime; }
 
-		void draw_scene(ShaderProgram * shader, glm::mat4 projection, glm::mat4 wtv);
 		void gamma_management(glm::mat4 mvp, glm::mat4 mv);
 		void debug_frame_buffer(glm::mat4 mvp, glm::mat4 mv, bool activate_shadow_map, bool activate_sobel_map);
 

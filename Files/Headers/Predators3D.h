@@ -3,6 +3,7 @@
 namespace SweepingBirds
 {
 	class ObjectManager;
+	class Camera;
 	class Predators3D : public Textured3DObject
 	{
 	public:
@@ -10,7 +11,7 @@ namespace SweepingBirds
 		Predators3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance);
 		~Predators3D();
 
-		virtual void draw(ShaderProgram& shader, glm::mat4 proj, glm::mat4 wtv, float time, int nbInstance) override;
+		virtual void draw(ShaderProgramManager& shaderMgr, Camera * cam, glm::mat4 proj, float time, int nbInstance) override;
 
 	};
 
