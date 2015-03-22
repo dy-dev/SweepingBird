@@ -16,7 +16,7 @@
 
 using namespace SweepingBirds;
 
-const unsigned int PhysicsEngine::NB_PREDATORS = 3;
+const unsigned int PhysicsEngine::NB_PREDATORS = 40;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
@@ -27,15 +27,20 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	m_pbResetPredatorsPos(false)
 
 {
-
-  //Basic predator generation for testing purposes
-  Predator* a = new Predator(3.f, glm::vec3(0, 0, 50));
-  Predator* b = new Predator(2.f, glm::vec3(30, 0, 0));
-  Predator* c = new Predator(3.f, glm::vec3(-30, 0, 0));
-  
-  m_vPredators.push_back(a);
-  m_vPredators.push_back(b);
-  m_vPredators.push_back(c);
+  //Predators generation using pseudo random spread function
+  for (int i = 0; i < NB_PREDATORS; ++i)
+  {
+    glm::vec3 initialPosition = glm::vec3(0);
+    float random = std::rand() % 300;
+    if (i % 2)
+      random = -random;
+    initialPosition.x = i * 10 * cos(m_wpSceneManager->get_time()) + random;
+    initialPosition.z = i * 14 * sin(m_wpSceneManager->get_time()-i) + (std::rand() % 200);
+    
+    float mass = std::rand() % 10;
+    Predator* p = new Predator(mass, initialPosition);
+    m_vPredators.push_back(p);
+  }
 
   //Link physics object with their 3D representation
   ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
