@@ -18,9 +18,10 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
  : m_fMass(mass),
    m_v3Position (initialPosition),
    m_v3PrevPosition(initialPosition),
-   m_v3Velocity (glm::vec3(0,0,1.f)),
+   m_v3Velocity (glm::vec3(100.0,0,0.f)),
    m_fTimeSinceDirectionChanged(0.0f),
-   m_fAngle(0.f)
+   m_fAngle(0.f),
+   m_wpBird3D(nullptr)
 {
 
 }
@@ -74,9 +75,9 @@ void Bird::set_height(float newHeight)
   m_v3Position.y = newHeight;
 }
 
-void Bird::update3DModel()
+void Bird::update_3D_model()
 {
-	m_Bird3D.set_mock_pos(m_v3Position - m_v3PrevPosition);
+	m_wpBird3D->set_position(m_v3Position);
 	/*glm::mat4 model(1.f);
 	model = glm::rotate(model, birdAngle, glm::vec3(0, 1, 0));
 	*/

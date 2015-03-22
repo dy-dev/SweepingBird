@@ -108,9 +108,9 @@ void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
 {
 	o = position;
 	
-	radius = 200;
+	radius = 300;
 
-	eye = o - direction;
+	eye = o - glm::vec3(300)*direction;
 
 	Camera_compute_angles();
 }
@@ -119,7 +119,7 @@ void Camera::Camera_compute_angles()
 {
 	if (eye.y != 0)
 	{
-		auto val = glm::dot(glm::normalize(glm::vec3(0.0, eye.y, 0.0)), glm::vec3(0.0, 1.0, 0.0));
+		auto val = glm::dot(glm::normalize(eye), glm::vec3(0.0, 1.0, 0.0));
 		phi = acos(val);
 	}
 	else
@@ -135,8 +135,4 @@ void Camera::Camera_compute_angles()
 	{
 		theta = 0;
 	}
-
-	eye.x = cos(theta) * sin(phi) * radius + o.x;
-	eye.y = cos(phi) * radius + o.y;
-	eye.z = sin(theta) * sin(phi) * radius + o.z;
 }

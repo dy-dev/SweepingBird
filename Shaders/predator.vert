@@ -42,15 +42,8 @@ void main()
 {	
 	vec3 changePos = Position;
 	
-	
-		changePos *= 20;
-		changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
-		/*
-		changePos.x += sin(gl_InstanceID) * gl_InstanceID;
-		changePos.y += cos(gl_InstanceID) * gl_InstanceID;
-		changePos.z += tan(gl_InstanceID) * gl_InstanceID;
-		*/
-		//changePos = vec3( cos(1.5f)* changePos.x -sin(1.5f)* changePos.z, changePos.y  , sin(1.5f)* changePos.x + cos(1.5f)* changePos.z);
+	changePos *= 20;
+	changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
 	
 	gl_Position = MVP * vec4(changePos, 1.0);
 	

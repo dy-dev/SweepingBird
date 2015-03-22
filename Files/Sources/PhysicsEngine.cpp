@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <UtilityToolKit.h>
 #include <ProgramGUI.h>
+#include <ObjectManager.h>
 
 
 /// The threshold at wich predators start hunting the bird
@@ -14,6 +15,8 @@
 #define BIRD_OFFSET 2.f
 
 using namespace SweepingBirds;
+
+const unsigned int PhysicsEngine::NB_PREDATORS = 3;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
@@ -24,17 +27,27 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	m_pbResetPredatorsPos(false)
 
 {
-	//Basic predator generation for testing purposes
-	Predator* a = new Predator(3.f, glm::vec3(0, 0, 0));
-	Predator* b = new Predator(2.f, glm::vec3(3, 0, 0));
-	Predator* c = new Predator(3.f, glm::vec3(-3, 0, 0));
 
-	m_vPredators.push_back(a);
-	m_vPredators.push_back(b);
-	m_vPredators.push_back(c);
+  //Basic predator generation for testing purposes
+  Predator* a = new Predator(3.f, glm::vec3(0, 0, 50));
+  Predator* b = new Predator(2.f, glm::vec3(30, 0, 0));
+  Predator* c = new Predator(3.f, glm::vec3(-30, 0, 0));
+  
+  m_vPredators.push_back(a);
+  m_vPredators.push_back(b);
+  m_vPredators.push_back(c);
 
-	const int MAX_PREDATORS = 20;
-	m_wpSceneManager->setup_predators(MAX_PREDATORS);
+  //Link physics object with their 3D representation
+  ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
+
+  ClassName<Bird3D> birdName;
+  Bird3D* bird3D = dynamic_cast<Bird3D*>(objectManager.get_object(birdName.Name()).first);
+  assert(bird3D);
+  m_Bird.set_bird_3D(bird3D);
+
+  ClassName<Predators3D> predatorsName;
+  m_wpPredators3D = dynamic_cast<Predators3D*>(objectManager.get_object(predatorsName.Name()).first);
+  assert(m_wpPredators3D);
 }
 
 PhysicsEngine::~PhysicsEngine()
@@ -94,7 +107,7 @@ void PhysicsEngine::update(const float deltaTime)
 	birdHeight += BIRD_OFFSET;
 
 	m_Bird.set_height(birdHeight);
-	m_Bird.update3DModel();
+	m_Bird.update_3D_model();
 
 	auto it = m_vPredators.begin();
 	for (it; it != m_vPredators.end(); ++it)
@@ -112,20 +125,10 @@ void PhysicsEngine::update(const float deltaTime)
 	std::vector<glm::vec3> predatorsDirections;
 	for each (auto pred in m_vPredators)
 	{
-		//tricks for position stuff
-		glm::vec3 finalPos = pred->get_position();
-		finalPos.x -= m_Bird.get_position().x;
-		finalPos.z -= m_Bird.get_position().z;
-
-		if (m_pbResetPredatorsPos)
-			finalPos = glm::vec3(0);
-
-		predatorsPositions.push_back(finalPos);
-		predatorsDirections.push_back((*it)->get_direction());
+		predatorsPositions.push_back(pred->get_position());
+		predatorsDirections.push_back(pred->get_direction());
 	}
-
-	//m_wpSceneManager->updatePredators(predatorsPositions, predatorsDirections);
-
+  m_wpPredators3D->update_positions(predatorsPositions);
 }
 
 void PhysicsEngine::launch_predators()

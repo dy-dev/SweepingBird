@@ -34,14 +34,6 @@ Bird3D::~Bird3D()
 {
 }
 
-void Bird3D::stick_cam(void * obj)
-{
-	auto bird = reinterpret_cast<Bird3D*> (obj);
-	if (bird != nullptr)
-	{
-		bird->m_pObjectManager->stick_cam(bird);
-	}
-}
 
 void Bird3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance)
 {

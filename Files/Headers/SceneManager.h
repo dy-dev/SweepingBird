@@ -34,7 +34,6 @@ namespace SweepingBirds
 		void setup_shader_programs();
 		void setup_frame_buffer();
 		bool setup_objects();
-		void setup_predators(int maxPredators);
 
 		void set_time(double time){ m_dTime = time; }
 		double get_time(){ return m_dTime; }
@@ -47,10 +46,10 @@ namespace SweepingBirds
 		static void demo(SceneManager * scn, double start);
 		void setupdemo();
 
-		void updatePredators(const std::vector<glm::vec3>& predatorsPositions, const std::vector<glm::vec3>& predatorsDirections);
-
 		double get_framerate(){ return m_dFPS; }
 		void update_time(double newTime);
+
+    ObjectManager& get_object_manager() const { assert(m_pAssimpObjectManager); return *m_pAssimpObjectManager; }
 
 	protected:
 		ProgramGUI * m_pProgramGUI;
@@ -60,7 +59,7 @@ namespace SweepingBirds
 
 		ObjectManager* m_pAssimpObjectManager;
 		std::vector<Light*> m_vLights;
-		GPUBuffer m_bPredatorsData;
+
 		GLsizei m_siNbPredators;
 
 		double m_dFPS;
@@ -86,7 +85,6 @@ namespace SweepingBirds
 		static const float MOUSE_PAN_SPEED;
 		static const float MOUSE_ZOOM_SPEED;
 		static const float MOUSE_TURN_SPEED;
-		static const GLuint PREDATORS_BINDING;
 
 		double m_dStartTime;
 		bool m_bDemoRunning;

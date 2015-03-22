@@ -6,13 +6,11 @@
 
 using namespace SweepingBirds;
 
-Predators3D::Predators3D()
-{
-	m_eShaderType = PREDATOR;
-}
+const GLuint Predators3D::PREDATORS_BINDING = GL_TEXTURE5;
 
 Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance)
-	:Textured3DObject(texMgr)
+	:Textured3DObject(texMgr),
+	m_bufPredatorsData(GL_RGB32F)
 {
 	m_eShaderType = PREDATOR;
 	m_pObjectManager = manager;
@@ -28,6 +26,11 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, get_y_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, get_z_pos()));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_button("Jump Cam To Bird", stick_cam, (void*)this));
+
+	auto tmp = new char[nbInstance * sizeof(glm::vec3)];
+	m_bufPredatorsData.setData(nbInstance * sizeof(glm::vec3), tmp);
+	delete[] tmp;
 }
 
 
@@ -42,13 +45,20 @@ void Predators3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float ti
 		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{
-			//m_bPredatorsData.activate(PREDATORS_BINDING);
+			m_bufPredatorsData.activate(PREDATORS_BINDING);
 
 			shader->set_var_value("InstanceNumber", (int)sqrt(nbInstance));
 			glDrawElementsInstanced(GL_TRIANGLES, (GLsizei)(mesh->get_triangles_count() * 3), GL_UNSIGNED_INT, (void*)0, (GLsizei)nbInstance);
 
-			//m_bPredatorsData.deactivate();
+			m_bufPredatorsData.deactivate();
 			clean_bindings();
 		}
 	}
+}
+
+void Predators3D::update_positions(const std::vector<glm::vec3>& newPositions)
+{
+	assert(newPositions.size() <= m_bufPredatorsData.getSize());
+
+	m_bufPredatorsData.updateData(newPositions.data(), 0, newPositions.size() * sizeof(glm::vec3));
 }

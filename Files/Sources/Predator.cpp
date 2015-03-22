@@ -10,7 +10,8 @@ Predator::Predator()
   : m_bird(nullptr), 
     m_fSpringRigidity(1.0), 
     m_fSpringLength(0.f),
-    m_mass(500.f)
+    m_mass(500.f),
+    m_wpPredator3D(nullptr)
 {
 
 }
@@ -22,7 +23,8 @@ Predator::Predator(const float mass, const glm::vec3& initialPosition, const glm
     m_v3Velocity(initialVelocity),
     m_v3Direction(glm::normalize(initialVelocity)),
     m_fSpringRigidity(1.0), 
-    m_fSpringLength(0.6f)
+    m_fSpringLength(0.6f),
+    m_wpPredator3D(nullptr)
 {
 
 }
@@ -70,9 +72,4 @@ const glm::vec3& Predator::get_position() const
 const glm::vec3& Predator::get_direction() const
 {
   return m_v3Direction;
-}
-
-void Predator::update3DModel()
-{
-	//m_bPredatorsData.updateData(predatorsPositions.data(), 0, predatorsPositions.size() * sizeof(glm::vec3));
 }

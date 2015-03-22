@@ -202,8 +202,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ModelingProject1\UMLClassDiagram1.classdiagram" />
-    <None Include="..\ModelingProject1\UMLClassDiagram1.classdiagram.layout" />
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

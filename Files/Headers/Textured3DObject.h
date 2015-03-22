@@ -22,6 +22,17 @@ namespace Assimp
 
 namespace SweepingBirds
 {
+  //Helper allowing to retrieve the class name
+  //of an object
+  template<typename T>
+  struct ClassName
+  {
+    std::string Name()
+    {
+      return typeid(T).name();
+    }
+  };
+
 	class Mesh;
 	class TextureManager;
 	class ProgramGUI;
@@ -32,6 +43,9 @@ namespace SweepingBirds
 	class Camera;
 	class Textured3DObject
 	{
+	public:
+		static void stick_cam(void *obj);
+
 	public:
 		Textured3DObject();
 		Textured3DObject(TextureManager* texMgr);

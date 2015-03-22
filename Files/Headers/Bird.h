@@ -26,8 +26,10 @@ namespace SweepingBirds
 
 		float get_angle() const;
 
-		const Bird3D & get_bird_3d() const { return m_Bird3D;};
-		void update3DModel();
+		const Bird3D & get_bird_3d() const { return *m_wpBird3D;};
+    void set_bird_3D(Bird3D* const newBird3D) { m_wpBird3D = newBird3D; }
+		void update_3D_model();
+
 	
 	private:
 		glm::vec3 m_v3Position;
@@ -38,7 +40,7 @@ namespace SweepingBirds
 		float m_fTimeSinceDirectionChanged;
 		float m_fAngle;
 
-		Bird3D m_Bird3D;
+		Bird3D* m_wpBird3D;
 	};
 
 }

@@ -236,3 +236,12 @@ void Textured3DObject::clean_bindings()
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void Textured3DObject::stick_cam(void * obj)
+{
+	auto view_obj = reinterpret_cast<Textured3DObject*> (obj);
+	if (view_obj != nullptr)
+	{
+		view_obj->m_pObjectManager->stick_cam(view_obj);
+	}
+}
