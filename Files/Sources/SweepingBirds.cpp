@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 
-		elapsedTime = startTime - glfwGetTime();
+    elapsedTime = glfwGetTime() - startTime;
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 

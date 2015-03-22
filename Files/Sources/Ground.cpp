@@ -11,10 +11,8 @@ Ground::~Ground()
 {
 }
 
-float Ground::getGroundHeight()
+float Ground::get_ground_height()
 {
-	float ret = 0.f;
-	ret = *(m_Ground3D.get_y_pos());
-	
-	return ret;
+  assert(m_Ground3D);
+	return m_Ground3D->get_height();
 }
