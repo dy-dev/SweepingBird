@@ -13,6 +13,7 @@ const GLuint Predators3D::MATRIX_TRANSFORM = 3;
 Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance)
 	:Textured3DObject(texMgr),
   m_uiNbInstances(nbInstance)
+
 {
 	m_eShaderType = PREDATOR;
 	m_pObjectManager = manager;
@@ -28,6 +29,8 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, get_y_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, get_z_pos()));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_button("Jump Cam To Predators", jump_cam, (void*)this));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_checkbox("Stick Cam To Predators", &m_bCamSticked));
 
   init_instanced_buffer();
 }

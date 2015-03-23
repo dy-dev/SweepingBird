@@ -59,7 +59,7 @@ void Camera::Camera_turn(float ph, float th)
 	else
 		if (phi <= 0)
 			phi = 0.001f;
-	
+
 	while (cos(phi) * radius < 1.0f && radius > 100.0f)
 	{
 		phi -= 0.001;
@@ -73,7 +73,7 @@ void Camera::Camera_pan(float x, float y)
 	glm::vec3 fwd = glm::normalize(o - eye);
 	glm::vec3 side = glm::normalize(glm::cross(fwd, up));
 	up = glm::normalize(glm::cross(side, fwd));
-	
+
 	o[0] -= fwd[0] * y * 2;
 	//o[1] += fwd[1] * y * 2;
 	o[2] -= fwd[2] * y * 2;
@@ -87,19 +87,19 @@ void Camera::Camera_pan(float x, float y)
 	xvar /= glm::length(eye) * glm::length(tmptranseyex);
 	if (xvar < 1.0f)
 	{
-		auto mul = x < 0.0f ? 1.f : -1.f;
-		auto tmpangle = mul*acos(xvar);
-		radius += sqrt(xvar*xvar/ radius*cos(phi) + 1 );
-		theta += tmpangle;
+	auto mul = x < 0.0f ? 1.f : -1.f;
+	auto tmpangle = mul*acos(xvar);
+	radius += sqrt(xvar*xvar/ radius*cos(phi) + 1 );
+	theta += tmpangle;
 	}
 	auto yvar = glm::dot(eye, tmptranseyey);
 	yvar /= glm::length(eye) * glm::length(tmptranseyey);
 	Camera_compute();
 	if (yvar < 1.0f)
 	{
-		auto mul = y < 0.0f ? 1.f : -1.f;
-		radius = glm::length(tmptranseyey);
-		phi += mul*acos(yvar);
+	auto mul = y < 0.0f ? 1.f : -1.f;
+	radius = glm::length(tmptranseyey);
+	phi += mul*acos(yvar);
 	}*/
 	Camera_compute();
 }
@@ -107,25 +107,21 @@ void Camera::Camera_pan(float x, float y)
 void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
 {
 	o = position;
-	
-	radius = 200;
 
-	eye = o - direction;
+	radius = 300;
 
+	eye = o - glm::vec3(300)*direction;
+	auto val = glm::dot(glm::normalize(direction), glm::vec3(0.0, 1.0, 0.0));
+	phi = acos(val);
 	Camera_compute_angles();
 }
 
 void Camera::Camera_compute_angles()
 {
-	if (eye.y != 0)
-	{
-		auto val = glm::dot(glm::normalize(glm::vec3(0.0, eye.y, 0.0)), glm::vec3(0.0, 1.0, 0.0));
-		phi = acos(val);
-	}
-	else
-	{
-		phi = M_PI/2;
-	}
+
+	auto val = glm::dot(glm::normalize(eye), glm::vec3(0.0, 1.0, 0.0));
+	phi = acos(val);
+
 	if (sin(phi) != 0)
 	{
 		auto tmp = glm::normalize(eye);
@@ -135,8 +131,18 @@ void Camera::Camera_compute_angles()
 	{
 		theta = 0;
 	}
-
-	eye.x = cos(theta) * sin(phi) * radius + o.x;
-	eye.y = cos(phi) * radius + o.y;
-	eye.z = sin(theta) * sin(phi) * radius + o.z;
+	if (abs(cos(theta) * sin(phi) * radius + o.x - eye.x) > 0.1)
+	{
+		if (abs(sin(theta) * sin(phi) * radius + o.z - eye.z) > 0.1)
+		{
+			if (theta > M_PI / 2)
+				theta -= M_PI;
+			else
+				theta += M_PI;
+		}
+		else
+		{
+			theta = -theta;
+		}
+	}
 }

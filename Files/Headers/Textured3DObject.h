@@ -44,6 +44,10 @@ namespace SweepingBirds
 	class Textured3DObject
 	{
 	public:
+		static void jump_cam(void *obj, bool stick=false);
+		static void stick_cam(void *obj);
+
+	public:
 		Textured3DObject();
 		Textured3DObject(TextureManager* texMgr);
 		
@@ -121,6 +125,8 @@ namespace SweepingBirds
 		glm::vec3 m_v3MockPos;
 
 		float m_fSize;
+
+		bool m_bCamSticked;
 
 		/**
 		 *	

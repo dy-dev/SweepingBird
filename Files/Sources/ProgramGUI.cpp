@@ -197,7 +197,7 @@ void ProgramGUI::display_gui(bool isDemo, double fps)
 					{
 						auto toggleChk = imguiButton(elementInfo->name.c_str());
 						if (toggleChk)
-							elementInfo->button_action(elementInfo->obj);
+							elementInfo->button_action(elementInfo->obj, false);
 					}
 
 				}

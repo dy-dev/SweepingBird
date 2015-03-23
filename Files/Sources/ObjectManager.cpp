@@ -18,7 +18,8 @@ using namespace SweepingBirds;
 
 ObjectManager::ObjectManager()
 	: m_pGUI(nullptr),
-	m_pTexMgr(nullptr)
+	m_pTexMgr(nullptr),
+	m_pCamera(nullptr)
 {
   
 }
@@ -28,13 +29,13 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera *
 {
 	m_pTexMgr = texMgr;
 	m_pGUI = gui;
+	m_pCamera = cam;
 
   //These objects register themselve to the ObjectManager (this object)
   new Bird3D(this, texMgr);
   new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
   new Ground3D(this, texMgr, 5000);
-
-	m_pCamera = cam;
+  new SkyBoxSweepingBird(this, texMgr);
 }
 
 ObjectManager::~ObjectManager()
@@ -97,7 +98,7 @@ GUIInfos * ObjectManager::generate_slider(std::string name, float min, float max
 	return infos;
 }
 
-GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(void*)> function_to_call, void *obj)
+GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(void*, bool)> function_to_call, void *obj)
 {
 	auto infos = new GUIInfos(name, BUTTON);
 	infos->var.push_back(std::make_pair(infos->name, new float(0)));
@@ -106,7 +107,15 @@ GUIInfos * ObjectManager::generate_button(std::string name, std::function<void(v
 	return infos;
 }
 
-void SweepingBirds::ObjectManager::stick_cam(Textured3DObject* obj)
+GUIInfos * ObjectManager::generate_checkbox(std::string name, bool * is_used)
+{
+	auto infos = new GUIInfos(name, CHECKBOX);
+	infos->check_adress = is_used;
+
+	return infos;
+}
+
+void ObjectManager::jump_cam(Textured3DObject* obj)
 {
 	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction());
 }

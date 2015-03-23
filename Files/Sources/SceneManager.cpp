@@ -134,7 +134,6 @@ void SceneManager::setup_frame_buffer()
 bool SceneManager::setup_objects()
 {
 	assert(m_pProgramGUI != nullptr && m_pTextureManager != nullptr);
-
 	m_pAssimpObjectManager = new ObjectManager(m_pTextureManager, m_pProgramGUI, m_pCamera);
 	return true;
 }
