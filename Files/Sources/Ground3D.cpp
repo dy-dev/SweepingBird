@@ -19,14 +19,14 @@ Ground3D::Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstan
 	m_pObjectManager = manager;
 	load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
 	m_pObjectManager->bind_object(this, nbInstance);
-	m_fHeight = 300.0f;
+	m_fHeight = 1300.0f;
 	//set_speed(0.f);
 	m_fSize = 1.f;
 	m_fMountainFrequency = 270.0f;
 	m_iPatchSize = 1800;
 	set_position(glm::vec3(0.0, -500.0, 0.0));
 	//set_object_type(GROUND);
-	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider_nb_instances_infos("Ground", nbInstance));
+	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider_nb_instances_infos(this, nbInstance));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Height", 0.0f, 5000.0f, 10.0f, &m_fHeight));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Frequency", 0.0f, 5000.0f, 10.0f, &m_fMountainFrequency));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Patch Control", 0.0f, 5000.0f, 10.0f, &m_iPatchSize));

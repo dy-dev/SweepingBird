@@ -21,7 +21,7 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	//set_rotation_angle(-M_PI / 2.0f);
 	set_size(1.0f);
 	//set_object_type(BAT);
-	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider_nb_instances_infos("Predators", nbInstance));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider_nb_instances_infos(this, nbInstance));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("SizeFactor", 0.01f, 20.0f, 0.1f, get_size()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, get_y_pos()));
@@ -62,4 +62,6 @@ void Predators3D::update_positions(const std::vector<glm::vec3>& newPositions)
 	assert(newPositions.size() <= m_bufPredatorsData.getSize());
 
 	m_bufPredatorsData.updateData(newPositions.data(), 0, newPositions.size() * sizeof(glm::vec3));
+	if (newPositions.size() > 0)
+		m_v3Position = newPositions[0];
 }

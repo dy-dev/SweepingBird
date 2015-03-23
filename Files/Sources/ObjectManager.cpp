@@ -34,7 +34,7 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera *
   //These objects register themselve to the ObjectManager (this object)
   new Bird3D(this, texMgr);
   new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
-  new Ground3D(this, texMgr, 5000);
+  new Ground3D(this, texMgr, 2000);
   new SkyBoxSweepingBird(this, texMgr);
 }
 
@@ -77,8 +77,9 @@ std::pair<Textured3DObject *, float *>& ObjectManager::get_object(std::string na
 	return *(new std::pair<Textured3DObject *, float *>(nullptr,nullptr));
 }
 
-GUIInfos * ObjectManager::generate_slider_nb_instances_infos(std::string name, int max)
+GUIInfos * ObjectManager::generate_slider_nb_instances_infos(Textured3DObject* object, int max)
 {
+	auto name = std::string(typeid(*object).name());
 	auto toRet = m_mObjectManaged.find(name);
 	if (toRet != m_mObjectManaged.end())
 	{
