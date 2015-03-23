@@ -37,9 +37,18 @@ namespace SweepingBirds
 		glm::vec3 m_v3Velocity;
     glm::vec3 m_v3initialDirection;
 
+    glm::quat m_qInitialRot;
+    glm::quat m_qDestinationRot;
+
 		float m_fMass;
 		float m_fTimeSinceDirectionChanged;
 		float m_fAngle;
+    float m_fLastAngle;
+    float m_fNextAngle;
+    float m_fRotDistanceToDo;
+    float m_fElapsedTime;
+
+    bool m_bIsRotating;
 
 		Bird3D* m_wpBird3D;
 	};
