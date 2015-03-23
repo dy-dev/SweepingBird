@@ -40,8 +40,8 @@ struct GUIInfos;
 		GUIInfos * generate_use_light_checkbox(std::string name);
 		GUIInfos * generate_slider_intensity_infos(std::string name);
 
-		void set_intensity(float intensity) { m_fIntensity = intensity; }
-		float get_intensity() { return m_fIntensity; }
+		virtual void set_intensity(float intensity) { m_fIntensity = intensity; }
+		virtual float get_intensity() { return m_fIntensity; }
 
 	protected:
 		glm::vec3 m_v3Position;

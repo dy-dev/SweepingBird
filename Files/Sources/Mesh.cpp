@@ -39,6 +39,8 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
+	glDeleteBuffers(4, m_iVBO);
+	glDeleteBuffers(1, &m_iVAO);
 }
 
 HRESULT Mesh::get_attributes(IXmlReader* pReader, std::string &name)
@@ -330,7 +332,7 @@ CleanUp:
 	return true;
 }
 
-bool Mesh::fill_vertices_infos(std::string meshName,  const aiMesh* assimpMesh)
+bool Mesh::fill_vertices_infos(std::string meshName, const aiMesh* assimpMesh)
 {
 	m_sName = meshName;
 	for (unsigned int t = 0; t < assimpMesh->mNumFaces; ++t)
@@ -380,14 +382,14 @@ void Mesh::bind()
 	//Bind the VAO
 	glBindVertexArray(m_iVAO);
 
-	GLuint vbo[4];
-	glGenBuffers(4, vbo);
+	
+	glGenBuffers(4, m_iVBO);
 	// Bind indices and upload data
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[0]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iVBO[0]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_vTrianglesList.size() * sizeof(int), m_vTrianglesList.data(), GL_STATIC_DRAW);
 
 	// Bind vertices and upload data
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO[1]);
 	glEnableVertexAttribArray(POSITION);
 	glVertexAttribPointer(0, m_iDimension, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * m_iDimension, (void*)0);
 	glBufferData(GL_ARRAY_BUFFER, m_vVertices.size()* sizeof(float), m_vVertices.data(), GL_STATIC_DRAW);
@@ -395,13 +397,13 @@ void Mesh::bind()
 	if (m_iDimension == 3)
 	{
 		// Bind normals and upload data
-		glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_iVBO[2]);
 		glEnableVertexAttribArray(NORMAL);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 3, (void*)0);
-		glBufferData(GL_ARRAY_BUFFER, m_vNormals.size()* sizeof(float), m_vNormals.data(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, m_vNormals.size()* sizeof(float), m_vNormals.data(), GL_DYNAMIC_DRAW);
 
 		// Bind uv coords and upload data
-		glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_iVBO[3]);
 		glEnableVertexAttribArray(TEXCOORD);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, (void*)0);
 		glBufferData(GL_ARRAY_BUFFER, m_vUVs.size()* sizeof(float), m_vUVs.data(), GL_STATIC_DRAW);
@@ -420,4 +422,20 @@ GLuint Mesh::get_texture(aiTextureType type)
 		return textId->second;
 	}
 	return 0;
+}
+
+
+void Mesh::set_normals(std::vector<float >& norms)
+{
+	for (int i = 0; i < norms.size(); i++)
+	{
+		if (i < m_vNormals.size())
+		{
+			m_vNormals[i] = norms[i];
+		}
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO[2]);
+	glEnableVertexAttribArray(NORMAL);
+	glBufferSubData(GL_ARRAY_BUFFER, NULL, m_vNormals.size()* sizeof(float), m_vNormals.data());
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

@@ -9,13 +9,14 @@ namespace SweepingBirds
 	class Predators3D;
 	class Ground3D;
 	class SkyBoxSweepingBird;
+	class SceneManager;
 	struct GUIInfos;
 
 	class ObjectManager
 	{
 	public:
 		ObjectManager();
-		ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam);
+		ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam, SceneManager * sceneMgr);
 		~ObjectManager();
 
 		bool bind_object(Textured3DObject* object, int nb_instances);
@@ -35,6 +36,7 @@ namespace SweepingBirds
 
 		const Camera* get_Camera() const {return m_pCamera;}
 		void jump_cam(Textured3DObject* obj);
+		SceneManager* get_scene_manager() { return m_pSceneManager; }
 	private:
 		//need a float as nbInstance not an int because of GUI limitation
 		std::multimap<std::string , std::pair<Textured3DObject*, float*> > m_mObjectManaged;
@@ -42,6 +44,7 @@ namespace SweepingBirds
 		TextureManager * m_pTexMgr;
 		ProgramGUI * m_pGUI;
 		Camera * m_pCamera;
+		SceneManager * m_pSceneManager;
 	};
 
 }

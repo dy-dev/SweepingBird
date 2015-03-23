@@ -13,29 +13,32 @@
 #include <ProgramGUI.h>
 #include <assimp/DefaultLogger.hpp>
 #include <PhysicsEngine.h>
+#include <SceneManager.h>
 
 using namespace SweepingBirds;
 
 ObjectManager::ObjectManager()
 	: m_pGUI(nullptr),
 	m_pTexMgr(nullptr),
-	m_pCamera(nullptr)
+	m_pCamera(nullptr),
+	m_pSceneManager(nullptr)
 {
-  
+
 }
 
-ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam)
+ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam, SceneManager * sceneMgr)
 	:ObjectManager()
 {
 	m_pTexMgr = texMgr;
 	m_pGUI = gui;
 	m_pCamera = cam;
+	m_pSceneManager = sceneMgr;
 
-  //These objects register themselve to the ObjectManager (this object)
-  new Bird3D(this, texMgr);
-  new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
-  new Ground3D(this, texMgr, 2000);
-  new SkyBoxSweepingBird(this, texMgr);
+	//These objects register themselve to the ObjectManager (this object)
+	new Bird3D(this, texMgr);
+	new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
+	new Ground3D(this, texMgr, 2);
+	new SkyBoxSweepingBird(this, texMgr);
 }
 
 ObjectManager::~ObjectManager()
@@ -57,7 +60,7 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances)
 	if (object != nullptr)
 	{
 		object->bind_meshes();
-		m_mObjectManaged.emplace(std::string(typeid(*object).name()),std::make_pair(object, new float(nb_instances)));
+		m_mObjectManaged.emplace(std::string(typeid(*object).name()), std::make_pair(object, new float(nb_instances)));
 		return true;
 	}
 	else
@@ -74,7 +77,7 @@ std::pair<Textured3DObject *, float *>& ObjectManager::get_object(std::string na
 		return toRet->second;
 	}
 
-	return *(new std::pair<Textured3DObject *, float *>(nullptr,nullptr));
+	return *(new std::pair<Textured3DObject *, float *>(nullptr, nullptr));
 }
 
 GUIInfos * ObjectManager::generate_slider_nb_instances_infos(Textured3DObject* object, int max)

@@ -226,6 +226,14 @@ bool ShaderProgramManager::create_ground_shader_program()
 	ground_program->add_var("Shininess");
 	ground_program->set_var_value("Shininess", 4);
 
+	ground_program->add_var("LightDirection");
+	ground_program->add_var("LightColor");
+	ground_program->add_var("LightSpecularPower");
+	ground_program->add_var("LightUse");
+	ground_program->add_var("LightUse");
+	
+	ground_program->add_var("m_ftest1");
+	ground_program->add_var("m_ftest2");
 
 	m_mAvailableShaders[GROUND] = ground_program;
 

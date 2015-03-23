@@ -16,7 +16,7 @@ Light::~Light()
 
 GUIInfos * Light::generate_slider_position_infos(std::string name)
 {
-	auto infos = new GUIInfos(name, -50.0f, 50.0f, 0.1f);
+	auto infos = new GUIInfos(name, -500.0f, 5000.0f, 1.f);
 	infos->var.push_back(std::make_pair(name + " X", &(m_v3Position.x)));
 	infos->var.push_back(std::make_pair(name + " Y", &(m_v3Position.y)));
 	infos->var.push_back(std::make_pair(name + " Z", &(m_v3Position.z)));

@@ -11,31 +11,35 @@
 
 
 /// The threshold at wich predators start hunting the bird
-#define PREDATOR_THRESHOLD_M 15.f
+#define PREDATOR_THRESHOLD_M 150.f
 #define BIRD_OFFSET 10.f
 
 using namespace SweepingBirds;
 
-const unsigned int PhysicsEngine::NB_PREDATORS = 30;
+const unsigned int PhysicsEngine::NB_PREDATORS = 40;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
 	m_Bird(2.0f, glm::vec3(0, 0, -500)),
 	m_bPredatorsLaunched(false),
-	m_fPredatorsSpringLength(50.0f),
-	m_fPredatorsSpringRigidity(3.f),
+	m_fPredatorsSpringLength(200.0f),
+	m_fPredatorsSpringRigidity(0.4f),
 	m_pbResetPredatorsPos(false)
-
 {
-
-	//Basic predator generation for testing purposes
-	Predator* a = new Predator(3.f, glm::vec3(0, 0, 50));
-	Predator* b = new Predator(2.f, glm::vec3(30, 0, 0));
-	Predator* c = new Predator(3.f, glm::vec3(-30, 0, 0));
-
-	m_vPredators.push_back(a);
-	m_vPredators.push_back(b);
-	m_vPredators.push_back(c);
+	//Predators generation using random spread function
+	for (int i = 0; i < NB_PREDATORS; ++i)
+	{
+		glm::vec3 initialPosition = glm::vec3(0);
+		float random = std::rand() % 300;
+		if (i % 2)
+			random = -random;
+		initialPosition.x = i * 10 * cos(m_wpSceneManager->get_time()) + random;
+		initialPosition.z = i * 14 * sin(m_wpSceneManager->get_time() - i) + (std::rand() % 200);
+		glm::vec3 initialVelocity = glm::vec3(-100, 0, 20);
+		float mass = std::rand() % 10;
+		Predator* p = new Predator(mass, initialPosition, initialVelocity);
+		m_vPredators.push_back(p);
+	}
 
 	//Link physics object with their 3D representation
 	ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
@@ -96,15 +100,13 @@ void PhysicsEngine::update(const float deltaTime)
 {
 	m_Bird.update(deltaTime);
 
+	m_Ground.generate_heigh_map(-900, 900, -900, 900);
 
-	// if (m_bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
-	// {
-	launch_predators();
-	// }
-	// else if (m_bPredatorsLaunched && m_bird.get_position().y < PREDATOR_THRESHOLD_M)
-	// {
-	//  dismiss_predators();
-	// }
+	if (m_Bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
+		launch_predators();
+	else if (m_bPredatorsLaunched && m_Bird.get_position().y < PREDATOR_THRESHOLD_M)
+		dismiss_predators();
+
 
 	float MountainFrequence = m_Ground.get_mountain_frequency();
 	float MaxMountainHeight = m_Ground.get_ground_height();
@@ -130,8 +132,8 @@ void PhysicsEngine::update(const float deltaTime)
 
 	for (auto it = m_vPredators.begin(); it != m_vPredators.end(); ++it)
 	{
-		(*it)->set_spring_length(m_fPredatorsSpringLength);
-		(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
+		//(*it)->set_spring_length(m_fPredatorsSpringLength);
+		//(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
 		(*it)->update(deltaTime);
 	}
 
@@ -140,19 +142,19 @@ void PhysicsEngine::update(const float deltaTime)
 	//May be optimized
 	std::vector<glm::vec3> predatorsPositions;
 	std::vector<glm::vec3> predatorsDirections;
-
+	std::vector<glm::mat4> predatorsTransforms;
 	for each (auto pred in m_vPredators)
 	{
 		glm::vec3 finalPos = pred->get_position();
 		if (m_pbResetPredatorsPos)
 			finalPos = glm::vec3(0);
 
-		predatorsPositions.push_back(finalPos);
+		predatorsPositions.push_back(pred->get_position());
 		predatorsDirections.push_back(pred->get_direction());
-	}
-	
 
-	m_wpPredators3D->update_positions(predatorsPositions);
+		predatorsTransforms.push_back(pred->get_transform_matrix());
+	}
+	m_wpPredators3D->update_transformation(predatorsTransforms);
 }
 
 void PhysicsEngine::launch_predators()

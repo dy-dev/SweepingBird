@@ -49,7 +49,8 @@ namespace SweepingBirds
 		double get_framerate(){ return m_dFPS; }
 		void update_time(double newTime);
 
-    ObjectManager& get_object_manager() const { assert(m_pAssimpObjectManager); return *m_pAssimpObjectManager; }
+		ObjectManager& get_object_manager() const { assert(m_pAssimpObjectManager); return *m_pAssimpObjectManager; }
+		const std::vector<Light*>& get_lights() {return m_vLights;}
 
 	protected:
 		ProgramGUI * m_pProgramGUI;
@@ -65,7 +66,7 @@ namespace SweepingBirds
 		double m_dFPS;
 		double m_dTime;
 		double m_dPrevTime;
-		
+
 		int m_iLockPositionX;
 		int m_iLockTurnPositionX;
 		int m_iLockPositionY;

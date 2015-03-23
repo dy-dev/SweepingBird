@@ -55,18 +55,21 @@ namespace SweepingBirds
 		void set_textures(const std::map< aiTextureType, GLuint >& texture) { m_mTexture = texture; }
 		GLuint get_texture(aiTextureType type);
 
-		std::vector<int> get_trianglesList() const { return m_vTrianglesList; };
+		const std::vector<int>& get_trianglesList() const { return m_vTrianglesList; };
 		int  get_triangles_count() { return m_iTrianglesCount; }
 		int  get_dimension() { return m_iDimension; }
-		std::vector<float > get_uvs() const { return m_vUVs; };
-		std::vector<float > get_vertices() const { return m_vVertices; };
-		std::vector<float > get_normals() const { return m_vNormals; };
+		const std::vector<float >& get_uvs() const { return m_vUVs; };
+		const std::vector<float >& get_vertices() const { return m_vVertices; };
+		const std::vector<float >& get_normals() const { return m_vNormals; };
+
+		void set_normals(std::vector<float >& norms);
 
 	private:
 		HRESULT get_attributes(IXmlReader* pReader, std::string &name);
 
 	private:
 		GLuint m_iVAO;
+		GLuint m_iVBO[4];
 		std::string m_sName;
 		std::map< aiTextureType, GLuint > m_mTexture;
 		aiMaterial * m_pAiMaterial;

@@ -27,7 +27,7 @@ void Camera::Camera_defaults()
 {
 	phi = 1.1405f;
 	theta = 0.0f;
-	radius = 500;
+	radius = 5000;
 	Camera_compute();
 }
 
@@ -110,9 +110,8 @@ void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
 
 	radius = 300;
 
-	eye = o - glm::vec3(300)*direction;
-	auto val = glm::dot(glm::normalize(direction), glm::vec3(0.0, 1.0, 0.0));
-	phi = acos(val);
+	eye = o - 300.0f*direction;
+	
 	Camera_compute_angles();
 }
 

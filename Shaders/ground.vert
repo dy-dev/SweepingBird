@@ -11,8 +11,10 @@
 #define OPACITY_BINDING   3
 #define SHININESS_BINDING 4
 #define PREDATORS_BINDING 5	
+#define HEIGHTMAP_BINDING 6
 
 layout(binding=PREDATORS_BINDING) uniform samplerBuffer PredatorData;
+layout(binding=HEIGHTMAP_BINDING) uniform samplerBuffer HeightMapData;
 
 layout(location = POSITION) in vec3 Position;
 layout(location = NORMAL) in vec3 Normal;
@@ -28,24 +30,20 @@ uniform mat4 GroundTranslation;
 uniform int InstanceNumber;
 uniform int SquareSideLength;
 uniform vec3 Translation;
-uniform vec3 BirdTranslation;
 
 uniform float Time;
 
-uniform int ObjectId;
 
-uniform bool Rotate;
 uniform float SizeFactor;
-uniform float SpeedFactor;
 uniform float RangeFactor;
 uniform float RadiusSpacing;
-uniform float ColorControl;
 uniform float MaxMountainHeight;
 uniform float MountainFrequence;
 uniform float PatchControl;
 
 
-
+uniform float m_ftest1;
+uniform float m_ftest2;
 out gl_PerVertex
 {
 	vec4 gl_Position;
@@ -112,33 +110,34 @@ float GetValue(float x,float y)
 	float x0y1 = 0.0625*(n05+n06+n23+n24) + 0.125*(n03+n04+n09+n28) + 0.25*(n08);  
 	float x1y1 = 0.0625*(n09+n16+n28+n34) + 0.125*(n08+n14+n06+n24) + 0.25*(n04);  
 
-	//interpolate between those values according to the x and y fractions
+//interpolate between those values according to the x and y fractions
 	float v1 = Interpolate(x0y0, x1y0, Xfrac); //interpolate in x direction (y)
 	float v2 = Interpolate(x0y1, x1y1, Xfrac); //interpolate in x direction (y+1)
 	float fin = Interpolate(v1, v2, Yfrac);  //interpolate in y direction
 
 	return fin;
-}
+	}
 
-float Total(float i, float j) 
+float Total(float i, float j, float _amplitude, float frequency, float persistence, float freqdiv ) 
 {
     //properties of one octave (changing each loop)
     float t = 0.0f;
-    float _amplitude = 1024;
-    float freq = 0.0005;
-
+	
+    float amplitude = _amplitude;
+    float freq = frequency;
    
-	t += GetValue(j * freq , i * freq ) * _amplitude;
-	_amplitude /= 4;
-	freq *= 2;
+   
+	t += GetValue(j * freq , i * freq ) * amplitude;
+	amplitude *= persistence;
+	freq *= freqdiv;
 
-	t += GetValue(j * freq , i * freq ) * _amplitude;
-	_amplitude /= 4;
-	freq *= 2;
+	t += GetValue(j * freq , i * freq ) * amplitude;
+	amplitude *= persistence;
+	freq *= freqdiv;
 
+	t += GetValue(j * freq , i * freq ) * amplitude;
 
-
-    return t/512;
+    return t;
 }
 
 void main()
@@ -150,23 +149,32 @@ void main()
 	{
 		divider = 1;
 	}
-	float xGridCood = PatchControl * (gl_InstanceID%divider) - PatchControl * divider/2 ;
-	float zGridCood = PatchControl * (gl_InstanceID/divider) - PatchControl* divider/2;
+	/*float xGridCood = PatchControl * (gl_InstanceID%divider) - PatchControl * divider/2 ;
+	float zGridCood = PatchControl * (gl_InstanceID/divider) - PatchControl* divider/2;*/
+	float xGridCood = PatchControl*(gl_InstanceID%divider - divider/2.0 );
+	float zGridCood = PatchControl*(gl_InstanceID/divider - divider/2.0);
+	float height =0;
+	if(gl_InstanceID == 1)
+	{
+		height = texelFetch(HeightMapData,gl_VertexID).x;
+	}
+	//changePos.x += xGridCood;
+	//changePos.z += zGridCood;
 	
-	
-	changePos.x += xGridCood;
-	changePos.z += zGridCood;
-	
-	float xVertexCoord = (gl_VertexID%50);
-	float zVertexCoord = (gl_VertexID/50);
+	float xVertexCoord = (gl_VertexID%30);
+	float zVertexCoord = (gl_VertexID/30);
 
-	
-	vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
+
+    if(gl_InstanceID == 0)
+	{
+		//height = Total(xVertexCoord, zVertexCoord,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
+	 height = Total(changePos.x, changePos.z,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
+	}
+	/*vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
 	changePos = tmp.xyz;
-	float tmpNoise = Total(abs(changePos.x ), abs(changePos.z));
+	/*float tmpNoise = Total(abs(changePos.x ), abs(changePos.z), 2,0.0005);
 	
 	
-	/*
 	int freq = int(MountainFrequence);
 	if(freq == 0)
 	{
@@ -179,9 +187,14 @@ void main()
 	changePos.y = MaxMountainHeight*(cos(tempx)*cos(2.0*tempx)*sin(4.0*tempz) + sin(tempz + 1.5)*sin(2.0*tempz)*cos(tempx*8.0));
 	changePos.y += MaxMountainHeight*(sin(tempz/5.0)*cos(3.0*tempx) + sin(tempx)*sin(5*tempz));
 	changePos.y += MaxMountainHeight*(cos(tempz+1.5)*sin(tempz)*cos(9.0*tempx) + cos(tempx+1.5)*cos(tempz/5.0)*sin(tempx*5.0));
-	*/
-	changePos.y = 2*MaxMountainHeight*tmpNoise;
 	
+	changePos.y = MaxMountainHeight*tmpNoise;
+	*/
+	changePos.y = MaxMountainHeight*height;
+	if(gl_InstanceID == 0)
+	{
+		changePos.y += 100; 
+	}
 	gl_Position = MVP * vec4(changePos, 1.0);
 	Out.TexCoord = TexCoord;
 	Out.Position = changePos;

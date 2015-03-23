@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)</OutDir>
-    <IntDir>$(SolutionDir)Binaries\Obj\$(configuration)</IntDir>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
     <TargetName>glew</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
