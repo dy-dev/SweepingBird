@@ -25,6 +25,8 @@ namespace SweepingBirds
 
 		const glm::vec3& get_position() const;
 		const glm::vec3& get_direction() const;
+    const glm::mat4& get_transform_matrix() const;
+
 		void set_spring_rigidity(const float rigidity);
 		void set_spring_length(const float length);
 
@@ -36,6 +38,7 @@ namespace SweepingBirds
 		glm::vec3 m_v3Position;
 		glm::vec3 m_v3Velocity;
 		glm::vec3 m_v3Direction;
+    glm::mat4 m_matTransform;
 
 		float m_mass;
 		float m_fSpringRigidity;

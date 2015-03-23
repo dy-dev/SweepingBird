@@ -22,10 +22,9 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
 	m_Bird(2.0f, glm::vec3(0, 0, -500)),
 	m_bPredatorsLaunched(false),
-	m_fPredatorsSpringLength(40.0f),
+	m_fPredatorsSpringLength(200.0f),
 	m_fPredatorsSpringRigidity(0.4f),
 	m_pbResetPredatorsPos(false)
-
 {
   //Predators generation using random spread function
   for (int i = 0; i < NB_PREDATORS; ++i)
@@ -130,8 +129,8 @@ void PhysicsEngine::update(const float deltaTime)
 
   for (auto it = m_vPredators.begin(); it != m_vPredators.end(); ++it)
 	{
-		(*it)->set_spring_length(m_fPredatorsSpringLength);
-		(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
+		//(*it)->set_spring_length(m_fPredatorsSpringLength);
+		//(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
 		(*it)->update(deltaTime);
 	}
 
@@ -140,16 +139,19 @@ void PhysicsEngine::update(const float deltaTime)
 	//May be optimized
 	std::vector<glm::vec3> predatorsPositions;
 	std::vector<glm::vec3> predatorsDirections;
+  std::vector<glm::mat4> predatorsTransforms;
 	for each (auto pred in m_vPredators)
 	{
 		glm::vec3 finalPos = pred->get_position();
 		if (m_pbResetPredatorsPos)
 			finalPos = glm::vec3(0);
 
-		predatorsPositions.push_back(finalPos);
+		predatorsPositions.push_back(pred->get_position());
 		predatorsDirections.push_back(pred->get_direction());
+
+    predatorsTransforms.push_back(pred->get_transform_matrix());
 	}
-  m_wpPredators3D->update_positions(predatorsPositions);
+  m_wpPredators3D->update_transformation(predatorsTransforms);
 }
 
 void PhysicsEngine::launch_predators()
