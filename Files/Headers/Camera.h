@@ -24,6 +24,7 @@ namespace SweepingBirds
 		glm::vec3 GetO() const { return o; };
 		glm::vec3 GetEye() const { return eye; };
 		glm::vec3 GetUp() const { return up; };
+    const glm::mat4& get_transform() const { return m_matTransform; }
 		void jump_to_pos(glm::vec3 position, glm::vec3 direction);
 
 	protected:
@@ -34,6 +35,7 @@ namespace SweepingBirds
 		glm::vec3 o;
 		glm::vec3 eye;
 		glm::vec3 up;
+    glm::mat4 m_matTransform;
 
 	};
 

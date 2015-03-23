@@ -17,11 +17,13 @@ namespace SweepingBirds
 		void set_direction(glm::vec3 Direction) { m_v3Direction = Direction; };
 		glm::vec3 get_direction(){ return m_v3Direction; };
 
-		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
+    void set_angle(const float angle) { m_fAngle = angle; }
 
+		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
 
 	private:
 		float m_fSpeed;
+    float m_fAngle;
 
 
 	};

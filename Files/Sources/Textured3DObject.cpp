@@ -4,6 +4,7 @@
 #include <stb/stb_image.h>
 #include <glew/glew.h>
 #include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtx/transform.hpp>
 
 #include <assimp/Importer.hpp>	//OO version Header!
 #include <assimp/postprocess.h>
@@ -216,15 +217,18 @@ ShaderProgram* Textured3DObject::setup_drawing_space(ShaderProgramManager& shade
 		{
 			m_pObjectManager->jump_cam(this);
 		}
+    /*
 		glm::mat4 worldToView = glm::lookAt(cam->GetEye(), cam->GetO(), cam->GetUp());
 
-		auto ModelTranslated = glm::translate(Model, m_v3Position);
-		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
-		glm::mat4 mv = worldToView * ModelScaled;
+    
+		glm::mat4 ModelScale = glm::scale(glm::mat4(), glm::vec3(m_fSize));
+    glm::mat4 ModelRotation = glm::lookAt(m_v3Position, m_v3Direction, glm::vec3(0, 1, 0));
+    glm::mat4 ModelTranslation = glm::translate(m_v3Position);
+    glm::mat4 mv = worldToView * ModelTranslation * ModelRotation * ModelScale;
 		glm::mat4 mvp = proj * mv;
 		shader->set_var_value("MVP", glm::value_ptr(mvp));
 		shader->set_var_value("MV", glm::value_ptr(mv));
-
+    */
 		if (mesh != nullptr)
 		{
 			glBindVertexArray(mesh->get_vao());

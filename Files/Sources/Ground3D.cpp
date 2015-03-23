@@ -49,11 +49,21 @@ void Ground3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time,
 	for each (auto mesh in m_vMeshes)
 	{
 		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
-		if (shader != nullptr)
+
+    glm::mat4 Model;
+    const Camera* cam = m_pObjectManager->get_Camera();
+    glm::mat4 worldToView = glm::lookAt(cam->GetEye(), cam->GetO(), cam->GetUp());
+    glm::mat4 ModelTranslated = glm::translate(Model, m_v3Position);
+    glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
+    glm::mat4 mv = worldToView * ModelScaled;
+    glm::mat4 mvp = proj * mv;
+
+    if (shader != nullptr)
 		{	
-			glm::mat4 Model;
-			auto cam = m_pObjectManager->get_Camera();
+      shader->set_var_value("MVP", glm::value_ptr(mvp));
+      shader->set_var_value("MV", glm::value_ptr(mv));
 			auto ModelTranslated = glm::translate(Model, cam->GetEye());
+      
 			shader->set_var_value("GroundTranslation", glm::value_ptr(ModelTranslated));
 			shader->set_var_value("InstanceNumber", nbInstance);
 			shader->set_var_value("SquareSideLength", (int)sqrt(nbInstance));

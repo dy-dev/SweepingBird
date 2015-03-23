@@ -22,9 +22,6 @@ precision highp int;
 uniform mat4 MVP;
 uniform mat4 MV;
 
-
-uniform vec3 BirdTranslation;
-
 uniform float Time;
 
 out block

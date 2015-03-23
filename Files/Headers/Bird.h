@@ -35,6 +35,7 @@ namespace SweepingBirds
 		glm::vec3 m_v3Position;
 		glm::vec3 m_v3PrevPosition;
 		glm::vec3 m_v3Velocity;
+    glm::vec3 m_v3initialDirection;
 
 		float m_fMass;
 		float m_fTimeSinceDirectionChanged;

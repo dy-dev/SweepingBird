@@ -22,6 +22,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
    m_v3Velocity (glm::vec3(-100.0,0,0.f)),
    m_fTimeSinceDirectionChanged(0.0f),
    m_fAngle(0.f),
+   m_v3initialDirection(glm::normalize(m_v3Velocity)),
    m_wpBird3D(nullptr)
 {
 
@@ -36,22 +37,29 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
 void Bird::update(const float deltaTime)
 {
   m_fTimeSinceDirectionChanged += deltaTime;
-  /*
+  
   if (m_fTimeSinceDirectionChanged > DIRECTION_TIMER_S)
   {
     m_fTimeSinceDirectionChanged = 0.0f;
     const glm::vec3 currentDirection = glm::normalize(m_v3Velocity);
 
     //To avoid hard turns  we limit the range
-    m_fAngle = glm::linearRand(-M_PI_4, M_PI_4);
-    glm::vec3 newDirection = glm::rotate(currentDirection, m_fAngle, VERTICAL);
-
+    float angleShift = glm::linearRand(-M_PI_4, M_PI_4);
+    m_fAngle += angleShift;
+    glm::mat4 model;
+    model = glm::rotate(model, m_fAngle, VERTICAL);
+    glm::vec4 tmpDirection = model * glm::vec4(m_v3initialDirection, 0.0f);
+    
+    glm::vec3 newDirection = glm::vec3(tmpDirection.x, tmpDirection.y, tmpDirection.z);
+    newDirection = glm::normalize(newDirection);
+    
     //Compute final velocity. Bird never moves on Y Axis
-    glm::vec2 newVelocity = glm::linearRand(glm::vec2(50.f), glm::vec2(200.f));//Magic numbers to be tested
-    m_v3Velocity = newDirection * glm::vec3(newVelocity.x, 0.0f, newVelocity.y);
-    std::cout << "New direction with angle: " << m_fAngle << ". Vector: " << m_v3Velocity.x << ";" << m_v3Velocity.y << ";" << m_v3Velocity.z << std::endl;
+    float newVelocity = glm::linearRand(50.f, 200.f);//Magic numbers to be tested
+    m_v3Velocity = glm::vec3(newDirection.x*newVelocity, 0, newDirection.z * newVelocity);
+
+    std::cout << "New direction with angle: " << m_fAngle << ". Vector: " << newDirection.x << ";" << newDirection.y << ";" << newDirection.z << std::endl;
   }
-  */
+  
   m_v3PrevPosition = m_v3Position;
   m_v3Position = m_v3Position + (deltaTime * m_v3Velocity);
 }
@@ -80,4 +88,5 @@ void Bird::update_3D_model()
 {
 	m_wpBird3D->set_position(m_v3Position);
   m_wpBird3D->set_direction(glm::normalize(m_v3Velocity));
+  m_wpBird3D->set_angle(m_fAngle);
 }
