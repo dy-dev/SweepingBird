@@ -16,7 +16,7 @@
 
 using namespace SweepingBirds;
 
-const unsigned int PhysicsEngine::NB_PREDATORS = 3;
+const unsigned int PhysicsEngine::NB_PREDATORS = 30;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
@@ -116,10 +116,12 @@ void PhysicsEngine::update(const float deltaTime)
 	float tempx = birdPos.x / (10 * freq);// - Time;
 	float tempz = birdPos.z / (10 * freq);
 	float birdHeight = 0;
-
+	/*
 	birdHeight = MaxMountainHeight*(cos(tempx)*cos(2.0*tempx)*sin(4.0*tempz) + sin(tempz + 1.5)*sin(2.0*tempz)*cos(tempx*8.0));
 	birdHeight += MaxMountainHeight*(sin(tempz / 5.0)*cos(3.0*tempx) + sin(tempx)*sin(5 * tempz));
 	birdHeight += MaxMountainHeight*(cos(tempz + 1.5)*sin(tempz)*cos(9.0*tempx) + cos(tempx + 1.5)*cos(tempz / 5.0)*sin(tempx*5.0));
+	*/
+	birdHeight = 2 * MaxMountainHeight*m_Ground.Total(abs(birdPos.x), abs(birdPos.z));
 
 	birdHeight += BIRD_OFFSET;
 

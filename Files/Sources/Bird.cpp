@@ -36,7 +36,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
 void Bird::update(const float deltaTime)
 {
   m_fTimeSinceDirectionChanged += deltaTime;
-  
+ /* 
   if (m_fTimeSinceDirectionChanged > DIRECTION_TIMER_S)
   {
     m_fTimeSinceDirectionChanged = 0.0f;
@@ -51,7 +51,7 @@ void Bird::update(const float deltaTime)
     m_v3Velocity = newDirection * glm::vec3(newVelocity.x, 0.0f, newVelocity.y);
     std::cout << "New direction with angle: " << m_fAngle << ". Vector: " << m_v3Velocity.x << ";" << m_v3Velocity.y << ";" << m_v3Velocity.z << std::endl;
   }
-  
+  */
   m_v3PrevPosition = m_v3Position;
   m_v3Position = m_v3Position + (deltaTime * m_v3Velocity);
 }
