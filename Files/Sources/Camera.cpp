@@ -111,8 +111,8 @@ void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
 	radius = 300;
 
 	eye = o - /*glm::vec3(300)*/ radius *direction;
-  m_matTransform = glm::lookAt(eye, o, glm::vec3(0, 1, 0));
-	auto val = glm::dot(glm::normalize(direction), glm::vec3(0.0, 1.0, 0.0));
+  m_matTransform = glm::lookAt(eye, o, up);
+	auto val = glm::dot(glm::normalize(direction), /*glm::vec3(0.0, 1.0, 0.0)*/ up);
 	phi = acos(val);
 	Camera_compute_angles();
 }

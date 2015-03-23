@@ -25,7 +25,6 @@ namespace SweepingBirds
 		float m_fSpeed;
     float m_fAngle;
 
-
 	};
 
 }

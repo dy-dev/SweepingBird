@@ -19,14 +19,14 @@ Ground3D::Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstan
 	m_pObjectManager = manager;
 	load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
 	m_pObjectManager->bind_object(this, nbInstance);
-	m_fHeight = 300.0f;
+	m_fHeight = 1300.0f;
 	//set_speed(0.f);
 	m_fSize = 1.f;
 	m_fMountainFrequency = 270.0f;
 	m_iPatchSize = 1800;
 	set_position(glm::vec3(0.0, -500.0, 0.0));
 	//set_object_type(GROUND);
-	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider_nb_instances_infos("Ground", nbInstance));
+	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider_nb_instances_infos(this, nbInstance));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Height", 0.0f, 5000.0f, 10.0f, &m_fHeight));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Frequency", 0.0f, 5000.0f, 10.0f, &m_fMountainFrequency));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Patch Control", 0.0f, 5000.0f, 10.0f, &m_iPatchSize));
@@ -52,7 +52,7 @@ void Ground3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time,
 
     glm::mat4 Model;
     const Camera* cam = m_pObjectManager->get_Camera();
-    glm::mat4 worldToView = glm::lookAt(cam->GetEye(), cam->GetO(), cam->GetUp());
+    glm::mat4 worldToView = cam->get_transform();// glm::lookAt(cam->GetEye(), cam->GetO(), cam->GetUp());
     glm::mat4 ModelTranslated = glm::translate(Model, m_v3Position);
     glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
     glm::mat4 mv = worldToView * ModelScaled;
@@ -62,7 +62,7 @@ void Ground3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time,
 		{	
       shader->set_var_value("MVP", glm::value_ptr(mvp));
       shader->set_var_value("MV", glm::value_ptr(mv));
-			auto ModelTranslated = glm::translate(Model, cam->GetEye());
+			//auto ModelTranslated = glm::translate(Model, cam->GetEye());
       
 			shader->set_var_value("GroundTranslation", glm::value_ptr(ModelTranslated));
 			shader->set_var_value("InstanceNumber", nbInstance);

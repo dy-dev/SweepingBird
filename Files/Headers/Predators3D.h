@@ -12,6 +12,7 @@ namespace SweepingBirds
     static const GLuint PREDATORS_BINDING;
     static const GLuint MATRIX_TRANSFORM;
 
+
 		Predators3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance);
 		~Predators3D();
 
@@ -21,6 +22,7 @@ namespace SweepingBirds
 
   private:
     void init_instanced_buffer();
+
 
     unsigned int m_uiNbInstances;
     GLuint m_uiTransformMatricesBuffer;

@@ -26,7 +26,7 @@ namespace SweepingBirds
 		const TextureManager* get_TexManager() const{ return m_pTexMgr; }
 		const ProgramGUI* get_Gui() const{ return m_pGUI; }
 
-		GUIInfos * generate_slider_nb_instances_infos(std::string name, int max);
+		GUIInfos * generate_slider_nb_instances_infos(Textured3DObject* object, int max);
 		GUIInfos * generate_slider(std::string name, float min, float max, float step, float * value_to_change);
 		GUIInfos * generate_button(std::string name, std::function<void(void*, bool)> function_to_call, void *ob);
 		GUIInfos * generate_checkbox(std::string name, bool * is_used);

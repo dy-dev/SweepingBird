@@ -24,7 +24,9 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	//set_rotation_angle(-M_PI / 2.0f);
 	set_size(1.0f);
 	//set_object_type(BAT);
-  m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider_nb_instances_infos("Predators", m_uiNbInstances));
+
+  m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider_nb_instances_infos(this, m_uiNbInstances));
+
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("SizeFactor", 0.01f, 20.0f, 0.1f, get_size()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosY", -500.0f, 500.0f, 1.f, get_y_pos()));
@@ -77,7 +79,6 @@ void Predators3D::init_instanced_buffer()
   {
     glBindVertexArray(mesh->get_vao());
     glBindBuffer(GL_ARRAY_BUFFER, m_uiTransformMatricesBuffer);
-
     // Likewise, we can do the same with the model matrix. Note that a
     // matrix input to the vertex shader consumes N consecutive input
     // locations, where N is the number of columns in the matrix. So...

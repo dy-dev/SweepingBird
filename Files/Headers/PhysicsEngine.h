@@ -9,12 +9,12 @@ namespace SweepingBirds
 	class Predator;
 	class SceneManager;
 	class ProgramGUI;
-  class Predators3D;
+	class Predators3D;
 
 	class PhysicsEngine
 	{
 	public:
-    static const unsigned int NB_PREDATORS;
+		static const unsigned int NB_PREDATORS;
 
 		PhysicsEngine(SceneManager* sceneManager);
 		~PhysicsEngine();
@@ -29,7 +29,7 @@ namespace SweepingBirds
 		//wp => weak pointer
 		SceneManager* m_wpSceneManager;
 		ProgramGUI* m_pProgramGUI;
-    Predators3D* m_wpPredators3D;
+		Predators3D* m_wpPredators3D;
 
 		Bird m_Bird;
 		std::vector<Predator* > m_vPredators;
