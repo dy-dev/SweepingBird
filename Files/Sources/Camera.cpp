@@ -21,6 +21,8 @@ void Camera::Camera_compute()
 	eye.y = cos(phi) * radius + o.y;
 	eye.z = sin(theta) * sin(phi) * radius + o.z;
 	up = glm::vec3(0.f, phi < M_PI ? 1.f : -1.f, 0.f);
+
+  m_matTransform = glm::lookAt(eye, o, up);
 }
 
 void Camera::Camera_defaults()

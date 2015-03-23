@@ -153,7 +153,7 @@ void PhysicsEngine::update(const float deltaTime)
 
     predatorsTransforms.push_back(pred->get_transform_matrix());
 	}
-
+  m_wpPredators3D->set_position(predatorsPositions[0]);
   m_wpPredators3D->update_transformation(predatorsTransforms);
 }
 

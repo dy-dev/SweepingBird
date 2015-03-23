@@ -210,7 +210,7 @@ void SceneManager::manage_camera_movements()
 			{
 				m_pCamera->Camera_turn(diffLockPositionY * MOUSE_TURN_SPEED, diffLockPositionX * MOUSE_TURN_SPEED);
 
-				//				m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
+					//			m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 				//m_pGameCamera->OnMouseMove(mousex, mousey);
 			}
 			else
@@ -223,7 +223,7 @@ void SceneManager::manage_camera_movements()
 						int diffLockTurnPositionX = (int)mousex - m_iLockTurnPositionX;
 						m_pCamera->Camera_turn(0, diffLockTurnPositionX * MOUSE_TURN_SPEED);
 					}
-					//		m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
+						//	m_pGameCamera->OnMouseTurn(diffLockPositionX * MOUSE_PAN_SPEED, diffLockPositionY * MOUSE_PAN_SPEED);
 					//
 				}
 			}
