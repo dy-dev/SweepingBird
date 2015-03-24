@@ -21,7 +21,7 @@ namespace SweepingBirds
 		float GetValue(float x, float y);
 		float Total(float i, float j);
 		void generate_heigh_map(float xmin, float xmax, float zmin, float zmax);
-		void generate_normals(std::vector<float>& heightmap);
+		void generate_normals(std::vector<float>& heightmap, std::vector<float>& normalmap);
 
 	private:
 		Ground3D* m_pGround3D;

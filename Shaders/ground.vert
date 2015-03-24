@@ -12,9 +12,11 @@
 #define SHININESS_BINDING 4
 #define PREDATORS_BINDING 5	
 #define HEIGHTMAP_BINDING 6
+#define NORMALMAP_BINDING 7
 
 layout(binding=PREDATORS_BINDING) uniform samplerBuffer PredatorData;
 layout(binding=HEIGHTMAP_BINDING) uniform samplerBuffer HeightMapData;
+layout(binding=NORMALMAP_BINDING) uniform samplerBuffer NormalMapData;
 
 layout(location = POSITION) in vec3 Position;
 layout(location = NORMAL) in vec3 Normal;
@@ -151,25 +153,42 @@ void main()
 	}
 	/*float xGridCood = PatchControl * (gl_InstanceID%divider) - PatchControl * divider/2 ;
 	float zGridCood = PatchControl * (gl_InstanceID/divider) - PatchControl* divider/2;*/
-	float xGridCood = PatchControl*(gl_InstanceID%divider - divider/2.0 );
-	float zGridCood = PatchControl*(gl_InstanceID/divider - divider/2.0);
+	float xGridCood = 1800*(gl_InstanceID%divider - divider/2.0 );
+	float zGridCood = 1800*(gl_InstanceID/divider - divider/2.0);
 	float height =0;
-	if(gl_InstanceID == 1)
+	if(gl_InstanceID == 4)
 	{
 		height = texelFetch(HeightMapData,gl_VertexID).x;
+		Out.Normal = texelFetch(NormalMapData,gl_VertexID).xyz;
 	}
-	//changePos.x += xGridCood;
-	//changePos.z += zGridCood;
-	
-	float xVertexCoord = (gl_VertexID%30);
-	float zVertexCoord = (gl_VertexID/30);
-
-
-    if(gl_InstanceID == 0)
+	else if(gl_InstanceID == 5)
 	{
-		//height = Total(xVertexCoord, zVertexCoord,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
-	 height = Total(changePos.x, changePos.z,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
+		height = texelFetch(HeightMapData,gl_VertexID + (gl_InstanceID-4)*961).x;	
+		Out.Normal = texelFetch(NormalMapData,gl_VertexID + (gl_InstanceID-4)*961).xyz;
 	}
+	else if(gl_InstanceID == 6)
+	{
+		height = texelFetch(HeightMapData,gl_VertexID + (gl_InstanceID-4)*961).x;
+		Out.Normal = texelFetch(NormalMapData,gl_VertexID+ (gl_InstanceID-4)*961).xyz;
+	}
+	else if(gl_InstanceID == 7)
+	{
+		height = texelFetch(HeightMapData,gl_VertexID + (gl_InstanceID-4)*961).x;
+		Out.Normal = texelFetch(NormalMapData,gl_VertexID+ (gl_InstanceID-4)*961).xyz;
+	}
+	
+	else
+	{
+		//float xVertexCoord = (gl_VertexID%30);
+		//float zVertexCoord = (gl_VertexID/30);
+
+		//height = Total(xVertexCoord, zVertexCoord,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
+		//height = Total(changePos.x+xGridCood, changePos.z+zGridCood,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
+		Out.Normal = Normal;
+	}
+	
+	changePos.x += xGridCood;
+	changePos.z += zGridCood;
 	/*vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
 	changePos = tmp.xyz;
 	/*float tmpNoise = Total(abs(changePos.x ), abs(changePos.z), 2,0.0005);
@@ -198,5 +217,5 @@ void main()
 	gl_Position = MVP * vec4(changePos, 1.0);
 	Out.TexCoord = TexCoord;
 	Out.Position = changePos;
-	Out.Normal = Normal;
+	
 }

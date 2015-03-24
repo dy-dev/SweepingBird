@@ -37,7 +37,7 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera *
 	//These objects register themselve to the ObjectManager (this object)
 	new Bird3D(this, texMgr);
 	new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
-	new Ground3D(this, texMgr, 2);
+	new Ground3D(this, texMgr, 8);
 	new SkyBoxSweepingBird(this, texMgr);
 }
 

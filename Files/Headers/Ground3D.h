@@ -9,6 +9,7 @@ namespace SweepingBirds
 	{
 	public:
 		static const GLuint HEIGHTMAP_BINDING;
+		static const GLuint NORMALMAP_BINDING;
 	public:
 		Ground3D();
 		Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance);
@@ -18,7 +19,7 @@ namespace SweepingBirds
 		void set_height(float height) { m_fHeight = height; }
 		const float& get_frequency() const { return m_fMountainFrequency; }
 
-		void update(const std::vector<float>& datas);
+		void update(const std::vector<float>& heightdatas, const std::vector<float>& normaldatas);
 		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
 
 	private:
@@ -29,7 +30,8 @@ namespace SweepingBirds
 		float m_ftest1;
 		float m_ftest2;
 
-		GPUBuffer * m_bufGPUBuffer;
+		GPUBuffer * m_bufHeightMapGPUBuffer;
+		GPUBuffer * m_bufNormalMapGPUBuffer;
 	};
 
 }

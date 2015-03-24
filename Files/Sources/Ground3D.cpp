@@ -11,6 +11,7 @@
 
 using namespace SweepingBirds;
 const GLuint Ground3D::HEIGHTMAP_BINDING = GL_TEXTURE6;
+const GLuint Ground3D::NORMALMAP_BINDING = GL_TEXTURE7;
 
 Ground3D::Ground3D()
 {
@@ -20,8 +21,10 @@ Ground3D::Ground3D()
 Ground3D::Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstance)
 	:Textured3DObject(texMgr)
 {
-	m_bufGPUBuffer = new GPUBuffer(GL_R32F);
-	m_bufGPUBuffer->setData(sizeof(float) * 961, nullptr);
+	m_bufHeightMapGPUBuffer = new GPUBuffer(GL_R32F);
+	m_bufHeightMapGPUBuffer->setData(sizeof(float) * 961 * 4, nullptr);
+	m_bufNormalMapGPUBuffer = new GPUBuffer(GL_RGB32F);
+	m_bufNormalMapGPUBuffer->setData(sizeof(float) * 961 * 4 * 3, nullptr);
 	m_eShaderType = GROUND;
 	m_pObjectManager = manager;
 	load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
@@ -49,9 +52,10 @@ Ground3D::~Ground3D()
 {
 }
 
-void Ground3D::update(const std::vector<float>& datas )
+void Ground3D::update(const std::vector<float>& heightdatas, const std::vector<float>& normaldatas)
 {
-	m_bufGPUBuffer->updateData(datas.data(), 0,datas.size()*sizeof(float));
+	m_bufHeightMapGPUBuffer->updateData(heightdatas.data(), 0, heightdatas.size()*sizeof(float));
+	m_bufNormalMapGPUBuffer->updateData(normaldatas.data(), 0, normaldatas.size()*sizeof(float));
 }
 
 
@@ -92,9 +96,11 @@ void Ground3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time,
 			//auto dir = m_pCamera->GetO() - m_pCamera->GetEye();
 			//dir.y = 0.0f;
 			//shader->set_var_value("LookDirection", glm::value_ptr(glm::normalize(dir)));
-			m_bufGPUBuffer->activate(HEIGHTMAP_BINDING);
+			m_bufNormalMapGPUBuffer->activate(NORMALMAP_BINDING);
+			m_bufHeightMapGPUBuffer->activate(HEIGHTMAP_BINDING);
 			glDrawElementsInstanced(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0, (GLsizei)(nbInstance));
-			m_bufGPUBuffer->deactivate();
+			m_bufHeightMapGPUBuffer->deactivate();
+			m_bufNormalMapGPUBuffer->deactivate();
 			clean_bindings();
 		}
 	}
