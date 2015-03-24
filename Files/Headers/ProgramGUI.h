@@ -65,6 +65,10 @@ namespace SweepingBirds
 	
 		void add_gui_element(std::string varName, GUIInfos* infos);
 
+		bool m_bMustSickToBird;
+		bool m_bMustStopFollowingBird;
+		bool m_bMustStickToPredator;
+
 	protected:
 		void init_GLFW();
 		void init_Glew();

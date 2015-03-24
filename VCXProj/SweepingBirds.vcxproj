@@ -83,8 +83,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)</OutDir>
-    <IntDir>$(SolutionDir)Binaries\Obj\$(configuration)</IntDir>
-    <TargetName>aogl</TargetName>
+    <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
@@ -191,7 +190,7 @@ exit 0</Command>
     <ClCompile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;$(SolutionDir)lib\ogldev-source\Include;$(SolutionDir)lib\ogldev-source\Include\ImageMagick-6;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
@@ -210,13 +209,14 @@ exit 0</Command>
     </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)SweepingBird.exe</OutputFile>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;xmllite.lib;shlwapi.lib;CORE_DB_Magick++_.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\ogldev-source\Lib;</AdditionalLibraryDirectories>
+      <AssemblyDebug>true</AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

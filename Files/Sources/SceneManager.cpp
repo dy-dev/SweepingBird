@@ -154,6 +154,21 @@ void SceneManager::set_cam_states()
 		m_bPanLock = true;
 	else
 		m_bPanLock = false;
+
+	if (m_pProgramGUI->m_bMustSickToBird)
+	{
+		ClassName<Bird3D> birdName;
+		auto obj = m_pAssimpObjectManager->get_object(birdName.Name()).first;
+		obj->jump_cam(obj,true);
+		m_pProgramGUI->m_bMustSickToBird = false;
+	}
+	if (m_pProgramGUI->m_bMustStopFollowingBird)
+	{
+		ClassName<Bird3D> birdName;
+		auto obj = m_pAssimpObjectManager->get_object(birdName.Name()).first;
+		obj->jump_cam(obj, false);
+		m_pProgramGUI->m_bMustStopFollowingBird = false;
+	} 
 }
 
 void SceneManager::update_time(double newTime)
