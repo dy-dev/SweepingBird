@@ -33,7 +33,7 @@ Predator::Predator(const float mass, const glm::vec3& initialPosition, const glm
 void Predator::update(const float deltaTime)
 {
 	//If is following a bird
-	/*if (m_bird != nullptr)
+	if (m_bird != nullptr)
 	{
 		const glm::vec3& birdPos = m_bird->get_position();
 		float distance = glm::distance(m_v3Position, birdPos);
@@ -51,7 +51,7 @@ void Predator::update(const float deltaTime)
 	else
 	{
 		m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
-	}*/
+	}
 }
 
 void Predator::reset(const glm::vec3& position, const glm::vec3& direction)

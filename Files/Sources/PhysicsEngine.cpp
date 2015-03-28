@@ -155,12 +155,7 @@ void PhysicsEngine::update(const float deltaTime)
       finalPos = m_Bird.get_position();
       pred->reset(finalPos, glm::vec3(0, 0, 0));
     }
-
-		if (m_pbJumpPredatorsToBird)
-		{
-			finalPos = m_Bird.get_position();
-		pred->set_position(finalPos);
-		}
+    
 		predatorsPositions.push_back(finalPos);
 		predatorsDirections.push_back(pred->get_direction());
 	}
