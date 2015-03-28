@@ -105,13 +105,13 @@ void Camera::Camera_pan(float x, float y)
 	Camera_compute();
 }
 
-void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction, float angle)
+void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction, float angle, float zoom)
 {
 	o = position;
 
-	radius = 300;
+	radius = zoom;
 
-	eye = o - glm::vec3(300)*direction;
+	eye = o - radius*direction;
 	auto val = glm::dot(glm::normalize(direction), glm::vec3(0.0, 1.0, 0.0));
 	phi = acos(val);
 	m_fRotAngle = angle;
@@ -127,7 +127,7 @@ void Camera::Camera_compute_angles()
 	if (sin(phi) != 0)
 	{
 		auto tmp = glm::normalize(eye);
-		theta = acos(tmp.x / sin(phi));
+		theta = glm::min(acos(tmp.x / sin(phi)), M_PI);
 	}
 	else
 	{

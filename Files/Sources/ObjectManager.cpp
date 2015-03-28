@@ -21,7 +21,7 @@ ObjectManager::ObjectManager()
 	m_pTexMgr(nullptr),
 	m_pCamera(nullptr)
 {
-  
+
 }
 
 ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam)
@@ -31,11 +31,11 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera *
 	m_pGUI = gui;
 	m_pCamera = cam;
 
-  //These objects register themselve to the ObjectManager (this object)
-  new Bird3D(this, texMgr);
-  new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
-  new Ground3D(this, texMgr, 2000);
-  new SkyBoxSweepingBird(this, texMgr);
+	//These objects register themselve to the ObjectManager (this object)
+	new Bird3D(this, texMgr);
+	new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
+	new Ground3D(this, texMgr, 600);
+	new SkyBoxSweepingBird(this, texMgr);
 }
 
 ObjectManager::~ObjectManager()
@@ -57,7 +57,7 @@ bool ObjectManager::bind_object(Textured3DObject* object, int nb_instances)
 	if (object != nullptr)
 	{
 		object->bind_meshes();
-		m_mObjectManaged.emplace(std::string(typeid(*object).name()),std::make_pair(object, new float(nb_instances)));
+		m_mObjectManaged.emplace(std::string(typeid(*object).name()), std::make_pair(object, new float(nb_instances)));
 		return true;
 	}
 	else
@@ -74,7 +74,7 @@ std::pair<Textured3DObject *, float *>& ObjectManager::get_object(std::string na
 		return toRet->second;
 	}
 
-	return *(new std::pair<Textured3DObject *, float *>(nullptr,nullptr));
+	return *(new std::pair<Textured3DObject *, float *>(nullptr, nullptr));
 }
 
 GUIInfos * ObjectManager::generate_slider_nb_instances_infos(Textured3DObject* object, int max)
@@ -118,10 +118,17 @@ GUIInfos * ObjectManager::generate_checkbox(std::string name, bool * is_used)
 
 void ObjectManager::jump_cam(Textured3DObject* obj)
 {
-	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction(), *(obj->get_rot_angle()));
+	auto dir = obj->get_direction();
+	if (obj->is_cam_focused() == false)
+	{
+		ClassName<Bird3D> birdName;
+		if (obj == dynamic_cast<Bird3D*>(get_object(birdName.Name()).first))
+		{
+			ClassName<Predators3D> pred;
+			auto predobj = dynamic_cast<Predators3D*>(get_object(pred.Name()).first);
+			dir = predobj->get_position() - obj->get_position();
+		}
+	}
+	m_pCamera->jump_to_pos(obj->get_position(), dir, *(obj->get_rot_angle()), *(obj->get_zoom()));
 }
 
-void ObjectManager::jump_cam2(Textured3DObject* obj)
-{
-	m_pCamera->jump_to_pos(obj->get_position(), -obj->get_direction(), *(obj->get_rot_angle()));
-}

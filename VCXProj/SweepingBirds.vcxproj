@@ -216,7 +216,6 @@ exit 0</Command>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\ogldev-source\Lib;</AdditionalLibraryDirectories>
-      <AssemblyDebug>true</AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -55,16 +55,6 @@ namespace SweepingBirds
 		static void jump_cam(void *obj, bool stick = false);
 
     /**
-     * @fn  static void Textured3DObject::jump_cam2(void *obj, bool stick = false);
-     *
-     * @brief Jump camera 2.
-     *
-     * @param [in,out]  obj If non-null, the object.
-     * @param stick         true to stick.
-     */
-		static void jump_cam2(void *obj, bool stick = false);
-
-    /**
      * @fn  static void Textured3DObject::stick_cam(void *obj);
      *
      * @brief Stick camera.
@@ -256,16 +246,27 @@ namespace SweepingBirds
      */
 		const float * get_y_pos() const { return &(m_v3Position.y); }
 
-    /**
-     * @fn  virtual float * Textured3DObject::get_rot_angle()
-     *
-     * @brief Gets rot angle.
-     *
-     * @return  null if it fails, else the rot angle.
-     */
+		/**
+		* @fn  virtual float * Textured3DObject::get_rot_angle()
+		*
+		* @brief Gets rot angle.
+		*
+		* @return  null if it fails, else the rot angle.
+		*/
 		virtual float * get_rot_angle() { return &m_fRotAngle; }
 
-    /**
+		/**
+		* @fn  virtual float * Textured3DObject::get_zoom()
+		*
+		* @brief Gets the zoom on the object
+		*
+		* @return  null if it fails, else the zoom
+		*/
+		virtual float * get_zoom() { return &m_fZoom; }
+		
+		virtual bool is_cam_focused() { return m_bCamFocused; }
+		
+		/**
      * @fn  void Textured3DObject::set_mock_pos(const glm::vec3& newPos)
      *
      * @brief Sets mock position.
@@ -369,7 +370,9 @@ namespace SweepingBirds
 		float m_fSize;
 
 		bool m_bCamSticked;
+		bool m_bCamFocused;
 		float m_fRotAngle;
+		float m_fZoom;
 
 		/**
 		 *	

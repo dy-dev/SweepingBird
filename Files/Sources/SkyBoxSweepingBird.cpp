@@ -19,10 +19,10 @@ SkyBoxSweepingBird::SkyBoxSweepingBird(ObjectManager* manager, TextureManager * 
 	set_position(glm::vec3(0.0, 0.0, -5000.0));
 	set_size(1.0f);
 
-	m_pObjectManager->add_gui_controller("Skybox", m_pObjectManager->generate_slider("SizeFactor", 0.001f, 2.0f, 0.1f, get_size()));
+	/*m_pObjectManager->add_gui_controller("Skybox", m_pObjectManager->generate_slider("SizeFactor", 0.001f, 2.0f, 0.1f, get_size()));
 	m_pObjectManager->add_gui_controller("Skybox", m_pObjectManager->generate_slider("PosX", -1500.0f, 1500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Skybox", m_pObjectManager->generate_slider("PosY", -1500.0f, 1500.0f, 1.f, get_y_pos()));
-	m_pObjectManager->add_gui_controller("Skybox", m_pObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, get_z_pos()));
+	m_pObjectManager->add_gui_controller("Skybox", m_pObjectManager->generate_slider("PosZ", -5000.0f, -1500.0f, 1.f, get_z_pos()));*/
 }
 
 

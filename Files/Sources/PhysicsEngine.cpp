@@ -22,10 +22,10 @@ const unsigned int PhysicsEngine::NB_PREDATORS = 50;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
-	m_Bird(2.0f, glm::vec3(0, 0, -5500)),
+	m_Bird(2.0f, glm::vec3(-4000, 0, 0)),
 	m_bPredatorsLaunched(false),
-	m_fPredatorsSpringLength(20.0f),
-	m_fPredatorsSpringRigidity(0.9f),
+	m_fPredatorsSpringLength(50.0f),
+	m_fPredatorsSpringRigidity(0.01f),
 	m_pbResetPredatorsPos(false)
 {
 	srand(time(0));
@@ -33,29 +33,14 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	for (int i = 0; i < NB_PREDATORS; i++)
 	{
 		float massr = float(rand() % 50);
-		float x = float(rand() % 50);
-		float y = float(rand() % 50);
-		float z = float(rand() % 50);
-		float div = float(rand() % 100) + 50.0f;
-	
-		auto pred = new Predator(0.5f, glm::vec3(x, y, z ));
+		float x = float(rand() % 550);
+		float y = float(rand() % 550);
+		float z = float(rand() % 550);
+		float div = float(rand() % 10 + 80.0f);
+		float mass = 1.0f+ massr / div;
+		auto pred = new Predator(mass, glm::vec3(x, y, z ));
 		m_vPredators.push_back(pred);
 	}
-	/*//Basic predator generation for testing purposes
-	Predator* a = new Predator(1.f, glm::vec3(20, 20, 50));
-	Predator* b = new Predator(0.8f, glm::vec3(30, 0, 0));
-	Predator* c = new Predator(1.2f, glm::vec3(-30, 0, 20));
-	Predator* d = new Predator(0.9f, glm::vec3(40, 20, 50));
-	Predator* e = new Predator(1.f, glm::vec3(40, 10, 0));
-	Predator* f = new Predator(0.7f, glm::vec3(-50, 50, 20));
-
-	m_vPredators.push_back(a);
-	m_vPredators.push_back(b);
-	m_vPredators.push_back(c);
-	m_vPredators.push_back(d);
-	m_vPredators.push_back(e);
-	m_vPredators.push_back(f);
-	*/
 
 	//Link physics object with their 3D representation
 	ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
@@ -101,9 +86,9 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	m_pProgramGUI->add_gui_element(name, infos);
 
 	auto infos3 = new GUIInfos(name, -50.0f, 50.0f, 0.1f);
-	infos3->min = 0.f;
-	infos3->max = 2.f;
-	infos3->step = 0.001f;
+	infos3->min = -20.f;
+	infos3->max = 20.f;
+	infos3->step = 0.01f;
 	infos3->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
 	m_pProgramGUI->add_gui_element(name, infos3);
 

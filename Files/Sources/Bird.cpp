@@ -19,7 +19,7 @@ Bird::Bird(float mass, const glm::vec3& initialPosition)
  : m_fMass(mass),
    m_v3Position (initialPosition),
    m_v3PrevPosition(initialPosition),
-   m_v3Velocity (glm::vec3(-400.0,0,0.f)),
+   m_v3Velocity (glm::vec3(-400,0,0.f)),
    m_fTimeSinceDirectionChanged(0.0f),
    m_fAngle(0.f),
    m_wpBird3D(nullptr)

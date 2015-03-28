@@ -161,17 +161,7 @@ namespace SweepingBirds
      *
      * @param [in,out]  obj If non-null, the object.
      */
-		void jump_cam(Textured3DObject* obj);
-
-    /**
-     * @fn  void ObjectManager::jump_cam2(Textured3DObject* obj);
-     *
-     * @brief Jump camera 2.
-     *
-     * @param [in,out]  obj If non-null, the object.
-     */
-		void jump_cam2(Textured3DObject* obj);
-		
+		void jump_cam(Textured3DObject* obj);	
 
 	private:
 		//need a float as nbInstance not an int because of GUI limitation
