@@ -24,11 +24,65 @@ namespace SweepingBirds
 	class UtilityToolKit
 	{
 	public:
+    /**
+     * @fn  static bool UtilityToolKit::check_errors(const char* title);
+     *
+     * @brief Check errors.
+     *
+     * @param title The title.
+     *
+     * @return  true if it succeeds, false if it fails.
+     */
 		static bool check_errors(const char* title);
+
+    /**
+     * @fn  static int UtilityToolKit::printOglError(char *file, int line);
+     *
+     * @brief Print ogl error.
+     *
+     * @param [in,out]  file  If non-null, the file.
+     * @param line            The line.
+     *
+     * @return  An int.
+     */
 		static int printOglError(char *file, int line);
+
+    /**
+     * @fn  static void UtilityToolKit::logInfo(std::string logString);
+     *
+     * @brief Logs an information.
+     *
+     * @param logString The log string.
+     */
 		static void logInfo(std::string logString);
+
+    /**
+     * @fn  static void UtilityToolKit::createAILogger();
+     *
+     * @brief Creates an i logger.
+     */
 		static void createAILogger();
+
+    /**
+     * @fn  static std::string UtilityToolKit::getBasePath(const std::string& path);
+     *
+     * @brief Gets base path.
+     *
+     * @param path  Full pathname of the file.
+     *
+     * @return  The base path.
+     */
 		static std::string getBasePath(const std::string& path);
+
+    /**
+     * @fn  static std::string UtilityToolKit::getFileName(const std::string& path);
+     *
+     * @brief Gets file name.
+     *
+     * @param path  Full pathname of the file.
+     *
+     * @return  The file name.
+     */
 		static std::string getFileName(const std::string& path);
 
 	};

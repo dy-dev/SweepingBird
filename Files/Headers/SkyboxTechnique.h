@@ -26,12 +26,38 @@ namespace SweepingBirds
 
 	class SkyboxTechnique : public Technique {
 	public:
-
+    /**
+     * @fn  SkyboxTechnique::SkyboxTechnique();
+     *
+     * @brief Default constructor.
+     */
 		SkyboxTechnique();
 
+    /**
+     * @fn  virtual bool SkyboxTechnique::Init();
+     *
+     * @brief Initialises this object.
+     *
+     * @return  true if it succeeds, false if it fails.
+     */
 		virtual bool Init();
 
+    /**
+     * @fn  void SkyboxTechnique::SetWVP(const Matrix4f& WVP);
+     *
+     * @brief Sets a wvp.
+     *
+     * @param WVP The wvp.
+     */
 		void SetWVP(const Matrix4f& WVP);
+
+    /**
+     * @fn  void SkyboxTechnique::SetTextureUnit(unsigned int TextureUnit);
+     *
+     * @brief Sets texture unit.
+     *
+     * @param TextureUnit The texture unit.
+     */
 		void SetTextureUnit(unsigned int TextureUnit);
 
 	private:
