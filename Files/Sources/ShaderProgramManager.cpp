@@ -154,8 +154,8 @@ bool ShaderProgramManager::create_predator_shader_program()
 
 	pred_program->compile();
 
-	pred_program->add_var("MVP");
 	pred_program->add_var("SizeFactor");
+  pred_program->add_var("VP");
 	pred_program->set_var_value("SizeFactor", 1.0f);
 
 	

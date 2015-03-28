@@ -33,6 +33,8 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	Predator* c = new Predator(3.f, glm::vec3(-30, 0,20));
 
 	m_vPredators.push_back(a);
+	m_vPredators.push_back(b);
+	m_vPredators.push_back(c);
 	//m_vPredators.push_back(b);
 	//m_vPredators.push_back(c);
 
@@ -135,8 +137,8 @@ void PhysicsEngine::update(const float deltaTime)
 
 	for (auto it = m_vPredators.begin(); it != m_vPredators.end(); ++it)
 	{
-		//(*it)->set_spring_length(m_fPredatorsSpringLength);
-		//(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
+		(*it)->set_spring_length(m_fPredatorsSpringLength);
+		(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
 		(*it)->update(deltaTime);
 	}
 
@@ -146,17 +148,15 @@ void PhysicsEngine::update(const float deltaTime)
 	std::vector<glm::vec3> predatorsPositions;
 	std::vector<glm::vec3> predatorsDirections;
 
-	for each (auto pred in m_vPredators)
+	for each (auto& pred in m_vPredators)
 	{
 		glm::vec3 finalPos = pred->get_position();
 		if (m_pbResetPredatorsPos)
-			finalPos = m_Bird.get_position();
-
-		if (m_pbJumpPredatorsToBird)
 		{
 			finalPos = m_Bird.get_position();
-			pred->set_position(finalPos);
+      pred->reset(finalPos, glm::vec3(0, 0, 0));
 		}
+    
 		predatorsPositions.push_back(finalPos);
 		predatorsDirections.push_back(pred->get_direction());
 	}
