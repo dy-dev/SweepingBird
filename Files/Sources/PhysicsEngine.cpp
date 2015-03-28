@@ -35,8 +35,8 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	Predator* c = new Predator(3.f, glm::vec3(-30, 0, 0));
 
 	m_vPredators.push_back(a);
-	m_vPredators.push_back(b);
-	m_vPredators.push_back(c);
+	//m_vPredators.push_back(b);
+	//m_vPredators.push_back(c);
 
 	//Link physics object with their 3D representation
 	ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
@@ -92,7 +92,7 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	infos2->check_adress = &m_pbResetPredatorsPos;
 	m_pProgramGUI->add_gui_element(name, infos2);
 
-	
+
 	auto infos4 = new GUIInfos(name, BUTTON);
 	infos4->var.push_back(std::make_pair(infos->name, new float(0)));
 	infos4->button_action = jump_preds;
@@ -103,7 +103,6 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 void PhysicsEngine::update(const float deltaTime)
 {
 	m_Bird.update(deltaTime);
-
 
 	// if (m_bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
 	// {
@@ -158,12 +157,12 @@ void PhysicsEngine::update(const float deltaTime)
 		if (m_pbJumpPredatorsToBird)
 		{
 			finalPos = m_Bird.get_position();
-		pred->set_position(finalPos);
+			pred->set_position(finalPos);
 		}
 		predatorsPositions.push_back(finalPos);
 		predatorsDirections.push_back(pred->get_direction());
 	}
-	
+
 
 	m_wpPredators3D->update_positions(predatorsPositions);
 }

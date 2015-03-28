@@ -32,6 +32,9 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	auto tmp = new char[nbInstance * sizeof(glm::vec3)];
 	m_bufPredatorsData.setData(nbInstance * sizeof(glm::vec3), tmp);
 	delete[] tmp;
+
+
+	m_bCamSticked = true;
 }
 
 
