@@ -116,6 +116,12 @@ void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
 	Camera_compute_angles();
 }
 
+void Camera::set_look_angle(glm::vec3 position, glm::vec3 direction, float angle)
+{
+	jump_to_pos(position, direction);
+	theta += angle;
+}
+
 void Camera::Camera_compute_angles()
 {
 

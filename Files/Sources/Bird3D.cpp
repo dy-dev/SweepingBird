@@ -28,6 +28,7 @@ Bird3D::Bird3D(ObjectManager* manager, TextureManager * texMgr)
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_button("Jump Cam To Bird", jump_cam, (void*)this));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_button("Jump Cam front To Bird", jump_cam2, (void*)this));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_checkbox("Stick Cam To Bird", &m_bCamSticked));
+	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_slider("Turn Cam around Bird", -3.14f, 3.14f, 0.01f, get_rot_angle()));
 	m_pObjectManager->bind_object(this, 1);
 }
 
@@ -44,7 +45,10 @@ void Bird3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, i
 		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{
-
+			if (m_bCamSticked)
+			{
+				m_pObjectManager->set_cam_direction(this,m_fRotAngle);
+			}
 			glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
 			clean_bindings();
 		}
