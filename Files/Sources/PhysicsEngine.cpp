@@ -28,15 +28,19 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 {
 
 	//Basic predator generation for testing purposes
-	Predator* a = new Predator(3.f, glm::vec3(0, 0, 50));
-	Predator* b = new Predator(2.f, glm::vec3(30, 0, 0));
-	Predator* c = new Predator(3.f, glm::vec3(-30, 0,20));
+	Predator* a = new Predator(1.f, glm::vec3(20, 20, 50));
+	Predator* b = new Predator(0.8f, glm::vec3(30, 0, 0));
+	Predator* c = new Predator(1.2f, glm::vec3(-30, 0, 20));
+	Predator* d = new Predator(0.9f, glm::vec3(40, 20, 50));
+	Predator* e = new Predator(1.f, glm::vec3(40, 10, 0));
+	Predator* f = new Predator(0.7f, glm::vec3(-50, 50, 20));
 
 	m_vPredators.push_back(a);
 	m_vPredators.push_back(b);
 	m_vPredators.push_back(c);
-	//m_vPredators.push_back(b);
-	//m_vPredators.push_back(c);
+	m_vPredators.push_back(d);
+	m_vPredators.push_back(e);
+	m_vPredators.push_back(f);
 
 	//Link physics object with their 3D representation
 	ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
@@ -154,9 +158,9 @@ void PhysicsEngine::update(const float deltaTime)
 		if (m_pbResetPredatorsPos)
 		{
 			finalPos = m_Bird.get_position();
-      pred->reset(finalPos, glm::vec3(0, 0, 0));
+			pred->reset(finalPos, glm::vec3(0, 0, 0));
 		}
-    
+
 		predatorsPositions.push_back(finalPos);
 		predatorsDirections.push_back(pred->get_direction());
 	}
