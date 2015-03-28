@@ -13,6 +13,10 @@ namespace SweepingBirds
 
 	class PhysicsEngine
 	{
+
+	public:
+		static void jump_preds(void *obj, bool stick = false);
+
 	public:
 		static const unsigned int NB_PREDATORS;
 
@@ -21,6 +25,8 @@ namespace SweepingBirds
 
 		void update(const float deltaTime);
 		void set_programGUI(ProgramGUI * programGUI);
+
+		bool m_pbJumpPredatorsToBird;//For debugging purposes
 
 	private:
 		void launch_predators();

@@ -44,7 +44,8 @@ namespace SweepingBirds
 	class Textured3DObject
 	{
 	public:
-		static void jump_cam(void *obj, bool stick=false);
+		static void jump_cam(void *obj, bool stick = false);
+		static void jump_cam2(void *obj, bool stick = false);
 		static void stick_cam(void *obj);
 
 	public:

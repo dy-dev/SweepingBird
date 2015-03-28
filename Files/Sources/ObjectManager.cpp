@@ -120,3 +120,8 @@ void ObjectManager::jump_cam(Textured3DObject* obj)
 {
 	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction());
 }
+
+void ObjectManager::jump_cam2(Textured3DObject* obj)
+{
+	m_pCamera->jump_to_pos(obj->get_position(), -obj->get_direction());
+}

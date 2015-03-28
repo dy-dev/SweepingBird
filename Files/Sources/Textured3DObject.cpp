@@ -252,6 +252,16 @@ void Textured3DObject::jump_cam(void * obj, bool stick)
 	}
 }
 
+void Textured3DObject::jump_cam2(void * obj, bool stick)
+{
+	auto view_obj = reinterpret_cast<Textured3DObject*> (obj);
+	if (view_obj != nullptr)
+	{
+		view_obj->m_pObjectManager->jump_cam2(view_obj);
+		view_obj->m_bCamSticked = stick;
+	}
+}
+
 void Textured3DObject::stick_cam(void * obj)
 {
 	jump_cam(obj, true);

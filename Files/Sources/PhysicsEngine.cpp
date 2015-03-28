@@ -24,7 +24,8 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	m_bPredatorsLaunched(false),
 	m_fPredatorsSpringLength(50.0f),
 	m_fPredatorsSpringRigidity(3.f),
-	m_pbResetPredatorsPos(false)
+	m_pbResetPredatorsPos(false),
+	m_pbJumpPredatorsToBird(false)
 
 {
 
@@ -90,6 +91,13 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	auto infos2 = new GUIInfos(name, CHECKBOX);
 	infos2->check_adress = &m_pbResetPredatorsPos;
 	m_pProgramGUI->add_gui_element(name, infos2);
+
+	
+	auto infos4 = new GUIInfos(name, BUTTON);
+	infos4->var.push_back(std::make_pair(infos->name, new float(0)));
+	infos4->button_action = jump_preds;
+	infos4->obj = this;
+	m_pProgramGUI->add_gui_element(name, infos4);
 }
 
 void PhysicsEngine::update(const float deltaTime)
@@ -147,6 +155,11 @@ void PhysicsEngine::update(const float deltaTime)
 		if (m_pbResetPredatorsPos)
 			finalPos = glm::vec3(0);
 
+		if (m_pbJumpPredatorsToBird)
+		{
+			finalPos = m_Bird.get_position();
+		pred->set_position(finalPos);
+		}
 		predatorsPositions.push_back(finalPos);
 		predatorsDirections.push_back(pred->get_direction());
 	}
@@ -178,4 +191,14 @@ void PhysicsEngine::dismiss_predators()
 		predator->make_follow(nullptr);
 	}
 	m_bPredatorsLaunched = false;
+}
+
+
+void PhysicsEngine::jump_preds(void *obj, bool stick)
+{
+	auto view_obj = reinterpret_cast<PhysicsEngine*> (obj);
+	if (view_obj != nullptr)
+	{
+		view_obj->m_pbJumpPredatorsToBird = true;
+	}
 }

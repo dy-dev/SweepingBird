@@ -26,6 +26,7 @@ Bird3D::Bird3D(ObjectManager* manager, TextureManager * texMgr)
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_slider("PosY", -5500.0f, 5500.0f, 1.f, get_y_pos()));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_slider("PosZ", -5500.0f, 5500.0f, 1.f, get_z_pos()));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_button("Jump Cam To Bird", jump_cam, (void*)this));
+	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_button("Jump Cam front To Bird", jump_cam2, (void*)this));
 	m_pObjectManager->add_gui_controller("Birds", m_pObjectManager->generate_checkbox("Stick Cam To Bird", &m_bCamSticked));
 	m_pObjectManager->bind_object(this, 1);
 }

@@ -45,8 +45,8 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	bool bIsDemoProgram = true;
-	ProgramGUI MainWindow(1024, 768);
+	bool bIsDemoProgram = false;
+	ProgramGUI MainWindow(1440, 980);
 	MainWindow.init();
 
 	SceneManager MySceneManager;
