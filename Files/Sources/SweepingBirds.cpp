@@ -46,6 +46,7 @@ int main(int argc, char **argv)
 	(void)argv;
 
 	bool bIsDemoProgram = false;
+
 	ProgramGUI MainWindow(1440, 980);
 	MainWindow.init();
 
