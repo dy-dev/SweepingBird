@@ -22,17 +22,15 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
 	m_Bird(2.0f, glm::vec3(0, 0, -500)),
 	m_bPredatorsLaunched(false),
-	m_fPredatorsSpringLength(50.0f),
-	m_fPredatorsSpringRigidity(3.f),
-	m_pbResetPredatorsPos(false),
-	m_pbJumpPredatorsToBird(false)
-
+	m_fPredatorsSpringLength(20.0f),
+	m_fPredatorsSpringRigidity(0.9f),
+	m_pbResetPredatorsPos(false)
 {
 
 	//Basic predator generation for testing purposes
 	Predator* a = new Predator(3.f, glm::vec3(0, 0, 50));
 	Predator* b = new Predator(2.f, glm::vec3(30, 0, 0));
-	Predator* c = new Predator(3.f, glm::vec3(-30, 0, 0));
+	Predator* c = new Predator(3.f, glm::vec3(-30, 0,20));
 
 	m_vPredators.push_back(a);
 	m_vPredators.push_back(b);
@@ -138,8 +136,8 @@ void PhysicsEngine::update(const float deltaTime)
 
 	for (auto it = m_vPredators.begin(); it != m_vPredators.end(); ++it)
 	{
-		(*it)->set_spring_length(m_fPredatorsSpringLength);
-		(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
+		//(*it)->set_spring_length(m_fPredatorsSpringLength);
+		//(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
 		(*it)->update(deltaTime);
 	}
 
@@ -153,7 +151,7 @@ void PhysicsEngine::update(const float deltaTime)
 	{
 		glm::vec3 finalPos = pred->get_position();
 		if (m_pbResetPredatorsPos)
-			finalPos = glm::vec3(0);
+			finalPos = m_Bird.get_position();
 
 		if (m_pbJumpPredatorsToBird)
 		{

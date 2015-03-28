@@ -5,6 +5,7 @@
 using namespace SweepingBirds;
 
 const glm::vec3 Predator::GRAVITY = glm::vec3(0, -9.f, 0);
+const glm::vec3 Predator::MAX_VELOCITY = glm::vec3(1000.f);
 
 Predator::Predator()
 	: m_bird(nullptr),
@@ -41,6 +42,8 @@ void Predator::update(const float deltaTime)
 		forceToApply += GRAVITY;
 
 		m_v3Velocity = m_v3Velocity + deltaTime * (forceToApply / m_mass);
+    //cap velocity
+    m_v3Velocity = glm::min(m_v3Velocity, MAX_VELOCITY);
 		m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
 		m_v3Direction = glm::normalize(m_v3Velocity);
 	}
