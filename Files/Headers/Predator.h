@@ -23,6 +23,7 @@ namespace SweepingBirds
 
 		void update(const float deltaTime);
 		void make_follow(const Bird * const bird);
+    void reset(const glm::vec3& position, const glm::vec3& direction);
 
 		const glm::vec3& get_position() const;
 		const glm::vec3& get_direction() const;

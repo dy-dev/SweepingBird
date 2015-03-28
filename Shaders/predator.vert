@@ -16,8 +16,7 @@
 precision highp float;
 precision highp int;
 
-uniform mat4 MVP;
-uniform mat4 MV;
+uniform mat4 VP;
 
 uniform int InstanceNumber;
 uniform vec3 BirdTranslation;
@@ -45,7 +44,7 @@ void main()
 	changePos *= 50;
 	changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
 	
-	gl_Position = MVP * vec4(changePos, 1.0);
+	gl_Position = VP * vec4(changePos, 1.0);
 	
 	Out.TexCoord = TexCoord;
 	Out.Position = Position;
