@@ -14,7 +14,7 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 {
 	m_eShaderType = PREDATOR;
 	m_pObjectManager = manager;
-	load_object(".\\Objects\\Bats\\Bats.obj", false, m_pTextureManager);
+	load_object(".\\Objects\\Bats\\Bats_rotated.obj", false, m_pTextureManager);
 	m_pObjectManager->bind_object(this, nbInstance);
 
 	set_position(glm::vec3(-0.0f, 0.0f, 0.0f));
