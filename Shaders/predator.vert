@@ -41,7 +41,7 @@ void main()
 {	
 	vec3 changePos = Position;
 	
-	changePos *= 50;
+	changePos *= 10;
 	changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
 	
 	gl_Position = VP * vec4(changePos, 1.0);

@@ -5,7 +5,7 @@
 using namespace SweepingBirds;
 
 const glm::vec3 Predator::GRAVITY = glm::vec3(0, -9.f, 0);
-const glm::vec3 Predator::MAX_VELOCITY = glm::vec3(1000.f);
+const glm::vec3 Predator::MAX_VELOCITY = glm::vec3(500.f);
 
 Predator::Predator()
 	: m_bird(nullptr),
@@ -23,8 +23,8 @@ Predator::Predator(const float mass, const glm::vec3& initialPosition, const glm
 	m_v3Position(initialPosition),
 	m_v3Velocity(0.01),
 	m_v3Direction(glm::normalize(initialVelocity)),
-	m_fSpringRigidity(1.0),
-	m_fSpringLength(0.2f),
+	m_fSpringRigidity(0.10),
+	m_fSpringLength(20.0f),
 	m_wpPredator3D(nullptr)
 {
 

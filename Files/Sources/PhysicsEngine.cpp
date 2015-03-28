@@ -1,3 +1,5 @@
+#include<cstdlib>
+#include<ctime>
 #include <iostream>
 
 #include <PhysicsEngine.h>
@@ -16,18 +18,30 @@
 
 using namespace SweepingBirds;
 
-const unsigned int PhysicsEngine::NB_PREDATORS = 30;
+const unsigned int PhysicsEngine::NB_PREDATORS = 50;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
-	m_Bird(2.0f, glm::vec3(0, 0, -500)),
+	m_Bird(2.0f, glm::vec3(0, 0, -5500)),
 	m_bPredatorsLaunched(false),
 	m_fPredatorsSpringLength(20.0f),
 	m_fPredatorsSpringRigidity(0.9f),
 	m_pbResetPredatorsPos(false)
 {
-
-	//Basic predator generation for testing purposes
+	srand(time(0));
+		
+	for (int i = 0; i < NB_PREDATORS; i++)
+	{
+		float massr = float(rand() % 50);
+		float x = float(rand() % 50);
+		float y = float(rand() % 50);
+		float z = float(rand() % 50);
+		float div = float(rand() % 100) + 50.0f;
+	
+		auto pred = new Predator(0.5f, glm::vec3(x, y, z ));
+		m_vPredators.push_back(pred);
+	}
+	/*//Basic predator generation for testing purposes
 	Predator* a = new Predator(1.f, glm::vec3(20, 20, 50));
 	Predator* b = new Predator(0.8f, glm::vec3(30, 0, 0));
 	Predator* c = new Predator(1.2f, glm::vec3(-30, 0, 20));
@@ -41,6 +55,7 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	m_vPredators.push_back(d);
 	m_vPredators.push_back(e);
 	m_vPredators.push_back(f);
+	*/
 
 	//Link physics object with their 3D representation
 	ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
@@ -86,10 +101,10 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	m_pProgramGUI->add_gui_element(name, infos);
 
 	auto infos3 = new GUIInfos(name, -50.0f, 50.0f, 0.1f);
-	infos->min = 0.f;
-	infos->max = 5.f;
-	infos->step = 0.1f;
-	infos->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
+	infos3->min = 0.f;
+	infos3->max = 2.f;
+	infos3->step = 0.001f;
+	infos3->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
 	m_pProgramGUI->add_gui_element(name, infos3);
 
 	auto infos2 = new GUIInfos(name, CHECKBOX);

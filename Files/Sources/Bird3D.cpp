@@ -15,6 +15,7 @@ Bird3D::Bird3D()
 Bird3D::Bird3D(ObjectManager* manager, TextureManager * texMgr)
 	:Textured3DObject(texMgr)
 {
+	m_bCamSticked = true;
 	m_eShaderType = BIRD;
 	m_pObjectManager = manager;
 	load_object(".\\Objects\\Bird\\BeeBird.obj", false, m_pTextureManager);
