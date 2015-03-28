@@ -65,3 +65,4 @@ void Predators3D::update_positions(const std::vector<glm::vec3>& newPositions)
 	if (newPositions.size() > 0)
 		m_v3Position = newPositions[0];
 }
+

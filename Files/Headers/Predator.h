@@ -32,6 +32,7 @@ namespace SweepingBirds
 
     const Predators3D & get_predator_3d() const { assert(m_wpPredator3D);  return *m_wpPredator3D; };
     void set_predators_3D(const Predators3D* newPredators){ m_wpPredator3D = newPredators; }
+	void set_position(glm::vec3& pos);
 
 	private:
 		const Bird * m_bird;

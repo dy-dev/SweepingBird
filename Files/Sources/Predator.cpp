@@ -21,10 +21,10 @@ Predator::Predator(const float mass, const glm::vec3& initialPosition, const glm
 	: m_bird(nullptr),
 	m_mass(mass),
 	m_v3Position(initialPosition),
-	m_v3Velocity(initialVelocity),
+	m_v3Velocity(0),
 	m_v3Direction(glm::normalize(initialVelocity)),
 	m_fSpringRigidity(1.0),
-	m_fSpringLength(0.6f),
+	m_fSpringLength(0.2f),
 	m_wpPredator3D(nullptr)
 {
 
@@ -33,7 +33,7 @@ Predator::Predator(const float mass, const glm::vec3& initialPosition, const glm
 void Predator::update(const float deltaTime)
 {
 	//If is following a bird
-	if (m_bird != nullptr)
+	/*if (m_bird != nullptr)
 	{
 		const glm::vec3& birdPos = m_bird->get_position();
 		float distance = glm::distance(m_v3Position, birdPos);
@@ -51,7 +51,7 @@ void Predator::update(const float deltaTime)
 	else
 	{
 		m_v3Position = m_v3Position + deltaTime * m_v3Velocity;
-	}
+	}*/
 }
 
 void Predator::reset(const glm::vec3& position, const glm::vec3& direction)
@@ -77,6 +77,12 @@ void Predator::set_spring_length(const float length)
 const glm::vec3& Predator::get_position() const
 {
 	return m_v3Position;
+}
+
+
+void Predator::set_position(glm::vec3& pos)
+{
+	m_v3Position = pos;
 }
 
 const glm::vec3& Predator::get_direction() const
