@@ -222,8 +222,10 @@ ShaderProgram* Textured3DObject::setup_drawing_space(ShaderProgramManager& shade
 		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
 		glm::mat4 mv = worldToView * ModelScaled;
 		glm::mat4 mvp = proj * mv;
+    glm::mat4 vp = proj * worldToView;
 		shader->set_var_value("MVP", glm::value_ptr(mvp));
 		shader->set_var_value("MV", glm::value_ptr(mv));
+    shader->set_var_value("VP", glm::value_ptr(vp));
 
 		if (mesh != nullptr)
 		{
