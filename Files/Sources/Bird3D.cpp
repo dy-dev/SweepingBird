@@ -45,10 +45,6 @@ void Bird3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, i
 		auto shader = setup_drawing_space(shaderMgr, mesh, proj, time);
 		if (shader != nullptr)
 		{
-			if (m_bCamSticked)
-			{
-				m_pObjectManager->set_cam_direction(this,m_fRotAngle);
-			}
 			glDrawElements(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0);
 			clean_bindings();
 		}

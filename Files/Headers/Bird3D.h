@@ -18,11 +18,9 @@ namespace SweepingBirds
 		glm::vec3 get_direction(){ return m_v3Direction; };
 
 		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
-		virtual float * get_rot_angle() { return &m_fRotAngle; }
 
 	private:
 		float m_fSpeed;
-		float m_fRotAngle;
 
 	};
 

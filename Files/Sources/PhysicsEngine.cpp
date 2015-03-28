@@ -161,7 +161,6 @@ void PhysicsEngine::update(const float deltaTime)
 		predatorsDirections.push_back(pred->get_direction());
 	}
 
-
 	m_wpPredators3D->update_positions(predatorsPositions);
 }
 
@@ -189,7 +188,6 @@ void PhysicsEngine::dismiss_predators()
 	}
 	m_bPredatorsLaunched = false;
 }
-
 
 void PhysicsEngine::jump_preds(void *obj, bool stick)
 {

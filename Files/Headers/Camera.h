@@ -24,13 +24,14 @@ namespace SweepingBirds
 		glm::vec3 GetO() const { return o; };
 		glm::vec3 GetEye() const { return eye; };
 		glm::vec3 GetUp() const { return up; };
-		void jump_to_pos(glm::vec3 position, glm::vec3 direction);
-		void set_look_angle(glm::vec3 position, glm::vec3 direction, float angle);
+		void jump_to_pos(glm::vec3 position, glm::vec3 direction, float angle);
 
 	protected:
 		float radius;
 		float theta;
 		float phi;
+
+		float m_fRotAngle;
 
 		glm::vec3 o;
 		glm::vec3 eye;

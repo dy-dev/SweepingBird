@@ -32,7 +32,8 @@ Textured3DObject::Textured3DObject()
 	m_pImporter(nullptr),
 	m_v3Direction(0.0,0.0,1.0),
 	m_v3Position(0),
-	m_bCamSticked(false)
+	m_bCamSticked(false),
+	m_fRotAngle(0)
 {
 	m_eShaderType = MAIN;
 	m_pImporter = new Assimp::Importer();

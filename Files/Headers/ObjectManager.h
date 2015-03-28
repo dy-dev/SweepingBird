@@ -36,7 +36,7 @@ namespace SweepingBirds
 		const Camera* get_Camera() const {return m_pCamera;}
 		void jump_cam(Textured3DObject* obj);
 		void jump_cam2(Textured3DObject* obj);
-		void set_cam_direction(Textured3DObject* obj, float angle);
+		
 
 	private:
 		//need a float as nbInstance not an int because of GUI limitation

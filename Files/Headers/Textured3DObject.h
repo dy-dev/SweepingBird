@@ -85,6 +85,7 @@ namespace SweepingBirds
 		float * get_y_pos() { return &(m_v3Position.y); }
 		float * get_z_pos() { return &(m_v3Position.z); }
 		const float * get_y_pos() const { return &(m_v3Position.y); }
+		virtual float * get_rot_angle() { return &m_fRotAngle; }
 
 		void set_mock_pos(const glm::vec3& newPos){m_v3MockPos = newPos;}
 		const glm::vec3& get_mock_pos() const{ return m_v3MockPos; }
@@ -128,6 +129,7 @@ namespace SweepingBirds
 		float m_fSize;
 
 		bool m_bCamSticked;
+		float m_fRotAngle;
 
 		/**
 		 *	

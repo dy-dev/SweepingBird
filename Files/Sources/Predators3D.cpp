@@ -28,6 +28,7 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, get_z_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_button("Jump Cam To Predators", jump_cam, (void*)this));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_checkbox("Stick Cam To Predators", &m_bCamSticked));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("Turn Cam around Predators", -3.14f, 3.14f, 0.01f, get_rot_angle()));
 
 	auto tmp = new char[nbInstance * sizeof(glm::vec3)];
 	m_bufPredatorsData.setData(nbInstance * sizeof(glm::vec3), tmp);
