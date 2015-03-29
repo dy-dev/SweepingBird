@@ -121,5 +121,17 @@ GUIInfos * ObjectManager::generate_checkbox(std::string name, bool * is_used)
 
 void ObjectManager::jump_cam(Textured3DObject* obj)
 {
-	m_pCamera->jump_to_pos(obj->get_position(), obj->get_direction());
+	auto dir = obj->get_direction();
+	if (obj->is_cam_focused() == false)
+	{
+		ClassName<Bird3D> birdName;
+		if (obj == dynamic_cast<Bird3D*>(get_object(birdName.Name()).first))
+		{
+			ClassName<Predators3D> pred;
+			auto predobj = dynamic_cast<Predators3D*>(get_object(pred.Name()).first);
+			dir = predobj->get_position() - obj->get_position();
+		}
+	}
+	m_pCamera->jump_to_pos(obj->get_position(), dir, *(obj->get_rot_angle()), *(obj->get_zoom()));
 }
+

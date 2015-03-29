@@ -17,8 +17,7 @@
 precision highp float;
 precision highp int;
 
-uniform mat4 MVP;
-uniform mat4 MV;
+uniform mat4 VP;
 
 uniform int InstanceNumber;
 uniform vec3 BirdTranslation;
@@ -42,10 +41,10 @@ void main()
 {	
 	vec3 changePos = Position;
 	
-	//changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
+	changePos *= 10;
+	changePos += texelFetch(PredatorData, gl_InstanceID).rgb;
 	
-	//We assume that the M part of the matrix is identity
-	gl_Position = MVP * Transform * vec4(changePos, 1.0);
+	gl_Position = VP * vec4(changePos, 1.0);
 	
 	Out.TexCoord = TexCoord;
 	Out.Position = Position;

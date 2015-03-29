@@ -1,3 +1,5 @@
+#include<cstdlib>
+#include<ctime>
 #include <iostream>
 
 #include <PhysicsEngine.h>
@@ -16,29 +18,28 @@
 
 using namespace SweepingBirds;
 
-const unsigned int PhysicsEngine::NB_PREDATORS = 40;
+const unsigned int PhysicsEngine::NB_PREDATORS = 50;
 
 PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	: m_wpSceneManager(sceneManager),
-	m_Bird(2.0f, glm::vec3(0, 0, -500)),
+	m_Bird(2.0f, glm::vec3(-4000, 0, 0)),
 	m_bPredatorsLaunched(false),
-	m_fPredatorsSpringLength(200.0f),
-	m_fPredatorsSpringRigidity(0.4f),
+	m_fPredatorsSpringLength(50.0f),
+	m_fPredatorsSpringRigidity(0.01f),
 	m_pbResetPredatorsPos(false)
 {
-	//Predators generation using random spread function
-	for (int i = 0; i < NB_PREDATORS; ++i)
-	{
-		glm::vec3 initialPosition = glm::vec3(0);
-		float random = std::rand() % 300;
-		if (i % 2)
-			random = -random;
-		initialPosition.x = i * 10 * cos(m_wpSceneManager->get_time()) + random;
-		initialPosition.z = i * 14 * sin(m_wpSceneManager->get_time() - i) + (std::rand() % 200);
-		glm::vec3 initialVelocity = glm::vec3(-100, 0, 20);
-		float mass = std::rand() % 10;
-		Predator* p = new Predator(mass, initialPosition, initialVelocity);
-		m_vPredators.push_back(p);
+	srand(time(0));
+		
+	for (int i = 0; i < NB_PREDATORS; i++)
+{
+		float massr = float(rand() % 50);
+		float x = float(rand() % 550);
+		float y = float(rand() % 550);
+		float z = float(rand() % 550);
+		float div = float(rand() % 10 + 80.0f);
+		float mass = 1.0f+ massr / div;
+		auto pred = new Predator(mass, glm::vec3(x, y, z ));
+		m_vPredators.push_back(pred);
 	}
 
 	//Link physics object with their 3D representation
@@ -85,15 +86,22 @@ void PhysicsEngine::set_programGUI(ProgramGUI * programGUI)
 	m_pProgramGUI->add_gui_element(name, infos);
 
 	auto infos3 = new GUIInfos(name, -50.0f, 50.0f, 0.1f);
-	infos->min = 0.f;
-	infos->max = 5.f;
-	infos->step = 0.1f;
-	infos->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
+	infos3->min = -20.f;
+	infos3->max = 20.f;
+	infos3->step = 0.01f;
+	infos3->var.push_back(std::make_pair("Spring rigidity", &(m_fPredatorsSpringRigidity)));
 	m_pProgramGUI->add_gui_element(name, infos3);
 
 	auto infos2 = new GUIInfos(name, CHECKBOX);
 	infos2->check_adress = &m_pbResetPredatorsPos;
 	m_pProgramGUI->add_gui_element(name, infos2);
+
+
+	auto infos4 = new GUIInfos(name, BUTTON);
+	infos4->var.push_back(std::make_pair(infos->name, new float(0)));
+	infos4->button_action = jump_preds;
+	infos4->obj = this;
+	m_pProgramGUI->add_gui_element(name, infos4);
 }
 
 void PhysicsEngine::update(const float deltaTime)
@@ -143,16 +151,19 @@ void PhysicsEngine::update(const float deltaTime)
 	std::vector<glm::vec3> predatorsPositions;
 	std::vector<glm::vec3> predatorsDirections;
 	std::vector<glm::mat4> predatorsTransforms;
-	for each (auto pred in m_vPredators)
+	for each (auto& pred in m_vPredators)
 	{
 		glm::vec3 finalPos = pred->get_position();
 		if (m_pbResetPredatorsPos)
-			finalPos = glm::vec3(0);
+		{
+			finalPos = m_Bird.get_position();
+			pred->reset(finalPos, glm::vec3(0, 0, 0));
+		}
 
 		predatorsPositions.push_back(pred->get_position());
 		predatorsDirections.push_back(pred->get_direction());
 
-		predatorsTransforms.push_back(pred->get_transform_matrix());
+	m_wpPredators3D->update_positions(predatorsPositions);
 	}
 	m_wpPredators3D->update_transformation(predatorsTransforms);
 }
@@ -180,4 +191,13 @@ void PhysicsEngine::dismiss_predators()
 		predator->make_follow(nullptr);
 	}
 	m_bPredatorsLaunched = false;
+}
+
+void PhysicsEngine::jump_preds(void *obj, bool stick)
+{
+	auto view_obj = reinterpret_cast<PhysicsEngine*> (obj);
+	if (view_obj != nullptr)
+	{
+		view_obj->m_pbJumpPredatorsToBird = true;
+	}
 }

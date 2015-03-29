@@ -34,11 +34,35 @@ namespace SweepingBirds
 	class SkyBox
 	{
 	public:
+    /**
+     * @fn  SkyBox::SkyBox(const OVGCamera* pCamera, TextureManager * texmgr, const PersProjInfo& p);
+     *
+     * @brief Constructor.
+     *
+     * @param pCamera           The camera.
+     * @param [in,out]  texmgr  If non-null, the texmgr.
+     * @param p                 The const PersProjInfo&amp; to process.
+     */
 		SkyBox(const OVGCamera* pCamera, TextureManager * texmgr, const PersProjInfo& p);
 
 		~SkyBox();
 
-		bool Init(const string& Directory,
+      /**
+       * @fn  bool SkyBox::Init(const string& Directory, const string& PosXFilename, const string& NegXFilename, const string& PosYFilename, const string& NegYFilename, const string& PosZFilename, const string& NegZFilename);
+       *
+       * @brief Initialises this object.
+       *
+       * @param Directory     Pathname of the directory.
+       * @param PosXFilename  Filename of the position x coordinate file.
+       * @param NegXFilename  Filename of the negative x coordinate file.
+       * @param PosYFilename  Filename of the position y coordinate file.
+       * @param NegYFilename  Filename of the negative y coordinate file.
+       * @param PosZFilename  Filename of the position z coordinate file.
+       * @param NegZFilename  Filename of the negative z coordinate file.
+       *
+       * @return  true if it succeeds, false if it fails.
+       */
+		  bool Init(const string& Directory,
 			const string& PosXFilename,
 			const string& NegXFilename,
 			const string& PosYFilename,
@@ -46,6 +70,11 @@ namespace SweepingBirds
 			const string& PosZFilename,
 			const string& NegZFilename);
 
+    /**
+     * @fn  void SkyBox::Render();
+     *
+     * @brief Renders this object.
+     */
 		void Render();
 
 	private:

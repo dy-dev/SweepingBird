@@ -6,6 +6,7 @@
 using namespace SweepingBirds;
 
 Camera::Camera()
+	:m_fRotAngle(0)
 {
 }
 
@@ -104,32 +105,35 @@ void Camera::Camera_pan(float x, float y)
 	Camera_compute();
 }
 
-void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction)
+void Camera::jump_to_pos(glm::vec3 position, glm::vec3 direction, float angle, float zoom)
 {
 	o = position;
 
-	radius = 300;
+	radius = zoom;
 
-	eye = o - 300.0f*direction;
-	
+	eye = o - radius*direction;
+	auto val = glm::dot(glm::normalize(direction), glm::vec3(0.0, 1.0, 0.0));
+	phi = acos(val);
+	m_fRotAngle = angle;
 	Camera_compute_angles();
+	Camera_compute();
 }
 
 void Camera::Camera_compute_angles()
 {
-
 	auto val = glm::dot(glm::normalize(eye), glm::vec3(0.0, 1.0, 0.0));
 	phi = acos(val);
 
 	if (sin(phi) != 0)
 	{
 		auto tmp = glm::normalize(eye);
-		theta = acos(tmp.x / sin(phi));
+		theta = glm::min(acos(tmp.x / sin(phi)), M_PI);
 	}
 	else
 	{
 		theta = 0;
 	}
+	
 	if (abs(cos(theta) * sin(phi) * radius + o.x - eye.x) > 0.1)
 	{
 		if (abs(sin(theta) * sin(phi) * radius + o.z - eye.z) > 0.1)
@@ -144,4 +148,5 @@ void Camera::Camera_compute_angles()
 			theta = -theta;
 		}
 	}
+	theta += m_fRotAngle;
 }

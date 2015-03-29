@@ -112,8 +112,8 @@
     <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries\Obj\$(ProjectName)\$(configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\Bin\$(configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -185,6 +185,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\ogldev-source\Lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>CORE_DB_Magick++_.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

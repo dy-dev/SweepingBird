@@ -36,8 +36,22 @@ struct Vertex
     Vector2f m_tex;
     Vector3f m_normal;
 
+    /**
+     * @fn  Vertex()
+     *
+     * @brief Default constructor.
+     */
     Vertex() {}
 
+    /**
+     * @fn  Vertex(const Vector3f& pos, const Vector2f& tex, const Vector3f& normal)
+     *
+     * @brief Constructor.
+     *
+     * @param pos     The position.
+     * @param tex     The tex.
+     * @param normal  The normal.
+     */
     Vertex(const Vector3f& pos, const Vector2f& tex, const Vector3f& normal)
     {
         m_pos    = pos;
@@ -50,13 +64,38 @@ struct Vertex
 class OGLDevMesh
 {
 public:
+  /**
+   * @fn  OGLDevMesh::OGLDevMesh();
+   *
+   * @brief Default constructor.
+   */
 	OGLDevMesh();
 
 	~OGLDevMesh();
 
+    /**
+     * @fn  bool OGLDevMesh::LoadMesh(const std::string& Filename);
+     *
+     * @brief Loads a mesh.
+     *
+     * @param Filename  Filename of the file.
+     *
+     * @return  true if it succeeds, false if it fails.
+     */
     bool LoadMesh(const std::string& Filename);
 
-	void Bind();
+    /**
+     * @fn  void OGLDevMesh::Bind();
+     *
+     * @brief Binds this object.
+     */
+	  void Bind();
+
+    /**
+     * @fn  void OGLDevMesh::Render();
+     *
+     * @brief Renders this object.
+     */
     void Render();
 
 private:
@@ -68,10 +107,26 @@ private:
 #define INVALID_MATERIAL 0xFFFFFFFF
 
     struct MeshEntry {
+
+        /**
+         * @fn  MeshEntry();
+         *
+         * @brief Default constructor.
+         */
         MeshEntry();
 
         ~MeshEntry();
 
+        /**
+         * @fn  bool Init(const std::vector<Vertex>& Vertices, const std::vector<unsigned int>& Indices);
+         *
+         * @brief Initialises this object.
+         *
+         * @param Vertices  The vertices.
+         * @param Indices   The indices.
+         *
+         * @return  true if it succeeds, false if it fails.
+         */
         bool Init(const std::vector<Vertex>& Vertices,
                   const std::vector<unsigned int>& Indices);
 

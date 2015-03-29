@@ -17,7 +17,7 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 {
 	m_eShaderType = PREDATOR;
 	m_pObjectManager = manager;
-	load_object(".\\Objects\\Bats\\Bats.obj", false, m_pTextureManager);
+	load_object(".\\Objects\\Bats\\Bats_rotated.obj", false, m_pTextureManager);
 	m_pObjectManager->bind_object(this, nbInstance);
 
 	set_position(glm::vec3(-0.0f, 0.0f, 0.0f));
@@ -31,6 +31,7 @@ Predators3D::Predators3D(ObjectManager* manager, TextureManager * texMgr, int nb
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, get_z_pos()));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_button("Jump Cam To Predators", jump_cam, (void*)this));
 	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_checkbox("Stick Cam To Predators", &m_bCamSticked));
+	m_pObjectManager->add_gui_controller("Predators", m_pObjectManager->generate_slider("Turn Cam around Predators", -3.14f, 3.14f, 0.01f, get_rot_angle()));
 
 	init_instanced_buffer();
 }
@@ -98,3 +99,4 @@ void Predators3D::init_instanced_buffer()
 		glBindVertexArray(0);
 	}
 }
+

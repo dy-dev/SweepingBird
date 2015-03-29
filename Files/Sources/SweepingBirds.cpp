@@ -46,7 +46,8 @@ int main(int argc, char **argv)
 	(void)argv;
 
 	bool bIsDemoProgram = false;
-	ProgramGUI MainWindow(1024, 768);
+
+	ProgramGUI MainWindow(1440, 980);
 	MainWindow.init();
 
 	SceneManager MySceneManager;
@@ -59,11 +60,11 @@ int main(int argc, char **argv)
 	PhysicsEngine MyPhysicsEngine(&MySceneManager);
 	MyPhysicsEngine.set_programGUI(&MainWindow);
 
-	if (bIsDemoProgram)
+	/*if (bIsDemoProgram)
 	{
 		MySceneManager.setupdemo();
 		std::thread demothread(MySceneManager.demo, &MySceneManager, glfwGetTime());
-	}
+	}*/
 
 	float startTime;
 	float elapsedTime = 0.f;

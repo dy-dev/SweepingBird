@@ -30,9 +30,12 @@ Textured3DObject::Textured3DObject()
 	m_fSize(1.0),
 	m_pTextureManager(nullptr),
 	m_pImporter(nullptr),
-	m_v3Direction(0.0,0.0,1.0),
+	m_v3Direction(0.0, 0.0, 1.0),
 	m_v3Position(0),
-	m_bCamSticked(false)
+	m_bCamSticked(false),
+	m_fRotAngle(0),
+	m_fZoom(100),
+	m_bCamFocused(false)
 {
 	m_eShaderType = MAIN;
 	m_pImporter = new Assimp::Importer();
@@ -198,7 +201,7 @@ void Textured3DObject::set_textures(const std::map< aiTextureType, GLuint >& tex
 ShaderProgram* Textured3DObject::setup_drawing_space(ShaderProgramManager& shaderMgr, Mesh* mesh, glm::mat4 proj, float time)
 {
 	auto shader = shaderMgr.get_shader(m_eShaderType);
-	
+
 	assert(m_pObjectManager != nullptr);
 
 	if (shader != nullptr)
@@ -222,8 +225,10 @@ ShaderProgram* Textured3DObject::setup_drawing_space(ShaderProgramManager& shade
 		glm::mat4 ModelScaled = glm::scale(ModelTranslated, glm::vec3(m_fSize));
 		glm::mat4 mv = worldToView * ModelScaled;
 		glm::mat4 mvp = proj * mv;
+		glm::mat4 vp = proj * worldToView;
 		shader->set_var_value("MVP", glm::value_ptr(mvp));
 		shader->set_var_value("MV", glm::value_ptr(mv));
+		shader->set_var_value("VP", glm::value_ptr(vp));
 
 		if (mesh != nullptr)
 		{

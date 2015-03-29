@@ -24,7 +24,11 @@ ProgramGUI::ProgramGUI()
 	m_bIsStillRunning(true),
 	m_iWidth(0),
 	m_iHeight(0),
-	m_iDPI(1)
+	m_iDPI(1),
+	m_bMustSickToBird(false),
+	m_bMustStickToPredator(false),
+	m_bMustStopFollowingBird(false)
+
 {
 
 
@@ -34,7 +38,10 @@ ProgramGUI::ProgramGUI(int width, int height)
 	m_bIsStillRunning(true),
 	m_iWidth(width),
 	m_iHeight(height),
-	m_iDPI(1)
+	m_iDPI(1),
+	m_bMustSickToBird(false),
+	m_bMustStickToPredator(false),
+	m_bMustStopFollowingBird(false)
 {
 }
 
@@ -126,6 +133,21 @@ void ProgramGUI::event_loop_management()
 	if (glfwGetKey(m_pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		m_bIsStillRunning = false;
+	}
+
+	if (glfwGetKey(m_pWindow, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		m_bMustStickToPredator = !m_bMustStickToPredator;
+	}
+
+	if (glfwGetKey(m_pWindow, GLFW_KEY_B) == GLFW_PRESS)
+	{
+		m_bMustSickToBird = true;
+	}
+
+	if (glfwGetKey(m_pWindow, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		m_bMustStopFollowingBird = true;
 	}
 }
 
