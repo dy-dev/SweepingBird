@@ -75,11 +75,11 @@ void SceneManager::setup_lights()
 	dirlight->set_specular_power(50.0f);
 	m_vLights.push_back(dirlight);
 
-	//m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_position_infos("Position"));
-	//m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_direction_infos("Direction"));
-	//m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_specular_power_infos("Specular Power"));
-	//m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_color_infos("Color"));
-	//m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_use_light_checkbox("Use Light"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_position_infos("Position"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_direction_infos("Direction"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_specular_power_infos("Specular Power"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_color_infos("Color"));
+	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_use_light_checkbox("Use Light"));
 }
 
 void SceneManager::setup_shader_programs()

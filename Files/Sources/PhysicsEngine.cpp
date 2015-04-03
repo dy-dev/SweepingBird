@@ -28,31 +28,31 @@ PhysicsEngine::PhysicsEngine(SceneManager* sceneManager)
 	m_fPredatorsSpringRigidity(0.01f),
 	m_pbResetPredatorsPos(false)
 {
-	srand(time(0));
-		
-	for (int i = 0; i < NB_PREDATORS; i++)
-{
-		float massr = float(rand() % 50);
-		float x = float(rand() % 550);
-		float y = float(rand() % 550);
-		float z = float(rand() % 550);
-		float div = float(rand() % 10 + 80.0f);
-		float mass = 1.0f+ massr / div;
-		auto pred = new Predator(mass, glm::vec3(x, y, z ));
-		m_vPredators.push_back(pred);
-	}
+	//srand(time(0));
+
+	//for (int i = 0; i < NB_PREDATORS; i++)
+	//{
+	//	float massr = float(rand() % 50);
+	//	float x = float(rand() % 550);
+	//	float y = float(rand() % 550);
+	//	float z = float(rand() % 550);
+	//	float div = float(rand() % 10 + 80.0f);
+	//	float mass = 1.0f + massr / div;
+	//	auto pred = new Predator(mass, glm::vec3(x, y, z));
+	//	m_vPredators.push_back(pred);
+	//}
 
 	//Link physics object with their 3D representation
 	ObjectManager& objectManager = m_wpSceneManager->get_object_manager();
 
-	ClassName<Bird3D> birdName;
-	Bird3D* bird3D = dynamic_cast<Bird3D*>(objectManager.get_object(birdName.Name()).first);
-	assert(bird3D);
-	m_Bird.set_bird_3D(bird3D);
+	//ClassName<Bird3D> birdName;
+	//Bird3D* bird3D = dynamic_cast<Bird3D*>(objectManager.get_object(birdName.Name()).first);
+	//assert(bird3D);
+	//m_Bird.set_bird_3D(bird3D);
 
-	ClassName<Predators3D> predatorsName;
-	m_wpPredators3D = dynamic_cast<Predators3D*>(objectManager.get_object(predatorsName.Name()).first);
-	assert(m_wpPredators3D);
+	//ClassName<Predators3D> predatorsName;
+	//m_wpPredators3D = dynamic_cast<Predators3D*>(objectManager.get_object(predatorsName.Name()).first);
+	//assert(m_wpPredators3D);
 
 	ClassName<Ground3D> groundName;
 	Ground3D* ground3D = dynamic_cast<Ground3D*>(objectManager.get_object(groundName.Name()).first);
@@ -108,8 +108,8 @@ void PhysicsEngine::update(const float deltaTime)
 {
 	m_Bird.update(deltaTime);
 
-	m_Ground.generate_heigh_map(-900, 900, -900, 900);
-
+	m_Ground.generate_heigh_map(ObjectManager::s_iPatchNumber);
+	
 	if (m_Bird.get_position().y >= PREDATOR_THRESHOLD_M && !m_bPredatorsLaunched)
 		launch_predators();
 	else if (m_bPredatorsLaunched && m_Bird.get_position().y < PREDATOR_THRESHOLD_M)
@@ -136,36 +136,35 @@ void PhysicsEngine::update(const float deltaTime)
 	birdHeight += BIRD_OFFSET;
 
 	m_Bird.set_height(birdHeight);
-	m_Bird.update_3D_model();
+	//m_Bird.update_3D_model();
 
-	for (auto it = m_vPredators.begin(); it != m_vPredators.end(); ++it)
-	{
-		//(*it)->set_spring_length(m_fPredatorsSpringLength);
-		//(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
-		(*it)->update(deltaTime);
-	}
+	//for (auto it = m_vPredators.begin(); it != m_vPredators.end(); ++it)
+	//{
+	//	//(*it)->set_spring_length(m_fPredatorsSpringLength);
+	//	//(*it)->set_spring_rigidity(m_fPredatorsSpringRigidity);
+	//	(*it)->update(deltaTime);
+	//}
 
-	/*------ UPDATE GRAPHICS ---------- */
+	///*------ UPDATE GRAPHICS ---------- */
 
-	//May be optimized
-	std::vector<glm::vec3> predatorsPositions;
-	std::vector<glm::vec3> predatorsDirections;
-	std::vector<glm::mat4> predatorsTransforms;
-	for each (auto& pred in m_vPredators)
-	{
-		glm::vec3 finalPos = pred->get_position();
-		if (m_pbResetPredatorsPos)
-		{
-			finalPos = m_Bird.get_position();
-			pred->reset(finalPos, glm::vec3(0, 0, 0));
-		}
+	////May be optimized
+	//std::vector<glm::vec3> predatorsPositions;
+	//std::vector<glm::vec3> predatorsDirections;
+	//std::vector<glm::mat4> predatorsTransforms;
+	//for each (auto& pred in m_vPredators)
+	//{
+	//	glm::vec3 finalPos = pred->get_position();
+	//	if (m_pbResetPredatorsPos)
+	//	{
+	//		finalPos = m_Bird.get_position();
+	//		pred->reset(finalPos, glm::vec3(0, 0, 0));
+	//	}
 
-		predatorsPositions.push_back(pred->get_position());
-		predatorsDirections.push_back(pred->get_direction());
+	//	predatorsPositions.push_back(pred->get_position());
+	//	predatorsDirections.push_back(pred->get_direction());
 
-	m_wpPredators3D->update_positions(predatorsPositions);
-	}
-	m_wpPredators3D->update_transformation(predatorsTransforms);
+	//}
+	//m_wpPredators3D->update_positions(predatorsPositions);
 }
 
 void PhysicsEngine::launch_predators()

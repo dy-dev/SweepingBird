@@ -1,10 +1,107 @@
+
 #include <Ground.h>
 #include <Ground3D.h>
 #include <SDL_Image.h>
 #include <Mesh.h>
+#include <ObjectManager.h>
+
+#include <future>
+#include <iostream>
 
 using namespace SweepingBirds;
 
+// the constructor just launches some amount of workers
+ThreadPool::ThreadPool(size_t threads)
+	: stop(false)
+{
+	for (size_t i = 0; i < threads; ++i)
+		workers.emplace_back(
+		[this]
+	{
+		for (;;)
+		{
+			std::function<void()> task;
+
+			{
+				std::unique_lock<std::mutex> lock(this->queue_mutex);
+				this->condition.wait(lock,
+					[this]{ return this->stop || !this->tasks.empty(); });
+				if (this->stop && this->tasks.empty())
+					return;
+				task = std::move(this->tasks.front());
+				this->tasks.pop();
+			}
+
+			task();
+		}
+	}
+	);
+}
+
+// the destructor joins all threads
+ThreadPool::~ThreadPool()
+{
+	// stop all threads
+	stop = true;
+	condition.notify_all();
+
+	// join them
+	for (size_t i = 0; i < workers.size(); ++i)
+		workers[i].join();
+}
+
+template<class F, class... Args>
+auto ThreadPool::enqueue(F&& f, Args&&... args)
+-> std::future < typename std::result_of<F(Args...)>::type >
+{
+	using return_type = typename std::result_of<F(Args...)>::type;
+
+	auto task = std::make_shared< std::packaged_task<return_type()> >(
+		std::bind(std::forward<F>(f), std::forward<Args>(args)...)
+		);
+
+	std::future<return_type> res = task->get_future();
+	{
+		std::unique_lock<std::mutex> lock(queue_mutex);
+
+		// don't allow enqueueing after stopping the pool
+		if (stop)
+			throw std::runtime_error("enqueue on stopped ThreadPool");
+
+		tasks.emplace([task](){ (*task)(); });
+	}
+	condition.notify_one();
+	return res;
+}
+
+void Worker::operator()()
+{
+	//std::function<void()> task;
+	//while (true)
+	//{
+	//	{   // acquire lock
+	//		std::unique_lock<std::mutex>
+	//			lock(pool.queue_mutex);
+
+	//		// look for a work item
+	//		while (!pool.stop && pool.tasks.empty())
+	//		{ // if there are none wait for notification
+	//			pool.condition.wait(lock);
+	//		}
+
+	//		if (pool.stop) // exit if the pool is stopped
+	//			return;
+
+	//		// get the task from the queue
+	//		task = pool.tasks.front();
+	//		pool.tasks.pop_front();
+
+	//	}   // release lock
+
+	//	// execute the task
+	//	task();
+	//}
+}
 Ground::Ground()
 {
 }
@@ -12,6 +109,20 @@ Ground::Ground()
 
 Ground::~Ground()
 {
+}
+
+void Ground::set_ground_3d(Ground3D* newGround)
+{
+	normalMapSize = newGround->get_meshes()[0]->get_normals().size() * ObjectManager::s_iPatchNumber;
+	normalMap = new float[normalMapSize];
+	memset(normalMap, 0, normalMapSize);
+	heightMapSize = newGround->get_meshes()[0]->get_vertices().size() * ObjectManager::s_iPatchNumber / 3;
+	heightMap = new float[heightMapSize];
+	memset(heightMap, 0, heightMapSize);
+	m_pGround3D = newGround;
+
+	m_pTPool = new ThreadPool(ObjectManager::s_iPatchNumber);
+	//	m_ppThread= new std::thread*[ObjectManager::s_iPatchNumber];
 }
 
 float Ground::get_ground_height()
@@ -105,189 +216,130 @@ void setPixel(SDL_Surface *ret, int x, int y, Uint32 coul)
 	*((Uint32*)(ret->pixels) + x + y * ret->w) = coul;
 }
 
-void Ground::generate_heigh_map(float xmin, float xmax, float zmin, float zmax)
+void Ground::generate_heigh_map(int nbPatch)
 {
-	int octaves = 3;
-	std::vector<float> heightMap;
-	std::vector<float> tmpheightMap;
-	std::vector<float> normalMap;
-	/*SDL_Init(SDL_INIT_VIDEO);
-// 	/*SDL_Surface *ret = SDL_CreateRGBSurface(SDL_SWSURFACE, 31, 31, 32, 0, 0, 0, 0);//Create an empty image.
-// */
-
-	int xad = 0;
-	int zad = 0;
 	auto verts = m_pGround3D->get_meshes()[0]->get_vertices();
-	for (int i = 0; i < verts.size() - 2; i += 3)
+	futures.clear();
+	
+	int divider = sqrt(nbPatch);
+
+	for (int i = 0; i < nbPatch; i++)
 	{
-		float x = verts[i];
-		float z = verts[i + 2];
+		if (divider == 0)
+			divider = 1;
 
-		double frequency = m_pGround3D->m_ftest2;
-		double amplitude = m_pGround3D->m_ftest1;
-		double persistence = m_pGround3D->get_frequency();
-		double getnoise = 0;
-		for (int a = 0; a < octaves; a++)//This loops trough the octaves.
-		{
-			getnoise += GetValue((double)(z - 1800)*frequency, (double)(x - 1800)*frequency)*amplitude;//This uses our perlin noise functions. It calculates all our zoom and frequency and amplitude
-			frequency *= m_pGround3D->m_iPatchSize;//This increases the frequency with every loop of the octave.
-			amplitude *= persistence;//This decreases the amplitude with every loop of the octave
-		}//											It gives a decimal value, you know, between the pixels. Like 4.2 or 5.1
-
-		tmpheightMap.push_back((float)getnoise);
-		heightMap.push_back((float)getnoise);
+		int xGridCood = i % divider;
+		int zGridCood = i / divider;
+		futures.push_back(std::async(generate_H_map, this, zGridCood, xGridCood, i, 1800, verts));
 	}
-	generate_normals(tmpheightMap, normalMap);
 
-	tmpheightMap.clear();
-	for (int i = 0; i < verts.size() - 2; i += 3)
-	{
-		float x = verts[i];
-		float z = verts[i + 2];
-
-		double frequency = m_pGround3D->m_ftest2;
-		double amplitude = m_pGround3D->m_ftest1;
-		double persistence = m_pGround3D->get_frequency();
-		double getnoise = 0;
-		for (int a = 0; a < octaves; a++)//This loops trough the octaves.
-		{
-			getnoise += GetValue((double)(z - 1800)*frequency, (double)x*frequency)*amplitude;//This uses our perlin noise functions. It calculates all our zoom and frequency and amplitude
-			frequency *= m_pGround3D->m_iPatchSize;//This increases the frequency with every loop of the octave.
-			amplitude *= persistence;//This decreases the amplitude with every loop of the octave
-		}//											It gives a decimal value, you know, between the pixels. Like 4.2 or 5.1
-		heightMap.push_back((float)getnoise);
-		tmpheightMap.push_back((float)getnoise);
+	for (auto &e : futures) {
+		e.get();
 	}
-	generate_normals(tmpheightMap, normalMap);
-
-	tmpheightMap.clear();
-	for (int i = 0; i < verts.size() - 2; i += 3)
-	{
-		float x = verts[i];
-		float z = verts[i + 2];
-
-		double frequency = m_pGround3D->m_ftest2;
-		double amplitude = m_pGround3D->m_ftest1;
-		double persistence = m_pGround3D->get_frequency();
-		double getnoise = 0;
-		for (int a = 0; a < octaves; a++)//This loops trough the octaves.
-		{
-			getnoise += GetValue((double)z*frequency, (double)(x - 1800)*frequency)*amplitude;//This uses our perlin noise functions. It calculates all our zoom and frequency and amplitude
-			frequency *= m_pGround3D->m_iPatchSize;//This increases the frequency with every loop of the octave.
-			amplitude *= persistence;//This decreases the amplitude with every loop of the octave
-		}//											It gives a decimal value, you know, between the pixels. Like 4.2 or 5.1
-		heightMap.push_back((float)getnoise);
-		tmpheightMap.push_back((float)getnoise);
-
-	}
-	generate_normals(tmpheightMap, normalMap);
-
-	tmpheightMap.clear();
-	for (int i = 0; i < verts.size() - 2; i += 3)
-	{
-		float x = verts[i];
-		float z = verts[i + 2];
-
-		double frequency = m_pGround3D->m_ftest2;
-		double amplitude = m_pGround3D->m_ftest1;
-		double persistence = m_pGround3D->get_frequency();
-		double getnoise = 0;
-		for (int a = 0; a < octaves; a++)//This loops trough the octaves.
-		{
-			getnoise += GetValue((double)z*frequency, (double)x*frequency)*amplitude;//This uses our perlin noise functions. It calculates all our zoom and frequency and amplitude
-			frequency *= m_pGround3D->m_iPatchSize;//This increases the frequency with every loop of the octave.
-			amplitude *= persistence;//This decreases the amplitude with every loop of the octave
-		}//											It gives a decimal value, you know, between the pixels. Like 4.2 or 5.1
-		heightMap.push_back((float)getnoise);
-		/*int color = (int)((getnoise*128.0) + 128.0);//Convert to 0-256 values.
-		if (color > 255)
-		color = 255;
-		if (color < 0)
-		color = 0;
-
-		auto col = SDL_MapRGB(ret->format, color, color, color);
-
-		xad = ((i / 3) % 31);
-		zad = ((i / 3) / 31);
-		setPixel(ret, xad, zad, col);*/
-		tmpheightMap.push_back((float)getnoise);
-	}
-	generate_normals(tmpheightMap, normalMap);
 
 
-	//SDL_SaveBMP(ret, "heighmap.bmp");
-
-	m_pGround3D->update(heightMap, normalMap);
+	//
+	//	int octaves = 1;
+	//
+	//	/*SDL_Init(SDL_INIT_VIDEO);
+	//// 	/*SDL_Surface *ret = SDL_CreateRGBSurface(SDL_SWSURFACE, 31, 31, 32, 0, 0, 0, 0);//Create an empty image.
+	//// */
+	//	auto verts = m_pGround3D->get_meshes()[0]->get_vertices();
+	//	
+	//	for (int i = 0; i < nbPatch; i++)
+	//	{
+	//		int divider = sqrt(nbPatch);
+	//		if (divider == 0)
+	//			divider = 1;
+	//
+	//		int xGridCood = i % divider;
+	//		int zGridCood = i / divider;
+	//		//Ground::generate_H_map(this, zGridCood, xGridCood, i, 1800, verts);
+	//		m_ppThread[i] = new std::thread(&Ground::generate_H_map, this, zGridCood, xGridCood, i, 1800, verts);
+	//	}
+	//	
+	//	//	int color = (int)((getnoise*128.0) + 128.0);//Convert to 0-256 values.
+	//	//	if (color > 255)
+	//	//	color = 255;
+	//	//	if (color < 0)
+	//	//	color = 0;
+	//	//	auto col = SDL_MapRGB(ret->format, color, color, color);
+	//	//	xad = ((i / 3) % 31);
+	//	//	zad = ((i / 3) / 31);
+	//	//	setPixel(ret, xad, zad, col);
+	//	////SDL_SaveBMP(ret, "heighmap.bmp");
+	//
+		m_pGround3D->update(normalMap, normalMapSize);
 }
 
-void Ground::generate_normals(std::vector<float>& heightmap, std::vector<float>& normalmap)
+
+void Ground::generate_H_map(Ground* ground, int zOffset, int xOffset, int patchIndex, int patchArea, const std::vector<float>& verts)
+{
+	for (int i = 0; i < verts.size() - 2; i += 3)
+	{
+		float x = verts[i];
+		float z = verts[i + 2];
+
+		double frequency = 0.0005;
+		double amplitude = 2;
+		double persistence = 0.25;
+		double getnoise = 0;
+		for (int a = 0; a < 3; a++)//This loops trough the octaves.
+		{
+			getnoise += ground->GetValue(abs(z - zOffset*patchArea)*frequency, abs(x - xOffset*patchArea)*frequency)*amplitude;//This uses our perlin noise functions. It calculates all our zoom and frequency and amplitude
+			frequency *= 2;//This increases the frequency with every loop of the octave.
+			amplitude /= 4;//This decreases the amplitude with every loop of the octave
+		}//It gives a decimal value, you know, between the pixels.Like 4.2 or 5.1
+
+		ground->heightMap[patchIndex*verts.size() / 3 + i] = getnoise;
+	}
+
+	ground->generate_normals(ground, patchIndex);
+}
+
+
+void Ground::generate_normals(Ground* ground, int patchIndex)
 {
 	auto triangleList = m_pGround3D->get_meshes()[0]->get_trianglesList();
 	auto vertices = m_pGround3D->get_meshes()[0]->get_vertices();
-	std::map<int, glm::vec3> vertexNorm;
+
+	glm::vec3* vertexNorm = new glm::vec3[vertices.size() / 3];
+	for (int i = 0; i < vertices.size() / 3; i++)
+	{
+		vertexNorm[i] = glm::vec3(0);
+	}
 
 	for (int i = 0; i < triangleList.size(); i += 3)
 	{
-		auto index1 = triangleList[i];
-		auto xvrt1 = vertices[index1 * 3];
-		auto zvrt1 = vertices[index1 * 3 + 2];
-		glm::vec3 vrt1(xvrt1, 0, zvrt1);
-		vrt1 = glm::normalize(vrt1);
-		vrt1.y = heightmap[index1];
+		glm::vec3 vert[3];
+		for (int j = 0; j < 3; j++)
+		{
+			auto index = triangleList[i + j];
+			auto xvrt = vertices[index * 3];
+			auto zvrt = vertices[index * 3 + 2];
+			vert[j] = glm::vec3(xvrt, 0, zvrt);
+			vert[j].y = ground->heightMap[patchIndex*vertices.size() / 3 + index] * glm::length(vert[j]);
 
-		auto index2 = triangleList[i + 1];
-		auto xvrt2 = vertices[index2 * 3];
-		auto zvrt2 = vertices[index2 * 3 + 2];
-		glm::vec3 vrt2(xvrt2, 0, zvrt2);
-		vrt2 = glm::normalize(vrt2);
-		vrt2.y = heightmap[index2];
+		}
 
-		auto index3 = triangleList[i + 2];
-		auto xvrt3 = vertices[index3 * 3];
-		auto zvrt3 = vertices[index3 * 3 + 2];
-		glm::vec3 vrt3(xvrt3, 0, zvrt3);
-		vrt3 = glm::normalize(vrt3);
-		vrt3.y = heightmap[index3];
+		auto vec1 = vert[1] - vert[0];
+		auto vec2 = vert[2] - vert[0];
 
-		auto vec1 = vrt2 - vrt1;
-		auto vec2 = vrt3 - vrt1;
-
-		auto norm = glm::cross(vec1, vec2);
-
-		if (vertexNorm.find(index1) != vertexNorm.end())
-		{
-			vertexNorm[index1] += norm;
-		}
-		else
-		{
-			vertexNorm[index1] = norm;
-		}
-		if (vertexNorm.find(index2) != vertexNorm.end())
-		{
-			vertexNorm[index2] += norm;
-		}
-		else
-		{
-			vertexNorm[index2] = norm;
-		}
-		if (vertexNorm.find(index3) != vertexNorm.end())
-		{
-			vertexNorm[index3] += norm;
-		}
-		else
-		{
-			vertexNorm[index3] = norm;
-		}
+		auto norm = glm::cross(glm::normalize(vec1), glm::normalize(vec2));
+		vertexNorm[triangleList[i]] += norm;
+		vertexNorm[triangleList[i + 1]] += norm;
+		vertexNorm[triangleList[i + 2]] += norm;
 	}
-	for each (auto norm in vertexNorm)
+
+	for (int i = 0; i < vertices.size() / 3; i++)
 	{
-		auto normalisedNormal = glm::normalize(norm.second);
-		normalmap.push_back(normalisedNormal.x);
-		normalmap.push_back(normalisedNormal.y);
-		normalmap.push_back(normalisedNormal.z);
+		auto normalisedNormal = glm::normalize(vertexNorm[i]);
+		ground->normalMap[vertices.size()*patchIndex + 3 * i] = normalisedNormal.x;
+		ground->normalMap[vertices.size()*patchIndex + 3 * i + 1] = normalisedNormal.y;
+		ground->normalMap[vertices.size()*patchIndex + 3 * i + 2] = normalisedNormal.z;
 	}
 
-
+	delete[] vertexNorm;
 	/*SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_Surface *ret = SDL_CreateRGBSurface(SDL_SWSURFACE, 31, 31, 32, 0, 0, 0, 0);//Create an empty image.

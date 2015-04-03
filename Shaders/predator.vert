@@ -23,7 +23,7 @@ uniform int InstanceNumber;
 uniform vec3 BirdTranslation;
 
 uniform float Time;
-
+layout(binding=PREDATORS_BINDING) uniform samplerBuffer PredatorData;
 layout(location = POSITION) in vec3 Position;
 layout(location = NORMAL) in vec3 Normal;
 layout(location = TEXCOORD) in vec2 TexCoord;

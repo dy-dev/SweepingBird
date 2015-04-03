@@ -138,7 +138,7 @@ namespace SweepingBirds
      *
      * @return  The triangles list.
      */
-		std::vector<int> get_trianglesList() const { return m_vTrianglesList; };
+		const std::vector<int>& get_trianglesList() const { return m_vTrianglesList; };
 
     /**
      * @fn  int Mesh::get_triangles_count()
@@ -165,7 +165,7 @@ namespace SweepingBirds
      *
      * @return  The uvs.
      */
-		std::vector<float > get_uvs() const { return m_vUVs; };
+		const std::vector<float >& get_uvs() const { return m_vUVs; };
 
     /**
      * @fn  std::vector<float > Mesh::get_vertices() const
@@ -174,7 +174,7 @@ namespace SweepingBirds
      *
      * @return  The vertices.
      */
-		std::vector<float > get_vertices() const { return m_vVertices; };
+		const std::vector<float >& get_vertices() const { return m_vVertices; };
 
     /**
      * @fn  std::vector<float > Mesh::get_normals() const
@@ -183,7 +183,7 @@ namespace SweepingBirds
      *
      * @return  The normals.
      */
-		std::vector<float > get_normals() const { return m_vNormals; };
+		const std::vector<float >& get_normals() const { return m_vNormals; };
 
 		void set_normals(std::vector<float >& norms);
 

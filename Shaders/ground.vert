@@ -120,28 +120,26 @@ float GetValue(float x,float y)
 	return fin;
 	}
 
-float Total(float i, float j, float _amplitude, float frequency, float persistence, float freqdiv ) 
+float Total(float i, float j) 
 {
     //properties of one octave (changing each loop)
     float t = 0.0f;
-	
-    float amplitude = _amplitude;
-    float freq = frequency;
-   
-   
-	t += GetValue(j * freq , i * freq ) * amplitude;
-	amplitude *= persistence;
-	freq *= freqdiv;
+    float _amplitude = 2;
+    float freq = 0.0005;
 
-	t += GetValue(j * freq , i * freq ) * amplitude;
-	amplitude *= persistence;
-	freq *= freqdiv;
+   
+	t += GetValue(j * freq , i * freq ) * _amplitude;
+	_amplitude /= 4;
+	freq *= 2;
 
-	t += GetValue(j * freq , i * freq ) * amplitude;
+	t += GetValue(j * freq , i * freq ) * _amplitude;
+	_amplitude /= 4;
+	freq *= 2;
+
+
 
     return t;
 }
-
 void main()
 {	
 	vec3 changePos = Position;
@@ -153,15 +151,13 @@ void main()
 	}
 	/*float xGridCood = PatchControl * (gl_InstanceID%divider) - PatchControl * divider/2 ;
 	float zGridCood = PatchControl * (gl_InstanceID/divider) - PatchControl* divider/2;*/
-	float xGridCood = 1800*(gl_InstanceID%divider - divider/2.0 );
-	float zGridCood = 1800*(gl_InstanceID/divider - divider/2.0);
-	float height =0;
-	if(gl_InstanceID == 4)
-	{
-		height = texelFetch(HeightMapData,gl_VertexID).x;
-		Out.Normal = texelFetch(NormalMapData,gl_VertexID).xyz;
-	}
-	else if(gl_InstanceID == 5)
+	float xGridCood = 1800*(gl_InstanceID%divider);// - divider/2.0 );
+	float zGridCood = 1800*(gl_InstanceID/divider);// - divider/2.0);
+	float tmpNoise =0;
+	
+		//tmpNoise = texelFetch(HeightMapData,gl_VertexID + (gl_InstanceID)*961).x;
+		Out.Normal = texelFetch(NormalMapData,gl_VertexID + (gl_InstanceID)*961).xyz;
+	/*else if(gl_InstanceID == 5)
 	{
 		height = texelFetch(HeightMapData,gl_VertexID + (gl_InstanceID-4)*961).x;	
 		Out.Normal = texelFetch(NormalMapData,gl_VertexID + (gl_InstanceID-4)*961).xyz;
@@ -175,20 +171,21 @@ void main()
 	{
 		height = texelFetch(HeightMapData,gl_VertexID + (gl_InstanceID-4)*961).x;
 		Out.Normal = texelFetch(NormalMapData,gl_VertexID+ (gl_InstanceID-4)*961).xyz;
-	}
+	}*/
 	
-	else
-	{
+	/*else
+	{*/
 		//float xVertexCoord = (gl_VertexID%30);
 		//float zVertexCoord = (gl_VertexID/30);
 
 		//height = Total(xVertexCoord, zVertexCoord,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
-		//height = Total(changePos.x+xGridCood, changePos.z+zGridCood,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
-		Out.Normal = Normal;
-	}
+		//height = Total(changePos.x-xGridCood, changePos.z - zGridCood,m_ftest1,m_ftest2, MountainFrequence,PatchControl);
+		 tmpNoise = Total(abs(changePos.x-xGridCood), abs(changePos.z - zGridCood));
+		//Out.Normal = Normal;
+//}
 	
-	changePos.x += xGridCood;
-	changePos.z += zGridCood;
+	changePos.x -= xGridCood;
+	changePos.z -= zGridCood;
 	/*vec4 tmp = GroundTranslation * vec4(changePos, 1.0);
 	changePos = tmp.xyz;
 	/*float tmpNoise = Total(abs(changePos.x ), abs(changePos.z), 2,0.0005);
@@ -209,13 +206,10 @@ void main()
 	
 	changePos.y = MaxMountainHeight*tmpNoise;
 	*/
-	changePos.y = MaxMountainHeight*height;
-	if(gl_InstanceID == 0)
-	{
-		changePos.y += 100; 
-	}
+	changePos.y = 2*MaxMountainHeight*tmpNoise;
+	
 	gl_Position = MVP * vec4(changePos, 1.0);
 	Out.TexCoord = TexCoord;
 	Out.Position = changePos;
-	
+	//Out.Normal = Normal;
 }

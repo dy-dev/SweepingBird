@@ -193,7 +193,7 @@ struct GUIInfos;
      *
      * @return  The intensity.
      */
-		float get_intensity() { return m_fIntensity; }
+	virtual	float get_intensity() { return m_fIntensity; }
 
 	protected:
 		glm::vec3 m_v3Position;

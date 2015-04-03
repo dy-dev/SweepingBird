@@ -62,8 +62,8 @@ int main(int argc, char **argv)
 
 	/*if (bIsDemoProgram)
 	{
-		MySceneManager.setupdemo();
-		std::thread demothread(MySceneManager.demo, &MySceneManager, glfwGetTime());
+	MySceneManager.setupdemo();
+	std::thread demothread(MySceneManager.demo, &MySceneManager, glfwGetTime());
 	}*/
 
 	float startTime;
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 		// Check for errors
 		UtilityToolKit::check_errors("End loop");
 
-    elapsedTime = glfwGetTime() - startTime;
+		elapsedTime = glfwGetTime() - startTime;
 	} // Check if the ESC key was pressed
 	while (MainWindow.is_still_running());
 

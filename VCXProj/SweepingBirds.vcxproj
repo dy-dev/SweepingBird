@@ -120,7 +120,7 @@
     <ClCompile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;$(SolutionDir)lib\ogldev-source\Include;$(SolutionDir)lib\ogldev-source\Include\ImageMagick-6;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp;D:\IMAC\OpenGLAdvanced\SDL_image-devel-1.2.12-VC\SDL_image-1.2.12\include;D:\IMAC\OpenGLAdvanced\SDL-devel-1.2.15-VC\SDL-1.2.15\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;$(SolutionDir)lib\ogldev-source\Include;$(SolutionDir)lib\ogldev-source\Include\ImageMagick-6;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp;D:\IMAC\OpenGLAdvanced\Externals Libs\SDL_image-devel-1.2.12-VC\SDL_image-1.2.12\include;D:\IMAC\OpenGLAdvanced\Externals Libs\SDL-devel-1.2.15-VC\SDL-1.2.15\include;C:\local\boost_1_56_0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -144,7 +144,7 @@
       <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;xmllite.lib;shlwapi.lib;CORE_DB_Magick++_.lib;SDL.lib;SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\ogldev-source\Lib;D:\IMAC\OpenGLAdvanced\SDL-devel-1.2.15-VC\SDL-1.2.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\ogldev-source\Lib;D:\IMAC\OpenGLAdvanced\Externals Libs\SDL-devel-1.2.15-VC\SDL-1.2.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Objects" "$(TargetDir)Objects" /e /y /i /r 
@@ -190,7 +190,7 @@ exit 0</Command>
     <ClCompile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;$(SolutionDir)lib\ogldev-source\Include;$(SolutionDir)lib\ogldev-source\Include\ImageMagick-6;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Files\Headers;$(SolutionDir)lib;$(SolutionDir)lib\glfw\include;src;common;lib;$(SolutionDir)\lib\xml\include;C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include;$(SolutionDir)lib\ogldev-source\Include;$(SolutionDir)lib\ogldev-source\Include\ImageMagick-6;$(SolutionDir)lib\assimp-3.1.1-win-binaries\include\assimp;D:\IMAC\OpenGLAdvanced\Externals Libs\SDL-devel-1.2.15-VC\SDL-1.2.15\include;D:\IMAC\OpenGLAdvanced\Externals Libs\SDL_image-devel-1.2.12-VC\SDL_image-1.2.12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>

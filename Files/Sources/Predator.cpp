@@ -98,5 +98,5 @@ const glm::vec3& Predator::get_direction() const
 
 const glm::mat4& Predator::get_transform_matrix() const
 {
-  return m_matTransform;
+	return m_matTransform;
 }

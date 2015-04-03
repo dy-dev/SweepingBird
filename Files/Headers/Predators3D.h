@@ -45,11 +45,9 @@ namespace SweepingBirds
      * @param newPositions  The new positions.
      */
 		void update_positions(const std::vector<glm::vec3>& newPositions);
-		void update_transformation(const std::vector<glm::mat4>& transformMatrices);
 
 	private:
-		void init_instanced_buffer();
-
+		GPUBuffer m_bufPredatorsData;
 		unsigned int m_uiNbInstances;
 		GLuint m_uiTransformMatricesBuffer;
 	};

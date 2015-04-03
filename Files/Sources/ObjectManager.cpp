@@ -17,6 +17,8 @@
 
 using namespace SweepingBirds;
 
+int ObjectManager::s_iPatchNumber = 36;
+
 ObjectManager::ObjectManager()
 	: m_pGUI(nullptr),
 	m_pTexMgr(nullptr),
@@ -35,9 +37,9 @@ ObjectManager::ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera *
 	m_pSceneManager = sceneMgr;
 
 	//These objects register themselve to the ObjectManager (this object)
-	new Bird3D(this, texMgr);
-	new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
-	new Ground3D(this, texMgr, 8);
+//	new Bird3D(this, texMgr);
+//	new Predators3D(this, texMgr, PhysicsEngine::NB_PREDATORS);
+	new Ground3D(this, texMgr, s_iPatchNumber);
 	new SkyBoxSweepingBird(this, texMgr);
 }
 

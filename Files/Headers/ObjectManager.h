@@ -15,6 +15,8 @@ namespace SweepingBirds
 	class ObjectManager
 	{
 	public:
+		static int s_iPatchNumber;
+	public:
     /**
      * @fn  ObjectManager::ObjectManager();
      *
@@ -31,7 +33,8 @@ namespace SweepingBirds
      * @param [in,out]  gui     If non-null, the graphical user interface.
      * @param [in,out]  cam     If non-null, the camera.
      */
-		ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam);
+		ObjectManager(TextureManager * texMgr, ProgramGUI * gui, Camera * cam, SceneManager * sceneMgr);
+
 		~ObjectManager();
 
     /**

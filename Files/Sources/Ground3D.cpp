@@ -7,7 +7,8 @@
 #include <Camera.h>
 #include <DirectionalLight.h>
 #include <GPUBuffer.h>
-
+#include <DirectionalLight.h>
+#include <Light.h>
 
 using namespace SweepingBirds;
 const GLuint Ground3D::HEIGHTMAP_BINDING = GL_TEXTURE6;
@@ -22,17 +23,17 @@ Ground3D::Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstan
 	:Textured3DObject(texMgr)
 {
 	m_bufHeightMapGPUBuffer = new GPUBuffer(GL_R32F);
-	m_bufHeightMapGPUBuffer->setData(sizeof(float) * 961 * 4, nullptr);
+	m_bufHeightMapGPUBuffer->setData(sizeof(float) * 961 * nbInstance, nullptr);
 	m_bufNormalMapGPUBuffer = new GPUBuffer(GL_RGB32F);
-	m_bufNormalMapGPUBuffer->setData(sizeof(float) * 961 * 4 * 3, nullptr);
+	m_bufNormalMapGPUBuffer->setData(sizeof(float) * 961 * nbInstance * 3, nullptr);
 	m_eShaderType = GROUND;
 	m_pObjectManager = manager;
 	load_object(".\\Objects\\Ground\\Ground.obj", false, m_pTextureManager);
 	m_pObjectManager->bind_object(this, nbInstance);
 	m_fHeight = 1300.0f;
 	m_fSize = 1.f;
-	m_fMountainFrequency = 0.2f;
-	m_iPatchSize = 10;
+	m_fMountainFrequency = 270.f;
+	m_iPatchSize = 1800;
 	set_position(glm::vec3(0.0, -500.0, 0.0));
 	m_ftest1 = 3;
 	m_ftest2 = 0.0005;
@@ -40,8 +41,8 @@ Ground3D::Ground3D(ObjectManager* manager, TextureManager * texMgr, int nbInstan
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Height", 0.0f, 5000.0f, 10.0f, &m_fHeight));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("test1", 0.0f, 6.f, 0.01f, &m_ftest1));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("test2", 0.0f, 0.01f, 0.0001f, &m_ftest2));
-	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Frequency", 0.0f, 0.5f, 0.0001f, &m_fMountainFrequency));
-	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Patch Control", 0.0f, 50.f, 0.0001f, &m_iPatchSize));
+	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Mountain Frequency", 0.0f, 5000.0f, 10.0f, &m_fMountainFrequency));
+	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("Patch Control", 0.0f, 5000.0f, 10.0f, &m_iPatchSize));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("PosX", -500.0f, 500.0f, 1.f, get_x_pos()));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("PosY", -2500.0f, -500.0f, 1.f, get_y_pos()));
 	m_pObjectManager->add_gui_controller("Ground", m_pObjectManager->generate_slider("PosZ", -500.0f, 500.0f, 1.f, get_z_pos()));
@@ -52,10 +53,21 @@ Ground3D::~Ground3D()
 {
 }
 
-void Ground3D::update(const std::vector<float>& heightdatas, const std::vector<float>& normaldatas)
+void Ground3D::update(/*const std::map<int, std::vector<float>>& heightMap, */const float * normalMap, int normalMapSize/*const std::map<int, std::vector<float>>& normalMap*/)
 {
-	m_bufHeightMapGPUBuffer->updateData(heightdatas.data(), 0, heightdatas.size()*sizeof(float));
-	m_bufNormalMapGPUBuffer->updateData(normaldatas.data(), 0, normaldatas.size()*sizeof(float));
+	/*std::vector<float> heightVal;
+	for (auto keyValue : heightMap)
+	{
+		heightVal.insert(heightVal.end(), keyValue.second.begin(), keyValue.second.end());
+	}
+	m_bufHeightMapGPUBuffer->updateData(heightVal.data(), 0, heightVal.size()*sizeof(float));
+	/*std::vector<float> normalVal;
+	for (auto keyValue : normalMap)
+	{
+		normalVal.insert(normalVal.end(), keyValue.second.begin(), keyValue.second.end());
+	}
+	m_bufNormalMapGPUBuffer->updateData(normalVal.data(), 0, normalVal.size()*sizeof(float));*/
+	m_bufNormalMapGPUBuffer->updateData(normalMap, 0, normalMapSize *sizeof(float));
 }
 
 
@@ -96,11 +108,11 @@ void Ground3D::draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time,
 			//auto dir = m_pCamera->GetO() - m_pCamera->GetEye();
 			//dir.y = 0.0f;
 			//shader->set_var_value("LookDirection", glm::value_ptr(glm::normalize(dir)));
+			//m_bufHeightMapGPUBuffer->activate(HEIGHTMAP_BINDING);
 			m_bufNormalMapGPUBuffer->activate(NORMALMAP_BINDING);
-			m_bufHeightMapGPUBuffer->activate(HEIGHTMAP_BINDING);
 			glDrawElementsInstanced(GL_TRIANGLES, mesh->get_triangles_count() * 3, GL_UNSIGNED_INT, (void*)0, (GLsizei)(nbInstance));
-			m_bufHeightMapGPUBuffer->deactivate();
 			m_bufNormalMapGPUBuffer->deactivate();
+			//m_bufHeightMapGPUBuffer->deactivate();
 			clean_bindings();
 		}
 	}

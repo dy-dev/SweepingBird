@@ -67,9 +67,14 @@ namespace SweepingBirds
      */
 		virtual void draw(ShaderProgramManager& shaderMgr, glm::mat4 proj, float time, int nbInstance) override;
 
+		void update(/*const std::map<int, std::vector<float>>& heightMap, */const float * normalMap, int normalMapSize/*const std::map<int, std::vector<float>>& normalMap*/);
+
 	private:
 		float m_fHeight;
 		float m_fMountainFrequency;
+		static const GLuint HEIGHTMAP_BINDING;
+		static const GLuint NORMALMAP_BINDING;
+
 	public:
 		float m_iPatchSize;
 		float m_ftest1;
