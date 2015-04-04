@@ -93,11 +93,13 @@ void main()
 	}
 		
 	FragColor = vec4(color,1.0);
-	//FragColor = vec4(In.Normal,1.0);
 	if(LightUse)
 	{
 		vec3 dirLight = CreateDirectionalLight( In.Position, In.Normal, LightDirection, LightColor, LightSpecularPower, CamPos, color, specular);
 		FragColor += vec4(dirLight, 1.0);
+	}
+	else{
+		//FragColor = vec4(In.Normal,1.0);
 	}
 }
 

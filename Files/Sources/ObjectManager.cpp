@@ -17,7 +17,7 @@
 
 using namespace SweepingBirds;
 
-int ObjectManager::s_iPatchNumber = 36;
+int ObjectManager::s_iPatchNumber = 100;
 
 ObjectManager::ObjectManager()
 	: m_pGUI(nullptr),

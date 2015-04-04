@@ -53,14 +53,14 @@ Ground3D::~Ground3D()
 {
 }
 
-void Ground3D::update(/*const std::map<int, std::vector<float>>& heightMap, */const float * normalMap, int normalMapSize/*const std::map<int, std::vector<float>>& normalMap*/)
+void Ground3D::update(const float * heightMap, int heightMapSize, const float * normalMap, int normalMapSize/*const std::map<int, std::vector<float>>& normalMap*/)
 {
 	/*std::vector<float> heightVal;
 	for (auto keyValue : heightMap)
 	{
 		heightVal.insert(heightVal.end(), keyValue.second.begin(), keyValue.second.end());
-	}
-	m_bufHeightMapGPUBuffer->updateData(heightVal.data(), 0, heightVal.size()*sizeof(float));
+	}*/
+	m_bufHeightMapGPUBuffer->updateData(heightMap, 0, heightMapSize*sizeof(float));
 	/*std::vector<float> normalVal;
 	for (auto keyValue : normalMap)
 	{

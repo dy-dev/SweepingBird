@@ -10,98 +10,7 @@
 
 using namespace SweepingBirds;
 
-// the constructor just launches some amount of workers
-ThreadPool::ThreadPool(size_t threads)
-	: stop(false)
-{
-	for (size_t i = 0; i < threads; ++i)
-		workers.emplace_back(
-		[this]
-	{
-		for (;;)
-		{
-			std::function<void()> task;
 
-			{
-				std::unique_lock<std::mutex> lock(this->queue_mutex);
-				this->condition.wait(lock,
-					[this]{ return this->stop || !this->tasks.empty(); });
-				if (this->stop && this->tasks.empty())
-					return;
-				task = std::move(this->tasks.front());
-				this->tasks.pop();
-			}
-
-			task();
-		}
-	}
-	);
-}
-
-// the destructor joins all threads
-ThreadPool::~ThreadPool()
-{
-	// stop all threads
-	stop = true;
-	condition.notify_all();
-
-	// join them
-	for (size_t i = 0; i < workers.size(); ++i)
-		workers[i].join();
-}
-
-template<class F, class... Args>
-auto ThreadPool::enqueue(F&& f, Args&&... args)
--> std::future < typename std::result_of<F(Args...)>::type >
-{
-	using return_type = typename std::result_of<F(Args...)>::type;
-
-	auto task = std::make_shared< std::packaged_task<return_type()> >(
-		std::bind(std::forward<F>(f), std::forward<Args>(args)...)
-		);
-
-	std::future<return_type> res = task->get_future();
-	{
-		std::unique_lock<std::mutex> lock(queue_mutex);
-
-		// don't allow enqueueing after stopping the pool
-		if (stop)
-			throw std::runtime_error("enqueue on stopped ThreadPool");
-
-		tasks.emplace([task](){ (*task)(); });
-	}
-	condition.notify_one();
-	return res;
-}
-
-void Worker::operator()()
-{
-	//std::function<void()> task;
-	//while (true)
-	//{
-	//	{   // acquire lock
-	//		std::unique_lock<std::mutex>
-	//			lock(pool.queue_mutex);
-
-	//		// look for a work item
-	//		while (!pool.stop && pool.tasks.empty())
-	//		{ // if there are none wait for notification
-	//			pool.condition.wait(lock);
-	//		}
-
-	//		if (pool.stop) // exit if the pool is stopped
-	//			return;
-
-	//		// get the task from the queue
-	//		task = pool.tasks.front();
-	//		pool.tasks.pop_front();
-
-	//	}   // release lock
-
-	//	// execute the task
-	//	task();
-	//}
-}
 Ground::Ground()
 {
 }
@@ -121,7 +30,6 @@ void Ground::set_ground_3d(Ground3D* newGround)
 	memset(heightMap, 0, heightMapSize);
 	m_pGround3D = newGround;
 
-	m_pTPool = new ThreadPool(ObjectManager::s_iPatchNumber);
 	//	m_ppThread= new std::thread*[ObjectManager::s_iPatchNumber];
 }
 
@@ -269,7 +177,7 @@ void Ground::generate_heigh_map(int nbPatch)
 	//	//	setPixel(ret, xad, zad, col);
 	//	////SDL_SaveBMP(ret, "heighmap.bmp");
 	//
-		m_pGround3D->update(normalMap, normalMapSize);
+	m_pGround3D->update(heightMap, heightMapSize, normalMap, normalMapSize);
 }
 
 
@@ -282,7 +190,6 @@ void Ground::generate_H_map(Ground* ground, int zOffset, int xOffset, int patchI
 
 		double frequency = 0.0005;
 		double amplitude = 2;
-		double persistence = 0.25;
 		double getnoise = 0;
 		for (int a = 0; a < 3; a++)//This loops trough the octaves.
 		{
@@ -291,7 +198,7 @@ void Ground::generate_H_map(Ground* ground, int zOffset, int xOffset, int patchI
 			amplitude /= 4;//This decreases the amplitude with every loop of the octave
 		}//It gives a decimal value, you know, between the pixels.Like 4.2 or 5.1
 
-		ground->heightMap[patchIndex*verts.size() / 3 + i] = getnoise;
+		ground->heightMap[patchIndex*verts.size() / 3 + i/3] = getnoise;
 	}
 
 	ground->generate_normals(ground, patchIndex);
