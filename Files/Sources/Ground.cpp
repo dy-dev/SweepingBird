@@ -225,7 +225,7 @@ void Ground::generate_normals(Ground* ground, int patchIndex)
 			auto xvrt = vertices[index * 3];
 			auto zvrt = vertices[index * 3 + 2];
 			vert[j] = glm::vec3(xvrt, 0, zvrt);
-			vert[j].y = ground->heightMap[patchIndex*vertices.size() / 3 + index] * glm::length(vert[j]);
+			vert[j].y = ground->heightMap[patchIndex*vertices.size() / 3 + index] * 2 * ground->get_ground_height();
 
 		}
 

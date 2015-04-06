@@ -70,9 +70,9 @@ void SceneManager::setup_lights()
 {
 	auto dirlight = new DirectionalLight();
 	dirlight->set_position(glm::vec3(1.0f, 5.0f, 1.0f));
-	dirlight->set_direction(glm::vec3(-0.50f, 0.5f,0.3f));
+	dirlight->set_direction(glm::vec3(0.70f, 0.2f,-0.2f));
 	dirlight->set_color(glm::vec3(0.0f, 0.0f, 0.0f));
-	dirlight->set_specular_power(50.0f);
+	dirlight->set_specular_power(3.0f);
 	m_vLights.push_back(dirlight);
 
 	m_pProgramGUI->add_gui_element("Directional Light", dirlight->generate_slider_position_infos("Position"));
